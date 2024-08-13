@@ -29,6 +29,13 @@ struct TimerView: View {
         }
         .navigationTitle("Timer")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: AfterTimerView()) {
+                    Text("Done")
+                }
+            }
+        }
     }
 }
 
