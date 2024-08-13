@@ -14,18 +14,18 @@ struct SetTimerView: View {
     @State private var breakTimeMinutes = 5
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.green
-    @State private var taskCategory = TaskCategory(name: "Swift")
+    @State private var taskCategory = TaskCategory.mockList.first
     
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    // TODO: TagSlectionView に遷移
                     Picker("Task Category", selection: self.$taskCategory) {
-                        ForEach(TaskCategory.mockList) {
-                            Text($0.name)
+                        ForEach(TaskCategory.mockList, id: \.id) { category in
+                            Text(category.name).tag(category as TaskCategory?)
                         }
-                    }.pickerStyle(.navigationLink)
+                    }
+                    .pickerStyle(.navigationLink)
                 }
                 
                 Section {
