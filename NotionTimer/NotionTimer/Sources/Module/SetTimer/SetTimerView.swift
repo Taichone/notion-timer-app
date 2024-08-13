@@ -40,11 +40,8 @@ struct SetTimerView: View {
                     }
                 }
                 
-                Button {
-                    // TODO: TimerView に遷移して開始
-                    print("===Start Timer")
-                } label: {
-                    Text("Start Timer").bold()
+                NavigationLink(destination: TimerView()) {
+                    Text("Start Timer!").foregroundStyle(.blue).bold()
                 }
             }
             .navigationTitle("Set Timer")

@@ -17,23 +17,23 @@ struct TimerView: View {
     private var breakColor = Color(.green)
     
     var body: some View {
-        HStack {
-            Spacer()
-            ZStack {
-                TimerCircle(color: Color(.gray).opacity(0.1))
-                TimerCircle(
-                    color: self.isFocusMode ? self.focusColor: self.breakColor,
-                    trimFrom: CGFloat(self.isFocusMode ? 1 - self.duration / Double(self.maxFocusTimeSec) : 0),
-                    trimTo: CGFloat(self.isFocusMode ? 1 : 1 - (self.duration / Double(self.maxBreakTimeSec)))
-                )
-                .rotationEffect(Angle(degrees: -90))
-                .shadow(radius: 10)
-            }
-            Spacer()
+        ZStack {
+            TimerCircle(color: Color(.gray).opacity(0.1))
+            TimerCircle(
+                color: self.isFocusMode ? self.focusColor: self.breakColor,
+                trimFrom: CGFloat(self.isFocusMode ? 1 - self.duration / Double(self.maxFocusTimeSec) : 0),
+                trimTo: CGFloat(self.isFocusMode ? 1 : 1 - (self.duration / Double(self.maxBreakTimeSec)))
+            )
+            .rotationEffect(Angle(degrees: -90))
+            .shadow(radius: 10)
         }
+        .navigationTitle("Timer")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    TimerView()
+    NavigationStack {
+        TimerView()
+    }
 }
