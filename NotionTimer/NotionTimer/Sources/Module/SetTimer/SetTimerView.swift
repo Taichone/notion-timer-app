@@ -12,16 +12,23 @@ struct SetTimerView: View {
     @State private var isManualBreakStartEnabled = true
     @State private var focusTimeMinutes = 25
     @State private var breakTimeMinutes = 5
+    @State private var focusColor = Color.mint
+    @State private var breakColor = Color.green
+    @State private var taskCategory = TaskCategory(name: "Swift")
     
     var body: some View {
         NavigationStack {
             Form {
-                Section("Notion Settings") {
+                Section {
                     // TODO: TagSlectionView に遷移
-                    Text("Tag >")
+                    Picker("Task Category", selection: self.$taskCategory) {
+                        ForEach(TaskCategory.mockList) {
+                            Text($0.name)
+                        }
+                    }.pickerStyle(.navigationLink)
                 }
                 
-                Section("Timer Settings") {
+                Section {
                     Picker("Focus Time", selection: self.$focusTimeMinutes) {
                         ForEach(1..<91) { minute in
                             (Text("\(minute) ") + Text("min")).tag(minute)
@@ -32,6 +39,8 @@ struct SetTimerView: View {
                             (Text("\(minute) ") + Text("min")).tag(minute)
                         }
                     }.pickerStyle(.navigationLink)
+                }
+                Section {
                     Toggle(isOn: self.$isBreakEndSoundEnabled) {
                         Text("Enable sound at break end")
                     }
@@ -39,7 +48,10 @@ struct SetTimerView: View {
                         Text("Start break time manually")
                     }
                 }
-                
+                Section {
+                    ColorPicker("Focus Time Color", selection: self.$focusColor)
+                    ColorPicker("Break Time Color", selection: self.$breakColor)
+                }
                 NavigationLink(destination: TimerView()) {
                     Text("Start Timer!").foregroundStyle(.blue).bold()
                 }
