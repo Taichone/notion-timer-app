@@ -8,24 +8,32 @@
 import SwiftUI
 
 struct SetTimerView: View {
-    @State private var isBreakEndAlarmEnabled = false
+    @State private var isBreakEndSoundEnabled = false
     @State private var isManualBreakStartEnabled = true
+    @State private var focusTimeMinutes = 25
+    @State private var breakTimeMinutes = 5
     
     var body: some View {
         NavigationStack {
             Form {
                 Section("Notion Settings") {
                     // TODO: TagSlectionView に遷移
-                    Text("タグ >")
+                    Text("Tag >")
                 }
                 
                 Section("Timer Settings") {
-                    // TODO: TimeSelectionView に遷移
-                    Text("集中時間 >")
-                    // TODO: TimeSelectionView に遷移
-                    Text("休憩時間 >")
-                    Toggle(isOn: self.$isBreakEndAlarmEnabled) {
-                        Text("Trigger an alarm at break end")
+                    Picker("Focus Time", selection: self.$focusTimeMinutes) {
+                        ForEach(1..<91) { minute in
+                            (Text("\(minute) ") + Text("min")).tag(minute)
+                        }
+                    }.pickerStyle(.navigationLink)
+                    Picker("Break Time", selection: self.$breakTimeMinutes) {
+                        ForEach(1..<91) { minute in
+                            (Text("\(minute) ") + Text("min")).tag(minute)
+                        }
+                    }.pickerStyle(.navigationLink)
+                    Toggle(isOn: self.$isBreakEndSoundEnabled) {
+                        Text("Enable sound at break end")
                     }
                     Toggle(isOn: self.$isManualBreakStartEnabled) {
                         Text("Start break time manually")
