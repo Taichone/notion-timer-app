@@ -20,6 +20,7 @@ struct SetTimerView: View {
         NavigationStack {
             Form {
                 Section {
+                    // TODO: この責務は Timer には含めない
                     Picker("Task Category", selection: self.$taskCategory) {
                         ForEach(TaskCategory.mockList, id: \.id) { category in
                             Text(category.name).tag(category as TaskCategory?)

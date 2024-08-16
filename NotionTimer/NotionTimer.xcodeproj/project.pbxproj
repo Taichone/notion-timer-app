@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BD82C6F1F5D00EF337B /* TimerManager.swift */; };
+		52421BDB2C6F2A6800EF337B /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */; };
 		5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5472C66819D001C243E /* NotionTimerApp.swift */; };
-		5297A54A2C66819D001C243E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5492C66819D001C243E /* ContentView.swift */; };
 		5297A54C2C66819E001C243E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54B2C66819E001C243E /* Assets.xcassets */; };
 		5297A54F2C66819E001C243E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54E2C66819E001C243E /* Preview Assets.xcassets */; };
 		5297A5592C66819E001C243E /* NotionTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5582C66819E001C243E /* NotionTimerTests.swift */; };
@@ -39,9 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52421BD82C6F1F5D00EF337B /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		5297A5442C66819D001C243E /* NotionTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotionTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5297A5472C66819D001C243E /* NotionTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionTimerApp.swift; sourceTree = "<group>"; };
-		5297A5492C66819D001C243E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5297A54B2C66819E001C243E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5297A54E2C66819E001C243E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5297A5542C66819E001C243E /* NotionTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotionTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,7 +157,6 @@
 				5297A57C2C6B0A44001C243E /* Repository */,
 				5297A57D2C6B0A4B001C243E /* UseCase */,
 				5297A5472C66819D001C243E /* NotionTimerApp.swift */,
-				5297A5492C66819D001C243E /* ContentView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -227,6 +228,8 @@
 			isa = PBXGroup;
 			children = (
 				5297A5882C6BA02E001C243E /* TimerView.swift */,
+				52421BD82C6F1F5D00EF337B /* TimerManager.swift */,
+				52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -389,9 +392,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5297A5892C6BA02E001C243E /* TimerView.swift in Sources */,
-				5297A54A2C66819D001C243E /* ContentView.swift in Sources */,
 				52FB1C742C6BB9A100CD13E4 /* TaskCategory.swift in Sources */,
+				52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */,
 				5297A5862C6B5DB4001C243E /* AfterTimerView.swift in Sources */,
+				52421BDB2C6F2A6800EF337B /* TimerViewModel.swift in Sources */,
 				5297A5842C6B5D1C001C243E /* SetTimerView.swift in Sources */,
 				5297A58B2C6BA23E001C243E /* TimerCircle.swift in Sources */,
 				5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */,
