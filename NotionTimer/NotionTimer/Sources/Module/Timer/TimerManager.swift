@@ -7,36 +7,31 @@
 
 import SwiftUI
 
-enum TimerStatus {
-    case running, pause
-}
-
-enum TimerMode {
-    case focusMode, breakMode, extraFocusMode
-}
-
 @Observable
 final class TimerManager {
-    // Setting
+    // Args
     private let isManualBreakStartEnabled: Bool
     private let focusTimeSec: Double
     private let breakTimeSec: Double
     
     // Runtime
-    var timerMode: TimerMode = .focusMode
+    var timerMode: Mode = .focusMode
     var remainingTimeSec: Double = 0
     var maxTimeSec: Double = 0
     var totalFocusTimeSec = 0
 
     // Timer
     private var timer: Timer?
-    var timerStatus: TimerStatus?
+    var timerStatus: Status?
     
-    init(timerSetting: TimerSetting) {
-        self.isManualBreakStartEnabled = timerSetting.isManualBreakStartEnabled
-        self.focusTimeSec = Double(timerSetting.focusTimeMin) * 60 // ポモドーロ集中時間
-        self.breakTimeSec = Double(timerSetting.breakTimeMin) * 60 // ポモドーロ休憩時間
+    init(args: Args) {
+        self.isManualBreakStartEnabled = args.isManualBreakStartEnabled
+        self.focusTimeSec = Double(args.focusTimeMin) * 60 // ポモドーロ集中時間
+        self.breakTimeSec = Double(args.breakTimeMin) * 60 // ポモドーロ休憩時間
+        
+        self.stopTimer()
         self.changeToFocusMode()
+        self.start()
     }
 }
 
@@ -133,5 +128,23 @@ extension TimerManager {
         self.timerMode = .breakMode
         self.maxTimeSec = self.breakTimeSec
         self.remainingTimeSec = Double(self.breakTimeSec)
+    }
+}
+
+extension TimerManager {
+    enum Status {
+        case running, pause
+    }
+
+    enum Mode {
+        case focusMode, breakMode, extraFocusMode
+    }
+}
+
+extension TimerManager {
+    struct Args {
+        let isManualBreakStartEnabled: Bool
+        let focusTimeMin: Int
+        let breakTimeMin: Int
     }
 }

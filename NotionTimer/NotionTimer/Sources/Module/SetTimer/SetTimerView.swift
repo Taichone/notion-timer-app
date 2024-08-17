@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SetTimerView: View {
+    // TODO: 設定の永続化
     @State private var isBreakEndSoundEnabled = false
     @State private var isManualBreakStartEnabled = true
-    @State private var focusTimeMinutes = 25
-    @State private var breakTimeMinutes = 5
+    @State private var focusTimeMin = 25
+    @State private var breakTimeMin = 5
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.green
     @State private var taskCategory = TaskCategory.mockList.first
@@ -30,12 +31,12 @@ struct SetTimerView: View {
                 }
                 
                 Section {
-                    Picker("Focus Time", selection: self.$focusTimeMinutes) {
+                    Picker("Focus Time", selection: self.$focusTimeMin) {
                         ForEach(1..<91) { minute in
                             (Text("\(minute) ") + Text("min")).tag(minute)
                         }
                     }.pickerStyle(.navigationLink)
-                    Picker("Break Time", selection: self.$breakTimeMinutes) {
+                    Picker("Break Time", selection: self.$breakTimeMin) {
                         ForEach(1..<91) { minute in
                             (Text("\(minute) ") + Text("min")).tag(minute)
                         }
@@ -53,16 +54,14 @@ struct SetTimerView: View {
                     ColorPicker("Focus Time Color", selection: self.$focusColor)
                     ColorPicker("Break Time Color", selection: self.$breakColor)
                 }
-                NavigationLink(destination: TimerView(
-                    timerSetting: .init(
-                        isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
-                        isManualBreakStartEnabled: self.isManualBreakStartEnabled,
-                        focusTimeMin: self.focusTimeMinutes,
-                        breakTimeMin: self.breakTimeMinutes
-                    ),
+                NavigationLink(destination: TimerView(args: .init(
+                    isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
+                    isManualBreakStartEnabled: self.isManualBreakStartEnabled,
+                    focusTimeMin: self.focusTimeMin,
+                    breakTimeMin: self.focusTimeMin,
                     focusColor: self.focusColor,
                     breakColor: self.breakColor
-                )) {
+                ))) {
                     Text("Start Timer!").foregroundStyle(.blue).bold()
                 }
             }

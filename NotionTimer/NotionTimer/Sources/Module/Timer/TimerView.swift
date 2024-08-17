@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct TimerView: View {
-    // TODO: データ繋ぎこみ
-//    @State private var isFocusMode = true
-//    @State private var duration = 240.0
-//    @State private var maxFocusTimeSec = 300.0
-//    @State private var maxBreakTimeSec = 180.0
-    
     @State private var viewModel: TimerViewModel
     
-    init(timerSetting: TimerSetting, focusColor: Color, breakColor: Color) {
-        let timerManager = TimerManager(timerSetting: timerSetting)
-        self._viewModel = State(wrappedValue: TimerViewModel(timerManager: timerManager, focusColor: focusColor, breakColor: breakColor))
+    init(args: Self.Args) {
+        let timerManager = TimerManager(args: .init(
+            isManualBreakStartEnabled: args.isManualBreakStartEnabled,
+            focusTimeMin: args.focusTimeMin,
+            breakTimeMin: args.breakTimeMin
+        ))
+        self._viewModel = State(wrappedValue: TimerViewModel(
+            timerManager: timerManager,
+            focusColor: args.focusColor,
+            breakColor: args.breakColor
+        ))
     }
     
     var body: some View {
@@ -33,12 +35,11 @@ struct TimerView: View {
                 .rotationEffect(Angle(degrees: -90))
                 .shadow(radius: 10)
             }
+            
             List {
-                Section {
-                    Text("Mode: ") + Text(self.viewModel.timerMode == .focusMode ? "Focus" : "Break")
-                    Text("Remaining Time: ") + Text(self.viewModel.displayTime)
-                    Text("Total Focus Time: ") + Text(self.viewModel.displayTotalFocusTime)
-                }
+                Text("Mode: ") + Text(self.viewModel.timerMode == .focusMode ? "Focus" : "Break")
+                Text("Remaining Time: ") + Text(self.viewModel.displayTime)
+                Text("Total Focus Time: ") + Text(self.viewModel.displayTotalFocusTime)
             }
             
             Button {
@@ -67,17 +68,26 @@ struct TimerView: View {
     }
 }
 
+extension TimerView {
+    struct Args {
+        let isBreakEndSoundEnabled: Bool
+        let isManualBreakStartEnabled: Bool
+        let focusTimeMin: Int
+        let breakTimeMin: Int
+        let focusColor: Color
+        let breakColor: Color
+    }
+}
+
 #Preview {
     NavigationStack {
-        TimerView(
-            timerSetting: .init(
-                isBreakEndSoundEnabled: true,
-                isManualBreakStartEnabled: true,
-                focusTimeMin: 25,
-                breakTimeMin: 5
-            ),
+        TimerView(args: .init(
+            isBreakEndSoundEnabled: true,
+            isManualBreakStartEnabled: true,
+            focusTimeMin: 25,
+            breakTimeMin: 5,
             focusColor: .mint,
             breakColor: .pink
-        )
+        ))
     }
 }

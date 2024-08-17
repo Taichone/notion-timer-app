@@ -52,7 +52,7 @@ class TimerViewModel {
     var displayTotalFocusTime: String {
         String(format: "%02d:%02d", Int(timerManager.totalFocusTimeSec) / 60, Int(timerManager.totalFocusTimeSec) % 60) }
     
-    var timerMode: TimerMode {
+    var timerMode: TimerManager.Mode {
         timerManager.timerMode
     }
     
@@ -93,7 +93,6 @@ class TimerViewModel {
         timerManager.terminate()
     }
 }
-
 
 /*
  var focusColor: Color = .init(red: 0, green: 1, blue: 0.8)
