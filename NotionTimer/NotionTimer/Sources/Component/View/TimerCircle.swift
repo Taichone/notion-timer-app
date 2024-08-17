@@ -17,7 +17,7 @@ struct TimerCircle: View {
         color: Color,
         trimFrom: CGFloat = 0.0,
         trimTo: CGFloat = 1.0,
-        strokeWidth: CGFloat = 80
+        strokeWidth: CGFloat = 50
     ) {
         self.color = color
         self.trimFrom = trimFrom
@@ -31,7 +31,7 @@ struct TimerCircle: View {
             .stroke(
                 self.color,
                 style: StrokeStyle(
-                    lineWidth: 80,
+                    lineWidth: self.strokeWidth,
                     lineCap: .butt,
                     lineJoin: .miter
                 )

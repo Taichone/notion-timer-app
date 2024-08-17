@@ -10,7 +10,7 @@ import SwiftUI
 struct TimerView: View {
     @State private var viewModel: TimerViewModel
     
-    init(args: Self.Args) {
+    init(args: Args) {
         let timerManager = TimerManager(args: .init(
             isManualBreakStartEnabled: args.isManualBreakStartEnabled,
             focusTimeMin: args.focusTimeMin,
@@ -37,16 +37,22 @@ struct TimerView: View {
             }
             
             List {
-                Text("Mode: ") + Text(self.viewModel.timerMode == .focusMode ? "Focus" : "Break")
-                Text("Remaining Time: ") + Text(self.viewModel.displayTime)
-                Text("Total Focus Time: ") + Text(self.viewModel.displayTotalFocusTime)
-            }
-            
-            Button {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                self.viewModel.tapPlayButton()
-            } label: {
-                Text(self.viewModel.isRunning ? "Pause" : "Resume").bold().padding()
+                HStack {
+                    Text("Mode: ")
+                    Spacer()
+                    Text(self.viewModel.timerMode.rawValue)
+                }
+                HStack {
+                    Text("Remaining Time: ")
+                    Spacer()
+                    Text(self.viewModel.displayTime)
+                }
+                
+                HStack {
+                    Text("Total Focus Time: ")
+                    Spacer()
+                    Text(self.viewModel.displayTotalFocusTime)
+                }
             }
             
             Button {
@@ -55,6 +61,17 @@ struct TimerView: View {
             } label: {
                 Text("Start Break").bold().padding()
             }.disabled(self.viewModel.timerMode != .extraFocusMode)
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                self.viewModel.tapPlayButton()
+            } label: {
+                Image(systemName: self.viewModel.isRunning ? "pause.fill" : "play.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 50)
+            }
+            .padding()
         }
         .navigationTitle("Timer")
         .navigationBarTitleDisplayMode(.inline)

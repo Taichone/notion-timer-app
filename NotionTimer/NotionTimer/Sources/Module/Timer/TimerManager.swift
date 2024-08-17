@@ -26,12 +26,9 @@ final class TimerManager {
     
     init(args: Args) {
         self.isManualBreakStartEnabled = args.isManualBreakStartEnabled
-        self.focusTimeSec = Double(args.focusTimeMin) * 60 // ポモドーロ集中時間
-        self.breakTimeSec = Double(args.breakTimeMin) * 60 // ポモドーロ休憩時間
-        
-        self.stopTimer()
+        self.focusTimeSec = Double(args.focusTimeMin) * 60
+        self.breakTimeSec = Double(args.breakTimeMin) * 60
         self.changeToFocusMode()
-        self.start()
     }
 }
 
@@ -136,8 +133,10 @@ extension TimerManager {
         case running, pause
     }
 
-    enum Mode {
-        case focusMode, breakMode, extraFocusMode
+    enum Mode: String {
+        case focusMode = "Focus"
+        case breakMode = "Break"
+        case extraFocusMode = "Extra Focus"
     }
 }
 

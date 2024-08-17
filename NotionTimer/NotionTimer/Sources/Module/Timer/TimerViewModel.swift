@@ -22,28 +22,28 @@ class TimerViewModel {
     
     // TODO: コンピューテッドではなく timerManager からのイベントで更新する
     var timerCircleColor: Color {
-        if timerMode == .focusMode {
-            return self.focusColor
+        if timerMode == .breakMode {
+            self.breakColor
         } else {
-            return self.breakColor
+            self.focusColor
         }
     }
     
     var trimFrom: CGFloat {
-        if timerMode == .focusMode {
-            return CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
+        if timerMode == .breakMode {
+            0
         } else {
-            return 0
+            CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
         }
-    } // CGFloat((self.viewModel.timerMode == .focusMode) ? (1 - (self.duration / Double(self.viewModel.maxTimeSec))) : 0),
+    }
     
     var trimTo: CGFloat {
-        if timerMode == .focusMode {
-            return 1
+        if timerMode == .breakMode {
+            CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
         } else {
-            return CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
+            1
         }
-    } // CGFloat((self.viewModel.timerMode == .focusMode) ? 1 : (1 - (self.duration / Double(self.viewModel.maxTimeSec))))
+    }
     
     var displayTime: String {
         String(format: "%02d:%02d", Int(timerManager.remainingTimeSec) / 60, Int(timerManager.remainingTimeSec) % 60)
