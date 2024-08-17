@@ -2,16 +2,10 @@
 //  TimerViewModel.swift
 //  NotionTimer
 //
-//  Created by Taichi on 2024/08/16. //
+//  Created by Taichi on 2024/08/16
+
 import SwiftUI
 import Combine
-
-struct TimerSetting {
-    var isBreakEndSoundEnabled: Bool
-    var isManualBreakStartEnabled: Bool
-    var focusTimeMin: Int
-    var breakTimeMin: Int
-}
 
 @Observable
 class TimerViewModel {
@@ -20,7 +14,7 @@ class TimerViewModel {
     private let focusColor: Color
     private let breakColor: Color
     
-    // TODO: コンピューテッドではなく timerManager からのイベントで更新する
+    // TODO: コンピューテッドではなく timerManager からのイベント (timerMode, timerStatus の変更時)で更新する
     var timerCircleColor: Color {
         if timerMode == .breakMode {
             self.breakColor
@@ -64,44 +58,21 @@ class TimerViewModel {
         timerManager.remainingTimeSec
     }
     
-    // TODO: viewModel, timerManager 値の渡し方を綺麗にしたい
     init(timerManager: TimerManager, focusColor: Color, breakColor: Color) {
         self.timerManager = timerManager
         self.focusColor = focusColor
         self.breakColor = breakColor
     }
-    
+}
+
+extension TimerViewModel {
     // MARK: User Action
     func tapPlayButton() {
-        self.timerManager.timerStatus == .running ? pauseTimer() : startTimer()
+        self.timerManager.timerStatus == .running ?
+        self.timerManager.pause() : self.timerManager.start()
     }
     
     func tapBreakStartButton() {
         self.timerManager.endExtraFocusAndStartBreak()
     }
-    
-    // MARK: Control Timer
-    private func startTimer() {
-        timerManager.start()
-    }
-    
-    private func pauseTimer() {
-        timerManager.pause()
-    }
-    
-    private func terminateTimer() {
-        timerManager.terminate()
-    }
 }
-
-/*
- var focusColor: Color = .init(red: 0, green: 1, blue: 0.8)
- var breakColor: Color = .init(red: 1, green: 0, blue: 0.5)
- 
- private func formatRemainingTime(sec: Double) -> String {
-     // 残り時間 (ceil(Double) で切り上げの値を表示)
-     let min = Int(ceil(sec)) % 3600 / 60
-     let sec = Int(ceil(sec)) % 3600 % 60
-     return String(format: min >= 10 ? "%02d:%02d" : "%01d:%02d", min, sec)
- }
- */
