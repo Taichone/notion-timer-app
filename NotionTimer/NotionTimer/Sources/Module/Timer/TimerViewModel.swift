@@ -2,9 +2,7 @@
 //  TimerViewModel.swift
 //  NotionTimer
 //
-//  Created by Taichi on 2024/08/16.
-//
-
+//  Created by Taichi on 2024/08/16. //
 import SwiftUI
 import Combine
 
@@ -16,32 +14,61 @@ struct TimerSetting {
 }
 
 @Observable
-final class TimerViewModel {
-    var displayTime: String = "00:00"
-    var timerMode: TimerMode = .focusMode
-    var isRunning: Bool = false
-    
+class TimerViewModel {
     private var timerManager: TimerManager
-    private var cancellables = Set<AnyCancellable>()
     
-    init(timerManager: TimerManager) {
-        self.timerManager = timerManager
-        
-        // `remainingTimeSec`が変化するたびに`displayTime`を更新
+    private let focusColor: Color
+    private let breakColor: Color
+    
+    // TODO: コンピューテッドではなく timerManager からのイベントで更新する
+    var timerCircleColor: Color {
+        if timerMode == .focusMode {
+            return self.focusColor
+        } else {
+            return self.breakColor
+        }
+    }
+    
+    var trimFrom: CGFloat {
+        if timerMode == .focusMode {
+            return CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
+        } else {
+            return 0
+        }
+    } // CGFloat((self.viewModel.timerMode == .focusMode) ? (1 - (self.duration / Double(self.viewModel.maxTimeSec))) : 0),
+    
+    var trimTo: CGFloat {
+        if timerMode == .focusMode {
+            return 1
+        } else {
+            return CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
+        }
+    } // CGFloat((self.viewModel.timerMode == .focusMode) ? 1 : (1 - (self.duration / Double(self.viewModel.maxTimeSec))))
+    
+    var displayTime: String {
+        String(format: "%02d:%02d", Int(timerManager.remainingTimeSec) / 60, Int(timerManager.remainingTimeSec) % 60)
+    }
+    
+    var displayTotalFocusTime: String {
+        String(format: "%02d:%02d", Int(timerManager.totalFocusTimeSec) / 60, Int(timerManager.totalFocusTimeSec) % 60) }
+    
+    var timerMode: TimerMode {
+        timerManager.timerMode
+    }
+    
+    var isRunning: Bool {
+        timerManager.timerStatus == .running
+    }
+    
+    var remainingTimeSec: Double {
         timerManager.remainingTimeSec
-            .map { remainingSec in
-                String(format: "%02d:%02d", Int(remainingSec) / 60, Int(remainingSec) % 60)
-            }
-            .assign(to: $displayTime)
-        
-        // `timerMode`が変わるたびに表示を更新
-        timerManager.$timerMode
-            .assign(to: $timerMode)
-        
-        // `timerStatus`によって`isRunning`を更新
-        timerManager.$timerStatus
-            .map { $0 == .running }
-            .assign(to: $isRunning)
+    }
+    
+    // TODO: viewModel, timerManager 値の渡し方を綺麗にしたい
+    init(timerManager: TimerManager, focusColor: Color, breakColor: Color) {
+        self.timerManager = timerManager
+        self.focusColor = focusColor
+        self.breakColor = breakColor
     }
     
     func startTimer() {

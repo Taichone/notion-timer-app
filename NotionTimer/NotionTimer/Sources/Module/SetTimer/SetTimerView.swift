@@ -53,7 +53,16 @@ struct SetTimerView: View {
                     ColorPicker("Focus Time Color", selection: self.$focusColor)
                     ColorPicker("Break Time Color", selection: self.$breakColor)
                 }
-                NavigationLink(destination: TimerView()) {
+                NavigationLink(destination: TimerView(
+                    timerSetting: .init(
+                        isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
+                        isManualBreakStartEnabled: self.isManualBreakStartEnabled,
+                        focusTimeMin: self.focusTimeMinutes,
+                        breakTimeMin: self.breakTimeMinutes
+                    ),
+                    focusColor: self.focusColor,
+                    breakColor: self.breakColor
+                )) {
                     Text("Start Timer!").foregroundStyle(.blue).bold()
                 }
             }

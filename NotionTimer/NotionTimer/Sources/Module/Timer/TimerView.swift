@@ -9,30 +9,39 @@ import SwiftUI
 
 struct TimerView: View {
     // TODO: データ繋ぎこみ
-    @State private var isFocusMode = true
-    @State private var duration = 240.0
-    @State private var maxFocusTimeSec = 300.0
-    @State private var maxBreakTimeSec = 180.0
+//    @State private var isFocusMode = true
+//    @State private var duration = 240.0
+//    @State private var maxFocusTimeSec = 300.0
+//    @State private var maxBreakTimeSec = 180.0
     private var focusColor = Color(.blue)
     private var breakColor = Color(.green)
+    
+    @State private var viewModel: TimerViewModel
+    
+    init(timerSetting: TimerSetting, focusColor: Color, breakColor: Color) {
+        self.focusColor = focusColor
+        self.breakColor = breakColor
+        let timerManager = TimerManager(timerSetting: timerSetting)
+        self._viewModel = State(wrappedValue: TimerViewModel(timerManager: timerManager))
+    }
     
     var body: some View {
         VStack {
             ZStack {
                 TimerCircle(color: Color(.gray).opacity(0.1))
                 TimerCircle(
-                    color: self.isFocusMode ? self.focusColor: self.breakColor,
-                    trimFrom: CGFloat(self.isFocusMode ? 1 - self.duration / Double(self.maxFocusTimeSec) : 0),
-                    trimTo: CGFloat(self.isFocusMode ? 1 : 1 - (self.duration / Double(self.maxBreakTimeSec)))
+                    color: self.viewModel.timerCircleColor,
+                    trimFrom: self.viewModel.trimFrom,
+                    trimTo: self.viewModel.trimTo
                 )
                 .rotationEffect(Angle(degrees: -90))
                 .shadow(radius: 10)
             }
             List {
                 Section {
-                    Text("Mode: ") + Text(self.isFocusMode ? "Focus" : "Break")
-                    Text("Remaining Time: ") + Text("4 min")
-                    Text("Total Focus Time: ") + Text("90 min")
+                    Text("Mode: ") + Text(self.viewModel.timerMode == .focusMode ? "Focus" : "Break")
+                    Text("Remaining Time: ") + Text(self.viewModel.displayTime)
+                    Text("Total Focus Time: ") + Text(self.viewModel.displayTotalFocusTime)
                 }
                 
                 Button {
@@ -56,6 +65,15 @@ struct TimerView: View {
 
 #Preview {
     NavigationStack {
-        TimerView()
+        TimerView(
+            timerSetting: .init(
+                isBreakEndSoundEnabled: true,
+                isManualBreakStartEnabled: true,
+                focusTimeMin: 25,
+                breakTimeMin: 5
+            ),
+            focusColor: .mint,
+            breakColor: .pink
+        )
     }
 }
