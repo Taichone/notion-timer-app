@@ -28,6 +28,10 @@ DerivedData/
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 
+xcuserdata/
+*.xcuserstate
+*.xcuserdata
+
 ## library
 Pods/*
 Carthage/Build/
@@ -44,10 +48,3 @@ xcuserdata/
 
 ## Firebase
 GoogleService-Info.plist
-NotionTimer/NotionTimer.xcodeproj/project.xcworkspace/xcuserdata/taichi.xcuserdatad/UserInterfaceState.xcuserstate
-NotionTimer/NotionTimer.xcodeproj/project.xcworkspace/xcuserdata/taichi.xcuserdatad/UserInterfaceState.xcuserstate
-NotionTimer/NotionTimer.xcodeproj/project.xcworkspace/xcuserdata/taichi.xcuserdatad/UserInterfaceState.xcuserstate
-NotionTimer/NotionTimer.xcodeproj/project.xcworkspace/xcuserdata/taichi.xcuserdatad/UserInterfaceState.xcuserstate
-NotionTimer/NotionTimer.xcodeproj/project.xcworkspace/xcuserdata/taichi.xcuserdatad/UserInterfaceState.xcuserstate
-/NotionTimer/NotionTimer.xcodeproj/project.xcworkspace/xcuserdata
-*.xcuserstate
