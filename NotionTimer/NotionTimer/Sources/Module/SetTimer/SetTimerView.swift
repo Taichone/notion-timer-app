@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct SetTimerView: View {
-    // TODO: 設定の永続化
-    @State private var isBreakEndSoundEnabled = false
-    @State private var isManualBreakStartEnabled = true
-    @State private var focusTimeMin = 25
-    @State private var breakTimeMin = 5
+    @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled")
+    private var isBreakEndSoundEnabled
+    @AppStorage(wrappedValue: true, "isManualBreakStartEnabled")
+    private var isManualBreakStartEnabled
+    @AppStorage(wrappedValue: 25, "focusTimeMin")
+    private var focusTimeMin
+    @AppStorage(wrappedValue: 5, "breakTimeMin")
+    private var breakTimeMin
+    
     @State private var focusColor = Color.mint
-    @State private var breakColor = Color.green
+    @State private var breakColor = Color.blue
     @State private var taskCategory = TaskCategory.mockList.first
     
     var body: some View {
