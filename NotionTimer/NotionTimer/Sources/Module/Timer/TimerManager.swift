@@ -48,26 +48,37 @@ extension TimerManager {
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
                 self?.tickInFocusMode()
             }
+            print("tickInFocusMode")
         case .breakMode:
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
                 self?.tickInBreakMode()
             }
+            print("tickInBreakMode")
         case .extraFocusMode:
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
                 self?.tickInExtraFocusMode()
             }
+            print("tickInExtraFocusMode")
         }
     }
     
     func pause() {
         self.timerStatus = .pause
         self.stopTimer()
+        print("pause")
     }
     
     func terminate() {
         self.timerStatus = nil
         self.remainingTimeSec = 0
         self.stopTimer()
+        print("terminate")
+    }
+    
+    func endExtraFocusAndStartBreak() {
+        self.stopTimer()
+        self.changeToBreakMode()
+        self.start()
     }
     
     private func tickInFocusMode() {
@@ -75,13 +86,16 @@ extension TimerManager {
             withAnimation { self.remainingTimeSec -= 1.0 }
             self.totalFocusTimeSec += 1 // 合計集中時間
         } else {
+            // TODO: 集中が終わった ことを示すイベントを発行して ViewModel へ
             if self.isManualBreakStartEnabled {
                 self.stopTimer()
                 self.changeToExtraFocusMode()
                 self.start()
+            } else {
+                self.stopTimer()
+                self.changeToBreakMode()
+                self.start()
             }
-            print("===集中終了") // TODO: 集中が終わった ことを示すイベントを発行して ViewModel へ
-            self.changeToBreakMode()
         }
     }
     
@@ -93,8 +107,10 @@ extension TimerManager {
         if self.remainingTimeSec > 0 {
             withAnimation { self.remainingTimeSec -= 1.0 }
         } else {
-            print("===休憩終了") // TODO: 休憩が終わった ことを示すイベントを発行して ViewModel へ
+            // TODO: 休憩が終わった ことを示すイベントを発行して ViewModel へ
+            self.stopTimer()
             self.changeToFocusMode()
+            self.start()
         }
     }
     

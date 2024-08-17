@@ -13,16 +13,12 @@ struct TimerView: View {
 //    @State private var duration = 240.0
 //    @State private var maxFocusTimeSec = 300.0
 //    @State private var maxBreakTimeSec = 180.0
-    private var focusColor = Color(.blue)
-    private var breakColor = Color(.green)
     
     @State private var viewModel: TimerViewModel
     
     init(timerSetting: TimerSetting, focusColor: Color, breakColor: Color) {
-        self.focusColor = focusColor
-        self.breakColor = breakColor
         let timerManager = TimerManager(timerSetting: timerSetting)
-        self._viewModel = State(wrappedValue: TimerViewModel(timerManager: timerManager))
+        self._viewModel = State(wrappedValue: TimerViewModel(timerManager: timerManager, focusColor: focusColor, breakColor: breakColor))
     }
     
     var body: some View {
@@ -43,13 +39,21 @@ struct TimerView: View {
                     Text("Remaining Time: ") + Text(self.viewModel.displayTime)
                     Text("Total Focus Time: ") + Text(self.viewModel.displayTotalFocusTime)
                 }
-                
-                Button {
-                    print("Timer Pause / Resume")
-                } label: {
-                    Text("Pause / Resume").bold()
-                }
             }
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                self.viewModel.tapPlayButton()
+            } label: {
+                Text(self.viewModel.isRunning ? "Pause" : "Resume").bold().padding()
+            }
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                self.viewModel.tapBreakStartButton()
+            } label: {
+                Text("Start Break").bold().padding()
+            }.disabled(self.viewModel.timerMode != .extraFocusMode)
         }
         .navigationTitle("Timer")
         .navigationBarTitleDisplayMode(.inline)

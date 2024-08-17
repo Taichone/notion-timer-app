@@ -71,15 +71,25 @@ class TimerViewModel {
         self.breakColor = breakColor
     }
     
-    func startTimer() {
+    // MARK: User Action
+    func tapPlayButton() {
+        self.timerManager.timerStatus == .running ? pauseTimer() : startTimer()
+    }
+    
+    func tapBreakStartButton() {
+        self.timerManager.endExtraFocusAndStartBreak()
+    }
+    
+    // MARK: Control Timer
+    private func startTimer() {
         timerManager.start()
     }
     
-    func pauseTimer() {
+    private func pauseTimer() {
         timerManager.pause()
     }
     
-    func terminateTimer() {
+    private func terminateTimer() {
         timerManager.terminate()
     }
 }
