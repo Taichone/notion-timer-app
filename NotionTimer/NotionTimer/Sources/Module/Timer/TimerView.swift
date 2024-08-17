@@ -56,14 +56,14 @@ struct TimerView: View {
             }
             
             Button {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                Self.hapticFeedback.impactOccurred()
                 self.viewModel.tapBreakStartButton()
             } label: {
                 Text("Start Break").bold().padding()
             }.disabled(self.viewModel.timerMode != .extraFocusMode)
             
             Button {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                Self.hapticFeedback.impactOccurred()
                 self.viewModel.tapPlayButton()
             } label: {
                 Image(systemName: self.viewModel.isRunning ? "pause.fill" : "play.fill")
@@ -94,6 +94,10 @@ extension TimerView {
         let focusColor: Color
         let breakColor: Color
     }
+}
+
+extension TimerView {
+    static let hapticFeedback = UIImpactFeedbackGenerator(style: .light)
 }
 
 #Preview {
