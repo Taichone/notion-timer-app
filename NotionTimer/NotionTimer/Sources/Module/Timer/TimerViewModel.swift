@@ -8,7 +8,31 @@ import SwiftUI
 import Combine
 
 @Observable
-class TimerViewModel {
+final class TimerViewState {
+    var timerCircleColor: Color
+    var trimFrom: CGFloat
+    var trimTo: CGFloat
+    // var modeText: String
+    var displayTime: String
+    var displayTotalFocusTime: String
+    // var startBreakButtonDisabled: Bool
+    // var timerButtonSystemName: String // isRunning ? "pause.fill" : "play.fill"
+    var timerMode: TimerManager.Mode // 不要
+    var isRunning: Bool // 不要
+    
+    init(timerCircleColor: Color, trimFrom: CGFloat, trimTo: CGFloat, displayTime: String, displayTotalFocusTime: String, timerMode: TimerManager.Mode, isRunning: Bool) {
+        self.timerCircleColor = timerCircleColor
+        self.trimFrom = trimFrom
+        self.trimTo = trimTo
+        self.displayTime = displayTime
+        self.displayTotalFocusTime = displayTotalFocusTime
+        self.timerMode = timerMode
+        self.isRunning = isRunning
+    }
+}
+
+@Observable
+final class TimerViewModel {
     private var timerManager: TimerManager
     
     private let focusColor: Color
@@ -16,7 +40,7 @@ class TimerViewModel {
     
     // TODO: コンピューテッドではなく timerManager からのイベント (timerMode, timerStatus の変更時)で更新する
     var timerCircleColor: Color {
-        if timerMode == .breakMode {
+        if self.timerMode == .breakMode {
             self.breakColor
         } else {
             self.focusColor
@@ -24,38 +48,36 @@ class TimerViewModel {
     }
     
     var trimFrom: CGFloat {
-        if timerMode == .breakMode {
+        if self.timerMode == .breakMode {
             0
         } else {
-            CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
+            CGFloat(1 - (self.timerManager.remainingTimeSec / self.timerManager.maxTimeSec))
         }
     }
     
     var trimTo: CGFloat {
-        if timerMode == .breakMode {
-            CGFloat(1 - (remainingTimeSec / timerManager.maxTimeSec))
+        if self.timerMode == .breakMode {
+            CGFloat(1 - (self.timerManager.remainingTimeSec / self.timerManager.maxTimeSec))
         } else {
             1
         }
     }
     
     var displayTime: String {
-        String(format: "%02d:%02d", Int(timerManager.remainingTimeSec) / 60, Int(timerManager.remainingTimeSec) % 60)
+        String(format: "%02d:%02d", Int(self.timerManager.remainingTimeSec) / 60, Int(self.timerManager.remainingTimeSec) % 60)
     }
     
     var displayTotalFocusTime: String {
-        String(format: "%02d:%02d", Int(timerManager.totalFocusTimeSec) / 60, Int(timerManager.totalFocusTimeSec) % 60) }
+        String(format: "%02d:%02d", Int(self.timerManager.totalFocusTimeSec) / 60, Int(self.timerManager.totalFocusTimeSec) % 60)
+    }
     
+    // まんまバインディング
     var timerMode: TimerManager.Mode {
-        timerManager.timerMode
+        self.timerManager.timerMode
     }
     
     var isRunning: Bool {
-        timerManager.timerStatus == .running
-    }
-    
-    var remainingTimeSec: Double {
-        timerManager.remainingTimeSec
+        self.timerManager.isRunning
     }
     
     init(timerManager: TimerManager, focusColor: Color, breakColor: Color) {
@@ -68,7 +90,7 @@ class TimerViewModel {
 extension TimerViewModel {
     // MARK: User Action
     func tapPlayButton() {
-        self.timerManager.timerStatus == .running ?
+        self.timerManager.isRunning ?
         self.timerManager.pause() : self.timerManager.start()
     }
     

@@ -22,7 +22,7 @@ final class TimerManager {
 
     // Timer
     private var timer: Timer?
-    var timerStatus: Status?
+    var isRunning = false
     
     init(args: Args) {
         self.isManualBreakStartEnabled = args.isManualBreakStartEnabled
@@ -34,7 +34,7 @@ final class TimerManager {
 
 extension TimerManager {
     func start() {
-        self.timerStatus = .running
+        self.isRunning = true
         switch self.timerMode {
         case .focusMode:
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
@@ -55,16 +55,9 @@ extension TimerManager {
     }
     
     func pause() {
-        self.timerStatus = .pause
+        self.isRunning = false
         self.stopTimer()
         print("pause")
-    }
-    
-    func terminate() {
-        self.timerStatus = nil
-        self.remainingTimeSec = 0
-        self.stopTimer()
-        print("terminate")
     }
     
     func endExtraFocusAndStartBreak() {
@@ -129,10 +122,6 @@ extension TimerManager {
 }
 
 extension TimerManager {
-    enum Status {
-        case running, pause
-    }
-
     enum Mode: String {
         case focusMode = "Focus"
         case breakMode = "Break"
