@@ -32,8 +32,8 @@ struct TimerView: View {
                     trimFrom: self.viewModel.trimFrom,
                     trimTo: self.viewModel.trimTo
                 )
-                .animation(.smooth(), value: self.viewModel.trimFrom)
-                .animation(.smooth(), value: self.viewModel.trimTo)
+                .animation(.smooth, value: self.viewModel.trimFrom)
+                .animation(.smooth, value: self.viewModel.trimTo)
                 .rotationEffect(Angle(degrees: -90))
                 .shadow(radius: 10)
             }
