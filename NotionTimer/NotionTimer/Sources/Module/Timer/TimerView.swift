@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TimerView: View {
-    @State private var viewModel: TimerViewModel
+    @StateObject private var viewModel: TimerViewModel
     
     init(args: Args) {
         let timerManager = TimerManager(args: .init(
@@ -16,7 +16,7 @@ struct TimerView: View {
             focusTimeMin: args.focusTimeMin,
             breakTimeMin: args.breakTimeMin
         ))
-        self._viewModel = State(wrappedValue: TimerViewModel(
+        self._viewModel = StateObject(wrappedValue: TimerViewModel(
             timerManager: timerManager,
             focusColor: args.focusColor,
             breakColor: args.breakColor
@@ -32,26 +32,28 @@ struct TimerView: View {
                     trimFrom: self.viewModel.trimFrom,
                     trimTo: self.viewModel.trimTo
                 )
+                .animation(.smooth(), value: self.viewModel.trimFrom)
+                .animation(.smooth(), value: self.viewModel.trimTo)
                 .rotationEffect(Angle(degrees: -90))
                 .shadow(radius: 10)
             }
             
             List {
                 HStack {
-                    Text("Mode: ")
+                    Text("Mode")
                     Spacer()
                     Text(self.viewModel.timerMode.rawValue)
                 }
                 HStack {
-                    Text("Remaining Time: ")
+                    Text("Remaining Time")
                     Spacer()
-                    Text(self.viewModel.displayTime)
+                    Text(self.viewModel.remainingTimeString)
                 }
                 
                 HStack {
-                    Text("Total Focus Time: ")
+                    Text("Total Focus Time")
                     Spacer()
-                    Text(self.viewModel.displayTotalFocusTime)
+                    Text(self.viewModel.totalFocusTimeString)
                 }
             }
             
@@ -66,7 +68,7 @@ struct TimerView: View {
                 Self.hapticFeedback.impactOccurred()
                 self.viewModel.tapPlayButton()
             } label: {
-                Image(systemName: self.viewModel.isRunning ? "pause.fill" : "play.fill")
+                Image(systemName: self.viewModel.timerButtonSystemName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 50)

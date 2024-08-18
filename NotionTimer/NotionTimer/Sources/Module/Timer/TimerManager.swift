@@ -5,29 +5,29 @@
 //  Created by Taichi on 2024/08/16.
 //
 
-import SwiftUI
+import Foundation
+import Combine
 
-@Observable
 final class TimerManager {
     // Args
     private let isManualBreakStartEnabled: Bool
-    private let focusTimeSec: Double
-    private let breakTimeSec: Double
+    private let focusTimeSec: Int
+    private let breakTimeSec: Int
     
     // Runtime
-    var timerMode: Mode = .focusMode
-    var remainingTimeSec: Double = 0
-    var maxTimeSec: Double = 0
-    var totalFocusTimeSec = 0
+    @Published var timerMode: Mode = .focusMode
+    @Published var remainingTimeSec: Int = 0
+    @Published var maxTimeSec: Int = 0
+    @Published var totalFocusTimeSec: Int = 0
+    @Published var isRunning = false
 
     // Timer
     private var timer: Timer?
-    var isRunning = false
-    
+
     init(args: Args) {
         self.isManualBreakStartEnabled = args.isManualBreakStartEnabled
-        self.focusTimeSec = Double(args.focusTimeMin) * 60
-        self.breakTimeSec = Double(args.breakTimeMin) * 60
+        self.focusTimeSec = args.focusTimeMin * 60
+        self.breakTimeSec = args.breakTimeMin * 60
         self.changeToFocusMode()
     }
 }
@@ -68,7 +68,7 @@ extension TimerManager {
     
     private func tickInFocusMode() {
         if self.remainingTimeSec > 0 {
-            withAnimation { self.remainingTimeSec -= 1.0 }
+            self.remainingTimeSec -= 1
             self.totalFocusTimeSec += 1 // 合計集中時間
         } else {
             // TODO: 集中が終わった ことを示すイベントを発行して ViewModel へ
@@ -90,7 +90,7 @@ extension TimerManager {
     
     private func tickInBreakMode() {
         if self.remainingTimeSec > 0 {
-            withAnimation { self.remainingTimeSec -= 1.0 }
+            self.remainingTimeSec -= 1
         } else {
             // TODO: 休憩が終わった ことを示すイベントを発行して ViewModel へ
             self.stopTimer()
@@ -107,7 +107,7 @@ extension TimerManager {
     private func changeToFocusMode() {
         self.timerMode = .focusMode
         self.maxTimeSec = self.focusTimeSec
-        self.remainingTimeSec = Double(self.focusTimeSec)
+        self.remainingTimeSec = self.focusTimeSec
     }
     
     private func changeToExtraFocusMode() {
@@ -117,7 +117,7 @@ extension TimerManager {
     private func changeToBreakMode() {
         self.timerMode = .breakMode
         self.maxTimeSec = self.breakTimeSec
-        self.remainingTimeSec = Double(self.breakTimeSec)
+        self.remainingTimeSec = self.breakTimeSec
     }
 }
 
