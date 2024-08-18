@@ -37,30 +37,26 @@ extension TimerManager {
         self.isRunning = true
         switch self.timerMode {
         case .focusMode:
-            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
                 self?.tickInFocusMode()
             }
-            print("tickInFocusMode")
         case .breakMode:
-            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
                 self?.tickInBreakMode()
             }
-            print("tickInBreakMode")
-        case .extraFocusMode:
-            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-                self?.tickInExtraFocusMode()
+        case .additionalFocusMode:
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+                self?.tickInAdditionalFocusMode()
             }
-            print("tickInExtraFocusMode")
         }
     }
     
     func pause() {
         self.isRunning = false
         self.stopTimer()
-        print("pause")
     }
     
-    func endExtraFocusAndStartBreak() {
+    func endAdditionalFocusAndStartBreak() {
         self.stopTimer()
         self.changeToBreakMode()
         self.start()
@@ -69,12 +65,11 @@ extension TimerManager {
     private func tickInFocusMode() {
         if self.remainingTimeSec > 0 {
             self.remainingTimeSec -= 1
-            self.totalFocusTimeSec += 1 // 合計集中時間
+            self.totalFocusTimeSec += 1
         } else {
-            // TODO: 集中が終わった ことを示すイベントを発行して ViewModel へ
             if self.isManualBreakStartEnabled {
                 self.stopTimer()
-                self.changeToExtraFocusMode()
+                self.changeToAdditionalFocusMode()
                 self.start()
             } else {
                 self.stopTimer()
@@ -84,15 +79,14 @@ extension TimerManager {
         }
     }
     
-    private func tickInExtraFocusMode() {
-        self.totalFocusTimeSec += 1 // 合計集中時間
+    private func tickInAdditionalFocusMode() {
+        self.totalFocusTimeSec += 1
     }
     
     private func tickInBreakMode() {
         if self.remainingTimeSec > 0 {
             self.remainingTimeSec -= 1
         } else {
-            // TODO: 休憩が終わった ことを示すイベントを発行して ViewModel へ
             self.stopTimer()
             self.changeToFocusMode()
             self.start()
@@ -110,8 +104,8 @@ extension TimerManager {
         self.remainingTimeSec = self.focusTimeSec
     }
     
-    private func changeToExtraFocusMode() {
-        self.timerMode = .extraFocusMode
+    private func changeToAdditionalFocusMode() {
+        self.timerMode = .additionalFocusMode
     }
     
     private func changeToBreakMode() {
@@ -122,10 +116,10 @@ extension TimerManager {
 }
 
 extension TimerManager {
-    enum Mode: String {
-        case focusMode = "Focus"
-        case breakMode = "Break"
-        case extraFocusMode = "Extra Focus"
+    enum Mode {
+        case focusMode
+        case breakMode
+        case additionalFocusMode
     }
 }
 

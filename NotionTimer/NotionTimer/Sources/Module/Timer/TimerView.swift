@@ -28,7 +28,7 @@ struct TimerView: View {
             ZStack {
                 TimerCircle(color: Color(.gray).opacity(0.1))
                 TimerCircle(
-                    color: self.viewModel.timerCircleColor,
+                    color: self.viewModel.modeColor,
                     trimFrom: self.viewModel.trimFrom,
                     trimTo: self.viewModel.trimTo
                 )
@@ -40,10 +40,13 @@ struct TimerView: View {
             
             List {
                 HStack {
-                    Text("Mode")
-                    Spacer()
-                    Text(self.viewModel.timerMode.rawValue)
+                    Text({switch self.viewModel.timerMode {
+                        case .focusMode: "Focus Mode"
+                        case .breakMode: "Break Mode"
+                        case .additionalFocusMode: "Additional Focus Mode"
+                    }}())
                 }
+                
                 HStack {
                     Text("Remaining Time")
                     Spacer()
@@ -61,8 +64,8 @@ struct TimerView: View {
                 Self.hapticFeedback.impactOccurred()
                 self.viewModel.tapBreakStartButton()
             } label: {
-                Text("Start Break").bold().padding()
-            }.disabled(self.viewModel.timerMode != .extraFocusMode)
+                Text("Start Break").bold()
+            }.disabled(self.viewModel.timerMode != .additionalFocusMode)
             
             Button {
                 Self.hapticFeedback.impactOccurred()
@@ -75,6 +78,7 @@ struct TimerView: View {
             }
             .padding()
         }
+        .background(Color(.systemGroupedBackground)) // List 背景色に合わせる
         .navigationTitle("Timer")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

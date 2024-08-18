@@ -13,7 +13,7 @@ final class TimerViewModel: ObservableObject {
     private let focusColor: Color
     private let breakColor: Color
     
-    @Published var timerCircleColor: Color
+    @Published var modeColor: Color
     @Published var trimFrom: CGFloat
     @Published var trimTo: CGFloat
     @Published var remainingTimeString: String
@@ -30,8 +30,8 @@ final class TimerViewModel: ObservableObject {
         self.breakColor = breakColor
         
         // 初期化
-        self.timerCircleColor = timerManager.timerMode == .focusMode ? focusColor : breakColor
-        self.trimFrom = timerManager.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(timerManager.remainingTimeSec) / CGFloat(timerManager.maxTimeSec)))
+        let modeColor = timerManager.timerMode == .focusMode ? focusColor : breakColor
+        self.modeColor = timerManager.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(timerManager.remainingTimeSec) / CGFloat(timerManager.maxTimeSec)))
         self.trimTo = timerManager.timerMode == .breakMode ? CGFloat(1 - (CGFloat(timerManager.remainingTimeSec) / CGFloat(timerManager.maxTimeSec))) : 1
         self.remainingTimeString = "\(timerManager.remainingTimeSec / 60):\(String(format: "%02d", timerManager.remainingTimeSec % 60))"
         self.totalFocusTimeString = "\(timerManager.totalFocusTimeSec / 60):\(String(format: "%02d", timerManager.totalFocusTimeSec % 60))"
@@ -43,7 +43,7 @@ final class TimerViewModel: ObservableObject {
         timerManager.$timerMode
             .sink { [weak self] mode in
                 guard let self = self else { return }
-                self.timerCircleColor = mode == .focusMode ? self.focusColor : self.breakColor
+                self.modeColor = mode == .focusMode ? self.focusColor : self.breakColor
                 self.timerMode = mode
             }
             .store(in: &cancellables)
@@ -54,7 +54,7 @@ final class TimerViewModel: ObservableObject {
                 self?.remainingTimeString = "\(remainingTime / 60):\(String(format: "%02d", remainingTime % 60))"
                 self?.trimFrom = self?.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(remainingTime) / CGFloat(manager.maxTimeSec)))
                 self?.trimTo = self?.timerMode == .breakMode ? CGFloat(1 - (CGFloat(remainingTime) / CGFloat(manager.maxTimeSec))) : 1
-                self?.startBreakButtonDisabled = self?.timerMode != .extraFocusMode
+                self?.startBreakButtonDisabled = self?.timerMode != .additionalFocusMode
             }
             .store(in: &cancellables)
         
@@ -79,6 +79,6 @@ extension TimerViewModel {
     }
     
     func tapBreakStartButton() {
-        self.timerManager.endExtraFocusAndStartBreak()
+        self.timerManager.endAdditionalFocusAndStartBreak()
     }
 }

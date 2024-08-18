@@ -11,7 +11,7 @@ import SwiftUI
 struct NotionTimerApp: App {
     var body: some Scene {
         WindowGroup {
-            SetTimerView()
+            TimerSettingView()
         }
     }
 }

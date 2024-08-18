@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SetTimerView: View {
+struct TimerSettingView: View {
     @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled")
     private var isBreakEndSoundEnabled
     @AppStorage(wrappedValue: true, "isManualBreakStartEnabled")
@@ -26,7 +26,7 @@ struct SetTimerView: View {
             Form {
                 Section {
                     // TODO: この責務は Timer には含めない
-                    Picker("Task Category", selection: self.$taskCategory) {
+                    Picker("Task", selection: self.$taskCategory) {
                         ForEach(TaskCategory.mockList, id: \.id) { category in
                             Text(category.name).tag(category as TaskCategory?)
                         }
@@ -48,10 +48,10 @@ struct SetTimerView: View {
                 }
                 Section {
                     Toggle(isOn: self.$isBreakEndSoundEnabled) {
-                        Text("Enable sound at break end")
+                        Text("Enable Sound At Break End")
                     }
                     Toggle(isOn: self.$isManualBreakStartEnabled) {
-                        Text("Start break time manually")
+                        Text("Start Break Time Manually")
                     }
                 }
                 Section {
@@ -66,10 +66,10 @@ struct SetTimerView: View {
                     focusColor: self.focusColor,
                     breakColor: self.breakColor
                 ))) {
-                    Text("Start Timer!").foregroundStyle(.blue).bold()
+                    Text("Start Timer").foregroundStyle(.blue).bold()
                 }
             }
-            .navigationTitle("Set Timer")
+            .navigationTitle("Timer Setting")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -86,5 +86,5 @@ struct SetTimerView: View {
 }
 
 #Preview {
-    SetTimerView()
+    TimerSettingView()
 }
