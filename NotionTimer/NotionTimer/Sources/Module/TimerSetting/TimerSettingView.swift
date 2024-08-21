@@ -17,25 +17,14 @@ struct TimerSettingView: View {
     
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.blue
-    @State private var taskCategory = TaskCategory.mockList.first
     
     // Screen Time
-    @State private var restrictedApps = FamilyActivitySelection()
     @State private var isFamilyActivityPickerPresented = false
+    private var restrictedApps = FamilyActivitySelection()
     
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    // TODO: この責務は Timer には含めない
-                    Picker("Task", selection: self.$taskCategory) {
-                        ForEach(TaskCategory.mockList, id: \.id) { category in
-                            Text(category.name).tag(category as TaskCategory?)
-                        }
-                    }
-                    .pickerStyle(.navigationLink)
-                }
-                
                 Section {
                     Picker("Focus Time", selection: self.$focusTimeMin) {
                         ForEach(1..<91) { minute in

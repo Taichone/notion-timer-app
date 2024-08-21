@@ -10,9 +10,9 @@ import Combine
 @MainActor
 final class TimerViewModel: ObservableObject {
     private let timerManager: TimerManager
+    
     private let focusColor: Color
     private let breakColor: Color
-    
     @Published var modeColor: Color
     @Published var trimFrom: CGFloat
     @Published var trimTo: CGFloat
