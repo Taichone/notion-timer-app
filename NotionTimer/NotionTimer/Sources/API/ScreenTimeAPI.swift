@@ -15,6 +15,9 @@ final class ScreenTimeAPI {
     static let shared = ScreenTimeAPI()
     private init() {}
     
+}
+
+extension ScreenTimeAPI: ScreenTimeAPIProtocol {
     func authorize() async {
         do {
             try await AuthorizationCenter.shared.requestAuthorization(for: .individual)

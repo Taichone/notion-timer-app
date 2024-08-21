@@ -53,38 +53,30 @@ struct TimerSettingView: View {
                     Toggle(isOn: self.$isManualBreakStartEnabled) {
                         Text("Start Break Time Manually")
                     }
-                }
-                Section {
                     ColorPicker("Focus Time Color", selection: self.$focusColor)
                     ColorPicker("Break Time Color", selection: self.$breakColor)
                 }
                 NavigationLink(
-                    destination: ScreenTimeSettingView()
+                    destination: AppRestrictionsSettingView(api: ScreenTimeAPI.shared)
                 ) {
-                    Text("Set App Restrictions").foregroundStyle(.blue).bold()
-                }
-                NavigationLink(destination: TimerView(args: .init(
-                    isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
-                    isManualBreakStartEnabled: self.isManualBreakStartEnabled,
-                    focusTimeMin: self.focusTimeMin,
-                    breakTimeMin: self.focusTimeMin,
-                    focusColor: self.focusColor,
-                    breakColor: self.breakColor
-                ))) {
-                    Text("Start Timer").foregroundStyle(.blue).bold()
+                    Text("Set App Restrictions")
                 }
             }
             .navigationTitle("Timer Setting")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    // TODO: 設定に遷移（制限するアプリの設定, Notion アカウント関連など？）
-                    NavigationLink(
-                        destination: ScreenTimeSettingView(),
-                        label: {
-                            Image(systemName: "gearshape.fill")
-                        }
-                    )
+                    NavigationLink(destination: TimerView(args: .init(
+                        isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
+                        isManualBreakStartEnabled: self.isManualBreakStartEnabled,
+                        focusTimeMin: self.focusTimeMin,
+                        breakTimeMin: self.focusTimeMin,
+                        focusColor: self.focusColor,
+                        breakColor: self.breakColor
+                    ))) {
+                        Text("Start")
+                    }
+
                 }
             }
         }

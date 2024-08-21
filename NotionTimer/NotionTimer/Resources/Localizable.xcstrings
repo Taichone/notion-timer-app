@@ -120,6 +120,26 @@
         }
       }
     },
+    "Set App Restrictions" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリの制限"
+          }
+        }
+      }
+    },
+    "Start" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始"
+          }
+        }
+      }
+    },
     "Start Break" : {
       "localizations" : {
         "ja" : {
@@ -141,6 +161,7 @@
       }
     },
     "Start Timer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {

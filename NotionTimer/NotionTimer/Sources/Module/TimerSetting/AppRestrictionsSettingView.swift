@@ -16,6 +16,10 @@ struct AppRestrictionsSettingView: View {
     
     private let api: ScreenTimeAPIProtocol
     
+    init(api: ScreenTimeAPIProtocol) {
+        self.api = api
+    }
+    
     var body: some View {
         VStack {
             Button("アプリを選択") {
