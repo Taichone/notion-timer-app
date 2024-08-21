@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct TimerSettingView: View {
-    @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled")
-    private var isBreakEndSoundEnabled
-    @AppStorage(wrappedValue: true, "isManualBreakStartEnabled")
-    private var isManualBreakStartEnabled
-    @AppStorage(wrappedValue: 25, "focusTimeMin")
-    private var focusTimeMin
-    @AppStorage(wrappedValue: 5, "breakTimeMin")
-    private var breakTimeMin
+    @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled") private var isBreakEndSoundEnabled
+    @AppStorage(wrappedValue: true, "isManualBreakStartEnabled") private var isManualBreakStartEnabled
+    @AppStorage(wrappedValue: 25, "focusTimeMin") private var focusTimeMin
+    @AppStorage(wrappedValue: 5, "breakTimeMin") private var breakTimeMin
     
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.blue
@@ -46,6 +42,7 @@ struct TimerSettingView: View {
                         }
                     }.pickerStyle(.navigationLink)
                 }
+                
                 Section {
                     Toggle(isOn: self.$isBreakEndSoundEnabled) {
                         Text("Enable Sound At Break End")
@@ -56,6 +53,7 @@ struct TimerSettingView: View {
                     ColorPicker("Focus Time Color", selection: self.$focusColor)
                     ColorPicker("Break Time Color", selection: self.$breakColor)
                 }
+                
                 NavigationLink(
                     destination: AppRestrictionsSettingView(api: ScreenTimeAPI.shared)
                 ) {
