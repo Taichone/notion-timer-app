@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BD82C6F1F5D00EF337B /* TimerManager.swift */; };
 		52421BDB2C6F2A6800EF337B /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */; };
+		526916F22C7617B10024DC1D /* ConditionalHiddenModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */; };
 		52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 52950C312C72559400D62CD0 /* Localizable.xcstrings */; };
 		52950C352C7260D800D62CD0 /* ScreenTimeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52950C342C7260D800D62CD0 /* ScreenTimeAPI.swift */; };
 		52950C372C72617E00D62CD0 /* AppRestrictionsSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52950C362C72617E00D62CD0 /* AppRestrictionsSettingView.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		52421BD82C6F1F5D00EF337B /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
+		526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalHiddenModifier.swift; sourceTree = "<group>"; };
 		52950C312C72559400D62CD0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		52950C332C72603C00D62CD0 /* NotionTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotionTimer.entitlements; sourceTree = "<group>"; };
 		52950C342C7260D800D62CD0 /* ScreenTimeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenTimeAPI.swift; sourceTree = "<group>"; };
@@ -90,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		526916F02C7616E80024DC1D /* ViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */,
+			);
+			path = ViewModifier;
+			sourceTree = "<group>";
+		};
 		5297A53B2C66819D001C243E = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +190,7 @@
 		5297A5792C6B0A23001C243E /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				526916F02C7616E80024DC1D /* ViewModifier */,
 				5297A58C2C6BAD28001C243E /* View */,
 			);
 			path = Component;
@@ -395,6 +406,7 @@
 				5297A5862C6B5DB4001C243E /* AfterTimerView.swift in Sources */,
 				52421BDB2C6F2A6800EF337B /* TimerViewModel.swift in Sources */,
 				5297A5842C6B5D1C001C243E /* TimerSettingView.swift in Sources */,
+				526916F22C7617B10024DC1D /* ConditionalHiddenModifier.swift in Sources */,
 				5297A58B2C6BA23E001C243E /* TimerCircle.swift in Sources */,
 				52950C352C7260D800D62CD0 /* ScreenTimeAPI.swift in Sources */,
 				5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */,

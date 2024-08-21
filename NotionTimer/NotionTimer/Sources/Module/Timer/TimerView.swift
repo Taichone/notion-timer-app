@@ -65,7 +65,8 @@ struct TimerView: View {
                 self.viewModel.tapBreakStartButton()
             } label: {
                 Text("Start Break").bold()
-            }.disabled(self.viewModel.timerMode != .additionalFocusMode)
+            }
+            .hidden(self.viewModel.timerMode != .additionalFocusMode)
             
             Button {
                 Self.hapticFeedback.impactOccurred()
