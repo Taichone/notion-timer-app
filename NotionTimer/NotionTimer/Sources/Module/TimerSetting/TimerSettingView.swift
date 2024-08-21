@@ -20,7 +20,7 @@ struct TimerSettingView: View {
     
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
-    private var restrictedApps = FamilyActivitySelection()
+    @State private var restrictedApps = FamilyActivitySelection()
     
     var body: some View {
         NavigationStack {
