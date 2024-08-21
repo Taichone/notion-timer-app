@@ -30,8 +30,8 @@ final class TimerViewModel: ObservableObject {
         self.breakColor = breakColor
         
         // 初期化
-        let modeColor = timerManager.timerMode == .focusMode ? focusColor : breakColor
-        self.modeColor = timerManager.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(timerManager.remainingTimeSec) / CGFloat(timerManager.maxTimeSec)))
+        self.modeColor = timerManager.timerMode == .focusMode ? focusColor : breakColor
+        self.trimFrom = timerManager.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(timerManager.remainingTimeSec) / CGFloat(timerManager.maxTimeSec)))
         self.trimTo = timerManager.timerMode == .breakMode ? CGFloat(1 - (CGFloat(timerManager.remainingTimeSec) / CGFloat(timerManager.maxTimeSec))) : 1
         self.remainingTimeString = "\(timerManager.remainingTimeSec / 60):\(String(format: "%02d", timerManager.remainingTimeSec % 60))"
         self.totalFocusTimeString = "\(timerManager.totalFocusTimeSec / 60):\(String(format: "%02d", timerManager.totalFocusTimeSec % 60))"

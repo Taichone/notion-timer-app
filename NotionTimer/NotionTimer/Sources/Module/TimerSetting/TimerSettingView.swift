@@ -58,6 +58,11 @@ struct TimerSettingView: View {
                     ColorPicker("Focus Time Color", selection: self.$focusColor)
                     ColorPicker("Break Time Color", selection: self.$breakColor)
                 }
+                NavigationLink(
+                    destination: ScreenTimeSettingView()
+                ) {
+                    Text("Set App Restrictions").foregroundStyle(.blue).bold()
+                }
                 NavigationLink(destination: TimerView(args: .init(
                     isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
                     isManualBreakStartEnabled: self.isManualBreakStartEnabled,
@@ -73,12 +78,13 @@ struct TimerSettingView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        // TODO: 設定に遷移（制限するアプリの設定, Notion アカウント関連など？）
-                        print("===Setting")
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                    }
+                    // TODO: 設定に遷移（制限するアプリの設定, Notion アカウント関連など？）
+                    NavigationLink(
+                        destination: ScreenTimeSettingView(),
+                        label: {
+                            Image(systemName: "gearshape.fill")
+                        }
+                    )
                 }
             }
         }
