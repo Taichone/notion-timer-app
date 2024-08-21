@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FamilyControls
+import ManagedSettings
 
 struct TimerSettingView: View {
     @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled") private var isBreakEndSoundEnabled
@@ -16,6 +18,10 @@ struct TimerSettingView: View {
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.blue
     @State private var taskCategory = TaskCategory.mockList.first
+    
+    // Screen Time
+    @State private var restrictedApps = FamilyActivitySelection()
+    @State private var isFamilyActivityPickerPresented = false
     
     var body: some View {
         NavigationStack {
@@ -54,15 +60,22 @@ struct TimerSettingView: View {
                     ColorPicker("Break Time Color", selection: self.$breakColor)
                 }
                 
-                NavigationLink(
-                    destination: AppRestrictionsSettingView(api: ScreenTimeAPI.shared)
-                ) {
-                    Text("Set App Restrictions")
+                Button {
+                    self.isFamilyActivityPickerPresented = true
+                } label: {
+                    Text("Select Apps to Restrict")
                 }
             }
             .navigationTitle("Timer Setting")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        print("Tapped Setting Button")
+                    } label: {
+                        Image(systemName: "line.3.horizontal")
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: TimerView(args: .init(
                         isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
@@ -74,9 +87,12 @@ struct TimerSettingView: View {
                     ))) {
                         Text("Start")
                     }
-
                 }
             }
+            .familyActivityPicker(
+                isPresented: self.$isFamilyActivityPickerPresented,
+                selection: self.$restrictedApps
+            )
         }
     }
 }

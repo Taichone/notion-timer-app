@@ -22,7 +22,7 @@ struct AppRestrictionsSettingView: View {
     
     var body: some View {
         VStack {
-            Button("アプリを選択") {
+            Button("Select Apps to Restrict") {
                 Task {
                     await self.api.authorize()
                     self.isPresented = true
@@ -36,6 +36,7 @@ struct AppRestrictionsSettingView: View {
             Text("\(self.selectedApps.categories.count)")
             Text("\(self.selectedApps.categoryTokens.count)")
 
+            // TODO:
             Button("開始") {
                 self.api.startAppRestriction(apps: self.selectedApps.applicationTokens)
                 self.isRestrictionActive = true

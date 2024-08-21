@@ -120,7 +120,18 @@
         }
       }
     },
+    "Select Apps to Restrict" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限するアプリを選択"
+          }
+        }
+      }
+    },
     "Set App Restrictions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -210,9 +221,6 @@
           }
         }
       }
-    },
-    "アプリを選択" : {
-
     },
     "終了" : {
 
