@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%lld" : {
-
-    },
     "%lld " : {
 
     },
@@ -110,6 +107,16 @@
         }
       }
     },
+    "OK" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "決定"
+          }
+        }
+      }
+    },
     "Remaining Time" : {
       "localizations" : {
         "ja" : {
@@ -130,27 +137,6 @@
         }
       }
     },
-    "Set App Restrictions" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリの制限"
-          }
-        }
-      }
-    },
-    "Start" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開始"
-          }
-        }
-      }
-    },
     "Start Break" : {
       "localizations" : {
         "ja" : {
@@ -167,27 +153,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "手動で休憩を開始"
-          }
-        }
-      }
-    },
-    "Start Timer" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "タイマー開始"
-          }
-        }
-      }
-    },
-    "Task" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "タスク"
           }
         }
       }
@@ -221,12 +186,6 @@
           }
         }
       }
-    },
-    "終了" : {
-
-    },
-    "開始" : {
-
     }
   },
   "version" : "1.0"

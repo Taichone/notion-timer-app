@@ -6,11 +6,13 @@
 
 import SwiftUI
 import Combine
+import ManagedSettings
 
 @MainActor
 final class TimerViewModel: ObservableObject {
     private let timerManager: TimerManager
     
+    // UI
     private let focusColor: Color
     private let breakColor: Color
     @Published var modeColor: Color
@@ -22,12 +24,25 @@ final class TimerViewModel: ObservableObject {
     @Published var startBreakButtonDisabled: Bool
     @Published var timerButtonSystemName: String
     
+    // Screen Time
+    private let screenTimeAPI: ScreenTimeAPIProtocol
+    private let restrictedApps: Set<ApplicationToken>?
+    
+    // Combine
     private var cancellables = Set<AnyCancellable>()
     
-    init(timerManager: TimerManager, focusColor: Color, breakColor: Color) {
+    init(
+        timerManager: TimerManager,
+        focusColor: Color,
+        breakColor: Color,
+        screenTimeAPI: ScreenTimeAPIProtocol,
+        restrictedApps: Set<ApplicationToken>?
+    ) {
         self.timerManager = timerManager
         self.focusColor = focusColor
         self.breakColor = breakColor
+        self.restrictedApps = restrictedApps
+        self.screenTimeAPI = screenTimeAPI
         
         // 初期化
         self.modeColor = timerManager.timerMode == .focusMode ? focusColor : breakColor
@@ -81,4 +96,10 @@ extension TimerViewModel {
     func tapBreakStartButton() {
         self.timerManager.endAdditionalFocusAndStartBreak()
     }
+}
+
+protocol ScreenTimeAPIProtocol {
+    func authorize() async
+    func startAppRestriction(apps: Set<ApplicationToken>?)
+    func stopAppRestriction()
 }

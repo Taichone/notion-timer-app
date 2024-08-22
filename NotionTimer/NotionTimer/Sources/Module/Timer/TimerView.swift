@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ManagedSettings
 
 struct TimerView: View {
     @StateObject private var viewModel: TimerViewModel
@@ -19,7 +20,9 @@ struct TimerView: View {
         self._viewModel = StateObject(wrappedValue: TimerViewModel(
             timerManager: timerManager,
             focusColor: args.focusColor,
-            breakColor: args.breakColor
+            breakColor: args.breakColor,
+            screenTimeAPI: ScreenTimeAPI.shared,
+            restrictedApps: args.restrictedApps
         ))
     }
     
@@ -100,6 +103,7 @@ extension TimerView {
         let breakTimeMin: Int
         let focusColor: Color
         let breakColor: Color
+        let restrictedApps: Set<ApplicationToken>?
     }
 }
 
@@ -115,7 +119,8 @@ extension TimerView {
             focusTimeMin: 25,
             breakTimeMin: 5,
             focusColor: .mint,
-            breakColor: .pink
+            breakColor: .pink,
+            restrictedApps: nil
         ))
     }
 }

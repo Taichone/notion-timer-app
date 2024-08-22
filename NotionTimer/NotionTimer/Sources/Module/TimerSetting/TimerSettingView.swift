@@ -72,9 +72,10 @@ struct TimerSettingView: View {
                         focusTimeMin: self.focusTimeMin,
                         breakTimeMin: self.focusTimeMin,
                         focusColor: self.focusColor,
-                        breakColor: self.breakColor
+                        breakColor: self.breakColor,
+                        restrictedApps: self.restrictedApps.applicationTokens
                     ))) {
-                        Text("Start")
+                        Text("OK")
                     }
                 }
             }

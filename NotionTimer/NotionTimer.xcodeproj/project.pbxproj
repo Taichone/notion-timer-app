@@ -12,7 +12,6 @@
 		526916F22C7617B10024DC1D /* ConditionalHiddenModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */; };
 		52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 52950C312C72559400D62CD0 /* Localizable.xcstrings */; };
 		52950C352C7260D800D62CD0 /* ScreenTimeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52950C342C7260D800D62CD0 /* ScreenTimeAPI.swift */; };
-		52950C372C72617E00D62CD0 /* AppRestrictionsSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52950C362C72617E00D62CD0 /* AppRestrictionsSettingView.swift */; };
 		5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5472C66819D001C243E /* NotionTimerApp.swift */; };
 		5297A54C2C66819E001C243E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54B2C66819E001C243E /* Assets.xcassets */; };
 		5297A54F2C66819E001C243E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54E2C66819E001C243E /* Preview Assets.xcassets */; };
@@ -50,7 +49,6 @@
 		52950C312C72559400D62CD0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		52950C332C72603C00D62CD0 /* NotionTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotionTimer.entitlements; sourceTree = "<group>"; };
 		52950C342C7260D800D62CD0 /* ScreenTimeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenTimeAPI.swift; sourceTree = "<group>"; };
-		52950C362C72617E00D62CD0 /* AppRestrictionsSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRestrictionsSettingView.swift; sourceTree = "<group>"; };
 		5297A5442C66819D001C243E /* NotionTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotionTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5297A5472C66819D001C243E /* NotionTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionTimerApp.swift; sourceTree = "<group>"; };
 		5297A54B2C66819E001C243E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 			isa = PBXGroup;
 			children = (
 				5297A5832C6B5D1C001C243E /* TimerSettingView.swift */,
-				52950C362C72617E00D62CD0 /* AppRestrictionsSettingView.swift */,
 			);
 			path = TimerSetting;
 			sourceTree = "<group>";
@@ -402,7 +399,6 @@
 				5297A5892C6BA02E001C243E /* TimerView.swift in Sources */,
 				52FB1C742C6BB9A100CD13E4 /* TaskCategory.swift in Sources */,
 				52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */,
-				52950C372C72617E00D62CD0 /* AppRestrictionsSettingView.swift in Sources */,
 				5297A5862C6B5DB4001C243E /* AfterTimerView.swift in Sources */,
 				52421BDB2C6F2A6800EF337B /* TimerViewModel.swift in Sources */,
 				5297A5842C6B5D1C001C243E /* TimerSettingView.swift in Sources */,
