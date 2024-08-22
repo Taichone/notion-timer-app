@@ -52,7 +52,6 @@ extension TimerManager {
     }
     
     func pause() {
-        self.isRunning = false
         self.stopTimer()
     }
     
@@ -60,6 +59,12 @@ extension TimerManager {
         self.stopTimer()
         self.changeToBreakMode()
         self.start()
+    }
+    
+    func terminate() {
+        self.totalFocusTimeSec = 0
+        self.stopTimer()
+        self.changeToFocusMode()
     }
     
     private func tickInFocusMode() {
@@ -94,6 +99,7 @@ extension TimerManager {
     }
     
     private func stopTimer() {
+        self.isRunning = false
         self.timer?.invalidate()
         self.timer = nil
     }

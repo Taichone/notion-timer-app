@@ -9,6 +9,7 @@ import SwiftUI
 import ManagedSettings
 
 struct TimerView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: TimerViewModel
     
     init(args: Args) {
@@ -83,14 +84,30 @@ struct TimerView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground)) // List 背景色に合わせる
+        .navigationBarBackButtonHidden(true)
         .navigationTitle("Timer")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    // TODO: 確認アラートを挟む
+                    self.viewModel.terminate()
+                    self.dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Cancel")
+                    }
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: AfterTimerView()) {
                     Text("Done")
                 }
             }
+        }
+        .onAppear {
+            self.viewModel.onAppear()
         }
     }
 }

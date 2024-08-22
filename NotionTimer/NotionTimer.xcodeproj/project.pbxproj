@@ -166,13 +166,13 @@
 		5297A5752C6B09D0001C243E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5297A5472C66819D001C243E /* NotionTimerApp.swift */,
 				5297A5772C6B0A1C001C243E /* API */,
 				5297A5792C6B0A23001C243E /* Component */,
 				5297A57A2C6B0A3C001C243E /* Entity */,
 				5297A57B2C6B0A3F001C243E /* Module */,
 				5297A57C2C6B0A44001C243E /* Repository */,
 				5297A57D2C6B0A4B001C243E /* UseCase */,
-				5297A5472C66819D001C243E /* NotionTimerApp.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";

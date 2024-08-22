@@ -21,6 +21,7 @@ struct TimerSettingView: View {
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
     @State private var restrictedApps = FamilyActivitySelection()
+    private let screenTimeAPI = ScreenTimeAPI.shared
     
     var body: some View {
         NavigationStack {
@@ -58,14 +59,14 @@ struct TimerSettingView: View {
             .navigationTitle("Timer Setting")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .topBarLeading) {
                     Button {
                         print("Tapped Setting Button")
                     } label: {
                         Image(systemName: "line.3.horizontal")
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: TimerView(args: .init(
                         isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
                         isManualBreakStartEnabled: self.isManualBreakStartEnabled,
@@ -83,6 +84,9 @@ struct TimerSettingView: View {
                 isPresented: self.$isFamilyActivityPickerPresented,
                 selection: self.$restrictedApps
             )
+            .onAppear {
+                self.screenTimeAPI.stopAppRestriction()
+            }
         }
     }
 }

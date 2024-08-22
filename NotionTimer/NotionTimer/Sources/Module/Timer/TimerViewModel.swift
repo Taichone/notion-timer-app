@@ -96,6 +96,20 @@ extension TimerViewModel {
     func tapBreakStartButton() {
         self.timerManager.endAdditionalFocusAndStartBreak()
     }
+    
+    func terminate() {
+        self.screenTimeAPI.stopAppRestriction()
+        self.timerManager.terminate()
+    }
+    
+    func tapFinish() {
+        // TODO: 合計集中時間を Notion 記録ビューへ渡して遷移
+        self.terminate()
+    }
+    
+    func onAppear() {
+        self.screenTimeAPI.startAppRestriction(apps: self.restrictedApps)
+    }
 }
 
 protocol ScreenTimeAPIProtocol {
