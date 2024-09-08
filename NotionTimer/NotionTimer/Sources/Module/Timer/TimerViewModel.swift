@@ -110,6 +110,10 @@ extension TimerViewModel {
     func onAppear() {
         self.screenTimeAPI.startAppRestriction(apps: self.restrictedApps)
     }
+
+    func getTotalFocusTime() -> Int {
+        return timerManager.totalFocusTimeSec
+    }
 }
 
 protocol ScreenTimeAPIProtocol {

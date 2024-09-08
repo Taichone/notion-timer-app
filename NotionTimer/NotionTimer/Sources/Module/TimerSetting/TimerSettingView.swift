@@ -9,20 +9,24 @@ import SwiftUI
 import FamilyControls
 import ManagedSettings
 
+enum TimerNavigationPath {
+    case setting, timer, record
+}
+
 struct TimerSettingView: View {
     @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled") private var isBreakEndSoundEnabled
     @AppStorage(wrappedValue: true, "isManualBreakStartEnabled") private var isManualBreakStartEnabled
     @AppStorage(wrappedValue: 25, "focusTimeMin") private var focusTimeMin
     @AppStorage(wrappedValue: 5, "breakTimeMin") private var breakTimeMin
-    
+
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.blue
-    
+
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
     @State private var restrictedApps = FamilyActivitySelection()
     private let screenTimeAPI = ScreenTimeAPI.shared
-    
+
     var body: some View {
         NavigationStack {
             Form {
@@ -38,7 +42,7 @@ struct TimerSettingView: View {
                         }
                     }.pickerStyle(.navigationLink)
                 }
-                
+
                 Section {
                     Toggle(isOn: self.$isBreakEndSoundEnabled) {
                         Text("Enable Sound At Break End")
@@ -49,7 +53,7 @@ struct TimerSettingView: View {
                     ColorPicker("Focus Time Color", selection: self.$focusColor)
                     ColorPicker("Break Time Color", selection: self.$breakColor)
                 }
-                
+
                 Button {
                     self.isFamilyActivityPickerPresented = true
                 } label: {
@@ -84,7 +88,7 @@ struct TimerSettingView: View {
                 isPresented: self.$isFamilyActivityPickerPresented,
                 selection: self.$restrictedApps
             )
-            .onAppear {
+            .task {
                 self.screenTimeAPI.stopAppRestriction()
             }
         }

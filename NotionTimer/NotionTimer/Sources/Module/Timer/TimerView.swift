@@ -11,7 +11,8 @@ import ManagedSettings
 struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: TimerViewModel
-    
+    @State private var resultFocusTimeSec: Int?
+
     init(args: Args) {
         let timerManager = TimerManager(args: .init(
             isManualBreakStartEnabled: args.isManualBreakStartEnabled,
@@ -89,11 +90,11 @@ struct TimerView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
+                Button {
                     // TODO: 確認アラートを挟む
                     self.viewModel.terminate()
                     self.dismiss()
-                }) {
+                } label: {
                     HStack {
                         Image(systemName: "chevron.left")
                         Text("Cancel")
@@ -101,10 +102,18 @@ struct TimerView: View {
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(destination: AfterTimerView()) {
+                Button {
+                    // TODO: 確認アラートを挟む
+                    resultFocusTimeSec = viewModel.getTotalFocusTime()
+                    viewModel.terminate()
+
+                } label: {
                     Text("Done")
                 }
             }
+        }
+        .navigationDestination(item: $resultFocusTimeSec) {
+            AfterTimerView(resultFocusTimeSec: $0)
         }
         .onAppear {
             self.viewModel.onAppear()

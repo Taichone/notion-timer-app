@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct AfterTimerView: View {
+    let resultFocusTimeSec: Int
+
     var body: some View {
-        Text("AfterTimerView")
+        Text(String(resultFocusTimeSec))
     }
 }
 
 #Preview {
-    AfterTimerView()
+    AfterTimerView(resultFocusTimeSec: 3661)
 }
