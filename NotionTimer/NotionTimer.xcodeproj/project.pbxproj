@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520704502CA5B17A0099BE70 /* GlassmorphismRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207044D2CA5B17A0099BE70 /* GlassmorphismRoundedRectangle.swift */; };
+		520704512CA5B17A0099BE70 /* CustomRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207044E2CA5B17A0099BE70 /* CustomRoundedRectangle.swift */; };
+		520704522CA5B17A0099BE70 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207044F2CA5B17A0099BE70 /* LoadingView.swift */; };
+		520704542CA5B1C60099BE70 /* FlippableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520704532CA5B1C50099BE70 /* FlippableCard.swift */; };
 		52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BD82C6F1F5D00EF337B /* TimerManager.swift */; };
 		52421BDB2C6F2A6800EF337B /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BDA2C6F2A6800EF337B /* TimerService.swift */; };
 		526916F22C7617B10024DC1D /* ConditionalHiddenModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */; };
@@ -43,6 +47,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5207044D2CA5B17A0099BE70 /* GlassmorphismRoundedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphismRoundedRectangle.swift; sourceTree = "<group>"; };
+		5207044E2CA5B17A0099BE70 /* CustomRoundedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRoundedRectangle.swift; sourceTree = "<group>"; };
+		5207044F2CA5B17A0099BE70 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		520704532CA5B1C50099BE70 /* FlippableCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippableCard.swift; sourceTree = "<group>"; };
 		52421BD82C6F1F5D00EF337B /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		52421BDA2C6F2A6800EF337B /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
 		526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalHiddenModifier.swift; sourceTree = "<group>"; };
@@ -244,6 +252,10 @@
 		5297A58C2C6BAD28001C243E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				520704532CA5B1C50099BE70 /* FlippableCard.swift */,
+				5207044D2CA5B17A0099BE70 /* GlassmorphismRoundedRectangle.swift */,
+				5207044E2CA5B17A0099BE70 /* CustomRoundedRectangle.swift */,
+				5207044F2CA5B17A0099BE70 /* LoadingView.swift */,
 				5297A58A2C6BA23E001C243E /* TimerCircle.swift */,
 			);
 			path = View;
@@ -390,9 +402,13 @@
 			files = (
 				5297A5892C6BA02E001C243E /* TimerView.swift in Sources */,
 				52FB1C742C6BB9A100CD13E4 /* TaskCategory.swift in Sources */,
+				520704542CA5B1C60099BE70 /* FlippableCard.swift in Sources */,
 				52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */,
 				5297A5862C6B5DB4001C243E /* AfterTimerView.swift in Sources */,
 				52421BDB2C6F2A6800EF337B /* TimerService.swift in Sources */,
+				520704502CA5B17A0099BE70 /* GlassmorphismRoundedRectangle.swift in Sources */,
+				520704512CA5B17A0099BE70 /* CustomRoundedRectangle.swift in Sources */,
+				520704522CA5B17A0099BE70 /* LoadingView.swift in Sources */,
 				5297A5842C6B5D1C001C243E /* TimerSettingView.swift in Sources */,
 				526916F22C7617B10024DC1D /* ConditionalHiddenModifier.swift in Sources */,
 				5297A58B2C6BA23E001C243E /* TimerCircle.swift in Sources */,
