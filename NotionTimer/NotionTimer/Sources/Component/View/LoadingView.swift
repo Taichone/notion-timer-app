@@ -24,7 +24,8 @@ struct LoadingView<Content: View>: View {
                 .padding()
             Text(label)
                 .foregroundStyle(textColor)
-                .padding()
+                .padding(.horizontal)
+                .padding(.bottom)
         }
         .background {
             backgroundContent
@@ -33,7 +34,7 @@ struct LoadingView<Content: View>: View {
 }
 
 #Preview {
-    LoadingView(label: "予約情報を読込中です。", textColor: .white) {
+    LoadingView(label: "読込中", textColor: .gray) {
         GlassmorphismRoundedRectangle()
     }
 }
