@@ -10,7 +10,7 @@ import ManagedSettings
 
 struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel: TimerViewModel
+    @StateObject private var viewModel: TimerService
     @State private var resultFocusTimeSec: Int?
 
     init(args: Args) {
@@ -19,7 +19,7 @@ struct TimerView: View {
             focusTimeMin: args.focusTimeMin,
             breakTimeMin: args.breakTimeMin
         ))
-        self._viewModel = StateObject(wrappedValue: TimerViewModel(
+        self._viewModel = StateObject(wrappedValue: TimerService(
             timerManager: timerManager,
             focusColor: args.focusColor,
             breakColor: args.breakColor,

@@ -1,5 +1,5 @@
 //
-//  TimerViewModel.swift
+//  TimerViewService.swift
 //  NotionTimer
 //
 //  Created by Taichi on 2024/08/16
@@ -9,7 +9,7 @@ import Combine
 import ManagedSettings
 
 @MainActor
-final class TimerViewModel: ObservableObject {
+final class TimerService: ObservableObject {
     private let timerManager: TimerManager
     
     // UI
@@ -87,7 +87,7 @@ final class TimerViewModel: ObservableObject {
     }
 }
 
-extension TimerViewModel {
+extension TimerService {
     func tapPlayButton() {
         self.timerManager.isRunning ?
         self.timerManager.pause() : self.timerManager.start()

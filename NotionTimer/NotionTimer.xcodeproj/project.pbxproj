@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BD82C6F1F5D00EF337B /* TimerManager.swift */; };
-		52421BDB2C6F2A6800EF337B /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */; };
+		52421BDB2C6F2A6800EF337B /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52421BDA2C6F2A6800EF337B /* TimerService.swift */; };
 		526916F22C7617B10024DC1D /* ConditionalHiddenModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */; };
 		52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 52950C312C72559400D62CD0 /* Localizable.xcstrings */; };
 		52950C352C7260D800D62CD0 /* ScreenTimeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52950C342C7260D800D62CD0 /* ScreenTimeAPI.swift */; };
@@ -44,7 +44,7 @@
 
 /* Begin PBXFileReference section */
 		52421BD82C6F1F5D00EF337B /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
-		52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
+		52421BDA2C6F2A6800EF337B /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
 		526916F12C7617B10024DC1D /* ConditionalHiddenModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalHiddenModifier.swift; sourceTree = "<group>"; };
 		52950C312C72559400D62CD0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		52950C332C72603C00D62CD0 /* NotionTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotionTimer.entitlements; sourceTree = "<group>"; };
@@ -64,6 +64,10 @@
 		5297A58A2C6BA23E001C243E /* TimerCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCircle.swift; sourceTree = "<group>"; };
 		52FB1C732C6BB9A100CD13E4 /* TaskCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5207044C2CA5B0660099BE70 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		5297A5412C66819D001C243E /* Frameworks */ = {
@@ -122,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				52950C332C72603C00D62CD0 /* NotionTimer.entitlements */,
+				5297A5472C66819D001C243E /* NotionTimerApp.swift */,
 				5297A5742C6B06B2001C243E /* Resources */,
 				5297A5752C6B09D0001C243E /* Sources */,
 			);
@@ -166,23 +171,20 @@
 		5297A5752C6B09D0001C243E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				5297A5472C66819D001C243E /* NotionTimerApp.swift */,
-				5297A5772C6B0A1C001C243E /* API */,
+				5297A5772C6B0A1C001C243E /* Infra */,
 				5297A5792C6B0A23001C243E /* Component */,
 				5297A57A2C6B0A3C001C243E /* Entity */,
 				5297A57B2C6B0A3F001C243E /* Module */,
-				5297A57C2C6B0A44001C243E /* Repository */,
-				5297A57D2C6B0A4B001C243E /* UseCase */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		5297A5772C6B0A1C001C243E /* API */ = {
+		5297A5772C6B0A1C001C243E /* Infra */ = {
 			isa = PBXGroup;
 			children = (
 				52950C342C7260D800D62CD0 /* ScreenTimeAPI.swift */,
 			);
-			path = API;
+			path = Infra;
 			sourceTree = "<group>";
 		};
 		5297A5792C6B0A23001C243E /* Component */ = {
@@ -205,25 +207,12 @@
 		5297A57B2C6B0A3F001C243E /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				5207044C2CA5B0660099BE70 /* Home */,
 				5297A5812C6B5B5F001C243E /* AfterTimer */,
 				5297A57F2C6B5B2D001C243E /* TimerSetting */,
 				5297A5802C6B5B45001C243E /* Timer */,
 			);
 			path = Module;
-			sourceTree = "<group>";
-		};
-		5297A57C2C6B0A44001C243E /* Repository */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Repository;
-			sourceTree = "<group>";
-		};
-		5297A57D2C6B0A4B001C243E /* UseCase */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UseCase;
 			sourceTree = "<group>";
 		};
 		5297A57F2C6B5B2D001C243E /* TimerSetting */ = {
@@ -239,7 +228,7 @@
 			children = (
 				5297A5882C6BA02E001C243E /* TimerView.swift */,
 				52421BD82C6F1F5D00EF337B /* TimerManager.swift */,
-				52421BDA2C6F2A6800EF337B /* TimerViewModel.swift */,
+				52421BDA2C6F2A6800EF337B /* TimerService.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -274,6 +263,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5207044C2CA5B0660099BE70 /* Home */,
 			);
 			name = NotionTimer;
 			packageProductDependencies = (
@@ -400,7 +392,7 @@
 				52FB1C742C6BB9A100CD13E4 /* TaskCategory.swift in Sources */,
 				52421BD92C6F1F5D00EF337B /* TimerManager.swift in Sources */,
 				5297A5862C6B5DB4001C243E /* AfterTimerView.swift in Sources */,
-				52421BDB2C6F2A6800EF337B /* TimerViewModel.swift in Sources */,
+				52421BDB2C6F2A6800EF337B /* TimerService.swift in Sources */,
 				5297A5842C6B5D1C001C243E /* TimerSettingView.swift in Sources */,
 				526916F22C7617B10024DC1D /* ConditionalHiddenModifier.swift in Sources */,
 				5297A58B2C6BA23E001C243E /* TimerCircle.swift in Sources */,
