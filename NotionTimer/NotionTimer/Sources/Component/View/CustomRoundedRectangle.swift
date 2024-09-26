@@ -38,17 +38,28 @@ struct CustomRoundedRectangle: View {
                     .shadow(.inner(color: shadowColor, radius: 6, x: -2, y: -2)) // 下部の影
                 )
                 .foregroundStyle(color)
-                .shadow(color: color, radius: 10, x: 3, y: 3)
+                .shadow(radius: 10, x: 5, y: 5)
         }
     }
 }
 
 #Preview {
-    CustomRoundedRectangle(type: .custom(
-        lightColor: .white,
-        color: Color(.systemGray6),
-        shadowColor: Color(.systemGray4))
-    )
-    .frame(height: 100)
+    VStack {
+        CustomRoundedRectangle(type: .custom(
+            lightColor: .white,
+            color: Color(.systemGray6),
+            shadowColor: Color(.systemGray4))
+        )
+        .frame(height: 100)
+        .padding(.vertical)
+        
+        CustomRoundedRectangle(type: .custom(
+            lightColor: .turquoiseLight,
+            color: .turquoise,
+            shadowColor: .turquoiseShadow)
+        )
+        .frame(height: 100)
+        .padding(.vertical)
+    }
     .padding()
 }
