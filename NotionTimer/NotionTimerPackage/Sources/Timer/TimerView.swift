@@ -113,7 +113,7 @@ struct TimerView: View {
             }
         }
         .navigationDestination(item: $resultFocusTimeSec) {
-            AfterTimerView(resultFocusTimeSec: $0)
+            TimerRecordView(resultFocusTimeSec: $0)
         }
         .onAppear {
             self.viewModel.onAppear()
