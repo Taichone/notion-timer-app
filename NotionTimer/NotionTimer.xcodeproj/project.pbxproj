@@ -19,9 +19,6 @@
 		5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5472C66819D001C243E /* NotionTimerApp.swift */; };
 		5297A54C2C66819E001C243E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54B2C66819E001C243E /* Assets.xcassets */; };
 		5297A54F2C66819E001C243E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54E2C66819E001C243E /* Preview Assets.xcassets */; };
-		5297A5592C66819E001C243E /* NotionTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5582C66819E001C243E /* NotionTimerTests.swift */; };
-		5297A5632C66819E001C243E /* NotionTimerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5622C66819E001C243E /* NotionTimerUITests.swift */; };
-		5297A5652C66819E001C243E /* NotionTimerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5642C66819E001C243E /* NotionTimerUITestsLaunchTests.swift */; };
 		5297A5842C6B5D1C001C243E /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5832C6B5D1C001C243E /* TimerSettingView.swift */; };
 		5297A5862C6B5DB4001C243E /* AfterTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5852C6B5DB4001C243E /* AfterTimerView.swift */; };
 		5297A5892C6BA02E001C243E /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5882C6BA02E001C243E /* TimerView.swift */; };
@@ -62,10 +59,7 @@
 		5297A54B2C66819E001C243E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5297A54E2C66819E001C243E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5297A5542C66819E001C243E /* NotionTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotionTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5297A5582C66819E001C243E /* NotionTimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionTimerTests.swift; sourceTree = "<group>"; };
 		5297A55E2C66819E001C243E /* NotionTimerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotionTimerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5297A5622C66819E001C243E /* NotionTimerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionTimerUITests.swift; sourceTree = "<group>"; };
-		5297A5642C66819E001C243E /* NotionTimerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionTimerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5297A5832C6B5D1C001C243E /* TimerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingView.swift; sourceTree = "<group>"; };
 		5297A5852C6B5DB4001C243E /* AfterTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterTimerView.swift; sourceTree = "<group>"; };
 		5297A5882C6BA02E001C243E /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -114,8 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				5297A5462C66819D001C243E /* NotionTimer */,
-				5297A5572C66819E001C243E /* NotionTimerTests */,
-				5297A5612C66819E001C243E /* NotionTimerUITests */,
 				5297A5452C66819D001C243E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -149,23 +141,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		5297A5572C66819E001C243E /* NotionTimerTests */ = {
-			isa = PBXGroup;
-			children = (
-				5297A5582C66819E001C243E /* NotionTimerTests.swift */,
-			);
-			path = NotionTimerTests;
-			sourceTree = "<group>";
-		};
-		5297A5612C66819E001C243E /* NotionTimerUITests */ = {
-			isa = PBXGroup;
-			children = (
-				5297A5622C66819E001C243E /* NotionTimerUITests.swift */,
-				5297A5642C66819E001C243E /* NotionTimerUITestsLaunchTests.swift */,
-			);
-			path = NotionTimerUITests;
-			sourceTree = "<group>";
-		};
 		5297A5742C6B06B2001C243E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,8 +154,8 @@
 		5297A5752C6B09D0001C243E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				5297A5772C6B0A1C001C243E /* Infra */,
 				5297A5792C6B0A23001C243E /* Component */,
+				5297A5772C6B0A1C001C243E /* Infra */,
 				5297A57A2C6B0A3C001C243E /* Entity */,
 				5297A57B2C6B0A3F001C243E /* Module */,
 			);
@@ -421,7 +396,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5297A5592C66819E001C243E /* NotionTimerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,8 +403,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5297A5632C66819E001C243E /* NotionTimerUITests.swift in Sources */,
-				5297A5652C66819E001C243E /* NotionTimerUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,7 +604,6 @@
 		5297A56C2C66819E001C243E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -651,7 +622,6 @@
 		5297A56D2C66819E001C243E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -670,7 +640,6 @@
 		5297A56F2C66819E001C243E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -687,7 +656,6 @@
 		5297A5702C66819E001C243E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
