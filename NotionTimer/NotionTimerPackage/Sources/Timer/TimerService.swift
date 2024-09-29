@@ -6,7 +6,8 @@
 
 import SwiftUI
 import Combine
-import ManagedSettings
+import ManagedSettings // TODO: これも ScreenTime に隠蔽したい
+import ScreenTime
 
 @MainActor
 final class TimerService: ObservableObject {
@@ -114,10 +115,4 @@ extension TimerService {
     func getTotalFocusTime() -> Int {
         return timerManager.totalFocusTimeSec
     }
-}
-
-protocol ScreenTimeAPIProtocol {
-    func authorize() async
-    func startAppRestriction(apps: Set<ApplicationToken>?)
-    func stopAppRestriction()
 }

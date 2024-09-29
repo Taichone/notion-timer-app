@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TimerSetting
 
 @main
 struct NotionTimerApp: App {

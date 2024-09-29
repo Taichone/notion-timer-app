@@ -10,6 +10,10 @@ import SwiftUI
 public struct TimerRecordView: View {
     public let resultFocusTimeSec: Int
     
+    public init(resultFocusTimeSec: Int) {
+        self.resultFocusTimeSec = resultFocusTimeSec
+    }
+    
     public var body: some View {
         Text(String(resultFocusTimeSec))
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52775BFA2CA936510093CC0F /* TimerSetting in Frameworks */ = {isa = PBXBuildFile; productRef = 52775BF92CA936510093CC0F /* TimerSetting */; };
 		52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 52950C312C72559400D62CD0 /* Localizable.xcstrings */; };
 		5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5472C66819D001C243E /* NotionTimerApp.swift */; };
 		5297A54C2C66819E001C243E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54B2C66819E001C243E /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52775BFA2CA936510093CC0F /* TimerSetting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,10 +68,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52775BF82CA936510093CC0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5297A53B2C66819D001C243E = {
 			isa = PBXGroup;
 			children = (
 				5297A5462C66819D001C243E /* NotionTimer */,
+				52775BF82CA936510093CC0F /* Frameworks */,
 				5297A5452C66819D001C243E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -129,6 +139,7 @@
 			);
 			name = NotionTimer;
 			packageProductDependencies = (
+				52775BF92CA936510093CC0F /* TimerSetting */,
 			);
 			productName = NotionTimer;
 			productReference = 5297A5442C66819D001C243E /* NotionTimer.app */;
@@ -569,6 +580,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		52775BF92CA936510093CC0F /* TimerSetting */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimerSetting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5297A53C2C66819D001C243E /* Project object */;
 }

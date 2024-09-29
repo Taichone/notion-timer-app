@@ -7,13 +7,16 @@
 
 import SwiftUI
 import ManagedSettings
+import ScreenTime
+import TimerRecord
+import ViewCommon
 
-struct TimerView: View {
+public struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: TimerService
     @State private var resultFocusTimeSec: Int?
 
-    init(args: Args) {
+    public init(args: Args) {
         let timerManager = TimerManager(args: .init(
             isManualBreakStartEnabled: args.isManualBreakStartEnabled,
             focusTimeMin: args.focusTimeMin,
@@ -28,7 +31,7 @@ struct TimerView: View {
         ))
     }
     
-    var body: some View {
+    public var body: some View {
         VStack {
             ZStack {
                 TimerCircle(color: Color(.gray).opacity(0.1))
@@ -71,7 +74,7 @@ struct TimerView: View {
             } label: {
                 Text("Start Break").bold()
             }
-            .hidden(self.viewModel.timerMode != .additionalFocusMode)
+            .hidden(self.viewModel.timerMode == .additionalFocusMode)
             
             Button {
                 Self.hapticFeedback.impactOccurred()
@@ -122,7 +125,7 @@ struct TimerView: View {
 }
 
 extension TimerView {
-    struct Args {
+    public struct Args {
         let isBreakEndSoundEnabled: Bool
         let isManualBreakStartEnabled: Bool
         let focusTimeMin: Int
@@ -130,6 +133,23 @@ extension TimerView {
         let focusColor: Color
         let breakColor: Color
         let restrictedApps: Set<ApplicationToken>?
+        
+        public init(
+            isBreakEndSoundEnabled: Bool,
+            isManualBreakStartEnabled: Bool,
+            focusTimeMin: Int, breakTimeMin: Int,
+            focusColor: Color,
+            breakColor: Color,
+            restrictedApps: Set<ApplicationToken>?
+        ) {
+            self.isBreakEndSoundEnabled = isBreakEndSoundEnabled
+            self.isManualBreakStartEnabled = isManualBreakStartEnabled
+            self.focusTimeMin = focusTimeMin
+            self.breakTimeMin = breakTimeMin
+            self.focusColor = focusColor
+            self.breakColor = breakColor
+            self.restrictedApps = restrictedApps
+        }
     }
 }
 
