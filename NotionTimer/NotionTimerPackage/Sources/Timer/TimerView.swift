@@ -17,15 +17,12 @@ public struct TimerView: View {
     @State private var resultFocusTimeSec: Int?
 
     public init(args: Args) {
-        let timerManager = TimerManager(args: .init(
+        self._viewModel = StateObject(wrappedValue: .init(
             isManualBreakStartEnabled: args.isManualBreakStartEnabled,
-            focusTimeMin: args.focusTimeMin,
-            breakTimeMin: args.breakTimeMin
-        ))
-        self._viewModel = StateObject(wrappedValue: TimerService(
-            timerManager: timerManager,
             focusColor: args.focusColor,
             breakColor: args.breakColor,
+            focusTimeMin: args.focusTimeMin,
+            breakTimeMin: args.breakTimeMin,
             screenTimeAPI: ScreenTimeAPI.shared,
             restrictedApps: args.restrictedApps
         ))
