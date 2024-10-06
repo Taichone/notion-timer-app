@@ -13,12 +13,12 @@ import ScreenTime
 final class TimerService: ObservableObject {
     // Dependency
     private let isManualBreakStartEnabled: Bool
-    private let focusColor: Color
-    private let breakColor: Color
     private let focusTimeSec: Int
     private let breakTimeSec: Int
     
-    // UI
+    // TODO: View の責務へ
+    private let focusColor: Color
+    private let breakColor: Color
     @Published var modeColor: Color
     @Published var trimFrom: CGFloat
     @Published var trimTo: CGFloat
@@ -56,8 +56,17 @@ final class TimerService: ObservableObject {
         self.breakTimeSec = breakTimeMin * 60
         self.restrictedApps = restrictedApps
         self.screenTimeAPI = screenTimeAPI
+        self.isManualBreakStartEnabled = isManualBreakStartEnabled
         
-        setComponents()
+        timerMode = .focusMode
+        remainingTimeSec = focusTimeSec
+        remainingTimeString = "\(remainingTimeSec / 60):\(String(format: "%02d", remainingTimeSec % 60))"
+        trimFrom = CGFloat(1)
+        trimTo = CGFloat(0)
+        modeColor = focusColor
+        startBreakButtonDisabled = true
+        timerButtonSystemName = "play.fill"
+        totalFocusTimeString = "0"
     }
 }
 
@@ -100,15 +109,21 @@ extension TimerService {
         switch timerMode {
         case .focusMode:
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-                await self?.tickInFocusMode()
+                Task {
+                    await self?.tickInFocusMode()
+                }
             }
         case .breakMode:
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-                await self?.tickInBreakMode()
+                Task {
+                    await self?.tickInBreakMode()
+                }
             }
         case .additionalFocusMode:
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-                await self?.tickInAdditionalFocusMode()
+                Task {
+                    await self?.tickInAdditionalFocusMode()
+                }
             }
         }
     }
@@ -127,6 +142,8 @@ extension TimerService {
         if remainingTimeSec > 0 {
             remainingTimeSec -= 1
             totalFocusTimeSec += 1
+            
+            updateCircleAndRemainingTimeString()
         } else {
             if isManualBreakStartEnabled {
                 stopTimer()
@@ -138,30 +155,32 @@ extension TimerService {
                 start()
             }
         }
-        
-        setComponents()
     }
     
     private func tickInAdditionalFocusMode() {
         totalFocusTimeSec += 1
+        
+        updateRemainingTimeString()
     }
     
     private func tickInBreakMode() {
         if remainingTimeSec > 0 {
             remainingTimeSec -= 1
+            
+            updateCircleAndRemainingTimeString()
         } else {
             stopTimer()
             changeToFocusMode()
             start()
         }
-        
-        setComponents()
     }
     
     private func stopTimer() {
         isRunning = false
         timer?.invalidate()
         timer = nil
+        
+        setComponents()
     }
     
     private func changeToFocusMode() {
@@ -188,11 +207,19 @@ extension TimerService {
 }
 
 extension TimerService {
-    func setComponents() {
-        modeColor = (timerMode == .focusMode) ? focusColor : breakColor
+    func updateRemainingTimeString() {
         remainingTimeString = "\(remainingTimeSec / 60):\(String(format: "%02d", remainingTimeSec % 60))"
+    }
+    
+    func updateCircleAndRemainingTimeString() {
+        updateRemainingTimeString()
         trimFrom = timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(remainingTimeSec) / CGFloat(maxTimeSec)))
         trimTo = timerMode == .breakMode ? CGFloat(1 - (CGFloat(remainingTimeSec) / CGFloat(maxTimeSec))) : 1
+    }
+    
+    func setComponents() {
+        updateCircleAndRemainingTimeString()
+        modeColor = (timerMode == .focusMode) ? focusColor : breakColor
         startBreakButtonDisabled = timerMode != .additionalFocusMode
         timerButtonSystemName = isRunning ? "play.fill" : "pause.fill"
     }
