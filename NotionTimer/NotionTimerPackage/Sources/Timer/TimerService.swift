@@ -30,8 +30,8 @@ public final class TimerService: ObservableObject {
         isManualBreakStartEnabled: Bool,
         focusTimeMin: Int,
         breakTimeMin: Int,
-        screenTimeAPI: ScreenTimeAPIProtocol,
-        restrictedApps: Set<ApplicationToken>?
+        screenTimeAPI: ScreenTimeAPIProtocol = ScreenTimeAPI.shared,
+        restrictedApps: Set<ApplicationToken>? = nil
     ) {
         self.isManualBreakStartEnabled = isManualBreakStartEnabled
         self.focusTimeSec = focusTimeMin * 60
