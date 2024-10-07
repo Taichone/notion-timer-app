@@ -42,24 +42,3 @@ struct CustomRoundedRectangle: View {
         }
     }
 }
-
-#Preview {
-    VStack {
-        CustomRoundedRectangle(type: .custom(
-            lightColor: .white,
-            color: Color(.systemGray6),
-            shadowColor: Color(.systemGray4))
-        )
-        .frame(height: 100)
-        .padding(.vertical)
-        
-        CustomRoundedRectangle(type: .custom(
-            lightColor: .turquoiseLight,
-            color: .turquoise,
-            shadowColor: .turquoiseShadow)
-        )
-        .frame(height: 100)
-        .padding(.vertical)
-    }
-    .padding()
-}

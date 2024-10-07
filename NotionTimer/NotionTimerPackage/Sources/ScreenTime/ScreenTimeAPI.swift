@@ -8,17 +8,17 @@
 import FamilyControls
 import ManagedSettings
 
-final class ScreenTimeAPI {
+public final class ScreenTimeAPI {
     private let store = ManagedSettingsStore()
     
     /// Singleton
-    static let shared = ScreenTimeAPI()
+    @MainActor public static let shared = ScreenTimeAPI()
     private init() {}
     
 }
 
 extension ScreenTimeAPI: ScreenTimeAPIProtocol {
-    func authorize() async {
+    public func authorize() async {
         do {
             try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
         } catch {
@@ -26,11 +26,17 @@ extension ScreenTimeAPI: ScreenTimeAPIProtocol {
         }
     }
     
-    func startAppRestriction(apps: Set<ApplicationToken>?) {
+    public func startAppRestriction(apps: Set<ApplicationToken>?) {
         store.shield.applications = apps
     }
 
-    func stopAppRestriction() {
+    public func stopAppRestriction() {
         store.shield.applications = nil
     }
+}
+
+public protocol ScreenTimeAPIProtocol {
+    func authorize() async
+    func startAppRestriction(apps: Set<ApplicationToken>?)
+    func stopAppRestriction()
 }

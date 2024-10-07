@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
-import FamilyControls
-import ManagedSettings
+import ScreenTime
+import Timer
 
 enum TimerNavigationPath {
     case setting, timer, record
 }
 
-struct TimerSettingView: View {
+public struct TimerSettingView: View {
     @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled") private var isBreakEndSoundEnabled
     @AppStorage(wrappedValue: true, "isManualBreakStartEnabled") private var isManualBreakStartEnabled
     @AppStorage(wrappedValue: 25, "focusTimeMin") private var focusTimeMin
@@ -24,10 +24,12 @@ struct TimerSettingView: View {
 
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
-    @State private var restrictedApps = FamilyActivitySelection()
+    @State private var restrictedApps = ScreenTime.appSelection()
     private let screenTimeAPI = ScreenTimeAPI.shared
+    
+    public init() {}
 
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             Form {
                 Section {
@@ -71,7 +73,7 @@ struct TimerSettingView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: TimerView(args: .init(
+                    NavigationLink(destination: TimerView(dependency: .init(
                         isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
                         isManualBreakStartEnabled: self.isManualBreakStartEnabled,
                         focusTimeMin: self.focusTimeMin,

@@ -7,38 +7,42 @@
 
 import SwiftUI
 import ManagedSettings
+import ScreenTime
+import TimerRecord
+import ViewCommon
 
-struct TimerView: View {
+public struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel: TimerService
+    @StateObject private var viewModel: TimerService // TODO: rename
     @State private var resultFocusTimeSec: Int?
+    
+    private let focusColor: Color
+    private let breakColor: Color
 
-    init(args: Args) {
-        let timerManager = TimerManager(args: .init(
-            isManualBreakStartEnabled: args.isManualBreakStartEnabled,
-            focusTimeMin: args.focusTimeMin,
-            breakTimeMin: args.breakTimeMin
-        ))
-        self._viewModel = StateObject(wrappedValue: TimerService(
-            timerManager: timerManager,
-            focusColor: args.focusColor,
-            breakColor: args.breakColor,
+    public init(dependency: Dependency) {
+        self.focusColor = dependency.focusColor
+        self.breakColor = dependency.breakColor
+        
+        self._viewModel = StateObject(wrappedValue: .init(
+            isManualBreakStartEnabled: dependency.isManualBreakStartEnabled,
+            focusTimeMin: dependency.focusTimeMin,
+            breakTimeMin: dependency.breakTimeMin,
             screenTimeAPI: ScreenTimeAPI.shared,
-            restrictedApps: args.restrictedApps
+            restrictedApps: dependency.restrictedApps
         ))
     }
     
-    var body: some View {
+    public var body: some View {
         VStack {
             ZStack {
                 TimerCircle(color: Color(.gray).opacity(0.1))
                 TimerCircle(
-                    color: self.viewModel.modeColor,
-                    trimFrom: self.viewModel.trimFrom,
-                    trimTo: self.viewModel.trimTo
+                    color: modeColor,
+                    trimFrom: trimFrom,
+                    trimTo: trimTo
                 )
-                .animation(.smooth, value: self.viewModel.trimFrom)
-                .animation(.smooth, value: self.viewModel.trimTo)
+                .animation(.smooth, value: trimFrom)
+                .animation(.smooth, value: trimTo)
                 .rotationEffect(Angle(degrees: -90))
                 .shadow(radius: 10)
             }
@@ -55,13 +59,13 @@ struct TimerView: View {
                 HStack {
                     Text("Remaining Time")
                     Spacer()
-                    Text(self.viewModel.remainingTimeString)
+                    Text(remainingTimeString)
                 }
                 
                 HStack {
                     Text("Total Focus Time")
                     Spacer()
-                    Text(self.viewModel.totalFocusTimeString)
+                    Text(totalFocusTimeString)
                 }
             }
             
@@ -71,13 +75,13 @@ struct TimerView: View {
             } label: {
                 Text("Start Break").bold()
             }
-            .hidden(self.viewModel.timerMode != .additionalFocusMode)
+            .hidden(startBreakButtonDisabled)
             
             Button {
                 Self.hapticFeedback.impactOccurred()
                 self.viewModel.tapPlayButton()
             } label: {
-                Image(systemName: self.viewModel.timerButtonSystemName)
+                Image(systemName: timerButtonSystemName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 50)
@@ -104,7 +108,7 @@ struct TimerView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     // TODO: 確認アラートを挟む
-                    resultFocusTimeSec = viewModel.getTotalFocusTime()
+                    resultFocusTimeSec = viewModel.totalFocusTimeSec
                     viewModel.terminate()
 
                 } label: {
@@ -113,7 +117,7 @@ struct TimerView: View {
             }
         }
         .navigationDestination(item: $resultFocusTimeSec) {
-            AfterTimerView(resultFocusTimeSec: $0)
+            TimerRecordView(resultFocusTimeSec: $0)
         }
         .onAppear {
             self.viewModel.onAppear()
@@ -121,8 +125,39 @@ struct TimerView: View {
     }
 }
 
+// MARK: - computed properties
 extension TimerView {
-    struct Args {
+    private var modeColor: Color {
+        viewModel.timerMode == .focusMode ? focusColor : breakColor
+    }
+    
+    private var trimTo: CGFloat {
+        viewModel.timerMode == .breakMode ? CGFloat(1 - (CGFloat(viewModel.remainingTimeSec) / CGFloat(viewModel.maxTimeSec))) : 1
+    }
+    
+    private var trimFrom: CGFloat {
+        viewModel.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(viewModel.remainingTimeSec) / CGFloat(viewModel.maxTimeSec)))
+    }
+    
+    private var remainingTimeString: String {
+        "\(viewModel.remainingTimeSec / 60):\(String(format: "%02d", viewModel.remainingTimeSec % 60))"
+    }
+    
+    private var totalFocusTimeString: String {
+        "\(viewModel.totalFocusTimeSec / 60):\(String(format: "%02d", viewModel.totalFocusTimeSec % 60))"
+    }
+    
+    private var timerButtonSystemName: String {
+        viewModel.isRunning ? "pause.fill" : "play.fill"
+    }
+    
+    private var startBreakButtonDisabled: Bool {
+        viewModel.timerMode != .additionalFocusMode
+    }
+}
+
+extension TimerView {
+    public struct Dependency { // TODO: rename to Dependency
         let isBreakEndSoundEnabled: Bool
         let isManualBreakStartEnabled: Bool
         let focusTimeMin: Int
@@ -130,6 +165,24 @@ extension TimerView {
         let focusColor: Color
         let breakColor: Color
         let restrictedApps: Set<ApplicationToken>?
+        
+        public init(
+            isBreakEndSoundEnabled: Bool,
+            isManualBreakStartEnabled: Bool,
+            focusTimeMin: Int,
+            breakTimeMin: Int,
+            focusColor: Color,
+            breakColor: Color,
+            restrictedApps: Set<ApplicationToken>?
+        ) {
+            self.isBreakEndSoundEnabled = isBreakEndSoundEnabled
+            self.isManualBreakStartEnabled = isManualBreakStartEnabled
+            self.focusTimeMin = focusTimeMin
+            self.breakTimeMin = breakTimeMin
+            self.focusColor = focusColor
+            self.breakColor = breakColor
+            self.restrictedApps = restrictedApps
+        }
     }
 }
 
@@ -139,7 +192,7 @@ extension TimerView {
 
 #Preview {
     NavigationStack {
-        TimerView(args: .init(
+        TimerView(dependency: .init(
             isBreakEndSoundEnabled: true,
             isManualBreakStartEnabled: true,
             focusTimeMin: 25,
