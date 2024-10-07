@@ -63,10 +63,11 @@ public struct TimerView: View {
                     Spacer()
                     Text(totalFocusTimeString)
                 }
+                .foregroundStyle(totalFocusTimeDisplayColor)
             }
             
             Button {
-                Self.hapticFeedback.impactOccurred()
+                ExternalOutput.tapticFeedback()
                 self.timerService.tapBreakStartButton()
             } label: {
                 Text("Start Break").bold()
@@ -74,7 +75,7 @@ public struct TimerView: View {
             .hidden(startBreakButtonDisabled)
             
             Button {
-                Self.hapticFeedback.impactOccurred()
+                ExternalOutput.tapticFeedback()
                 self.timerService.tapPlayButton()
             } label: {
                 Image(systemName: timerButtonSystemName)
@@ -151,11 +152,15 @@ extension TimerView {
         timerService.timerMode != .additionalFocusMode
     }
     
+    private var totalFocusTimeDisplayColor: Color {
+        timerService.timerMode == .additionalFocusMode ? focusColor : Color(.label)
+    }
+    
     private var timerModeName: String {
         switch timerService.timerMode {
-        case .focusMode: "Focus Mode"
-        case .breakMode: "Break Mode"
-        case .additionalFocusMode: "Additional Focus Mode"
+        case .focusMode: String(localized: "Focus Mode")
+        case .breakMode: String(localized: "Break Mode")
+        case .additionalFocusMode: String(localized: "Additional Focus Mode")
         }
     }
 }
@@ -188,10 +193,6 @@ extension TimerView {
             self.restrictedApps = restrictedApps
         }
     }
-}
-
-extension TimerView {
-    static let hapticFeedback = UIImpactFeedbackGenerator(style: .light)
 }
 
 #Preview {
