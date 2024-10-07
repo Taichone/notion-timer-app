@@ -73,7 +73,7 @@ public struct TimerSettingView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: TimerView(args: .init(
+                    NavigationLink(destination: TimerView(dependency: .init(
                         isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
                         isManualBreakStartEnabled: self.isManualBreakStartEnabled,
                         focusTimeMin: self.focusTimeMin,

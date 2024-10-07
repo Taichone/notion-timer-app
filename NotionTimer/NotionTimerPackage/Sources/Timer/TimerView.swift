@@ -19,16 +19,16 @@ public struct TimerView: View {
     private let focusColor: Color
     private let breakColor: Color
 
-    public init(args: Args) {
-        self.focusColor = args.focusColor
-        self.breakColor = args.breakColor
+    public init(dependency: Dependency) {
+        self.focusColor = dependency.focusColor
+        self.breakColor = dependency.breakColor
         
         self._viewModel = StateObject(wrappedValue: .init(
-            isManualBreakStartEnabled: args.isManualBreakStartEnabled,
-            focusTimeMin: args.focusTimeMin,
-            breakTimeMin: args.breakTimeMin,
+            isManualBreakStartEnabled: dependency.isManualBreakStartEnabled,
+            focusTimeMin: dependency.focusTimeMin,
+            breakTimeMin: dependency.breakTimeMin,
             screenTimeAPI: ScreenTimeAPI.shared,
-            restrictedApps: args.restrictedApps
+            restrictedApps: dependency.restrictedApps
         ))
     }
     
@@ -157,7 +157,7 @@ extension TimerView {
 }
 
 extension TimerView {
-    public struct Args { // TODO: rename to Dependency
+    public struct Dependency { // TODO: rename to Dependency
         let isBreakEndSoundEnabled: Bool
         let isManualBreakStartEnabled: Bool
         let focusTimeMin: Int
@@ -169,7 +169,8 @@ extension TimerView {
         public init(
             isBreakEndSoundEnabled: Bool,
             isManualBreakStartEnabled: Bool,
-            focusTimeMin: Int, breakTimeMin: Int,
+            focusTimeMin: Int,
+            breakTimeMin: Int,
             focusColor: Color,
             breakColor: Color,
             restrictedApps: Set<ApplicationToken>?
@@ -191,7 +192,7 @@ extension TimerView {
 
 #Preview {
     NavigationStack {
-        TimerView(args: .init(
+        TimerView(dependency: .init(
             isBreakEndSoundEnabled: true,
             isManualBreakStartEnabled: true,
             focusTimeMin: 25,
