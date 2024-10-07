@@ -13,7 +13,7 @@ import ViewCommon
 
 public struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel: TimerService // TODO: rename
+    @StateObject private var timerService: TimerService // TODO: rename
     @State private var resultFocusTimeSec: Int?
     
     private let focusColor: Color
@@ -23,7 +23,7 @@ public struct TimerView: View {
         self.focusColor = dependency.focusColor
         self.breakColor = dependency.breakColor
         
-        self._viewModel = StateObject(wrappedValue: .init(
+        self._timerService = StateObject(wrappedValue: .init(
             isManualBreakStartEnabled: dependency.isManualBreakStartEnabled,
             focusTimeMin: dependency.focusTimeMin,
             breakTimeMin: dependency.breakTimeMin,
@@ -49,11 +49,7 @@ public struct TimerView: View {
             
             List {
                 HStack {
-                    Text({switch self.viewModel.timerMode {
-                        case .focusMode: "Focus Mode"
-                        case .breakMode: "Break Mode"
-                        case .additionalFocusMode: "Additional Focus Mode"
-                    }}())
+                    Text(timerModeName)
                 }
                 
                 HStack {
@@ -71,7 +67,7 @@ public struct TimerView: View {
             
             Button {
                 Self.hapticFeedback.impactOccurred()
-                self.viewModel.tapBreakStartButton()
+                self.timerService.tapBreakStartButton()
             } label: {
                 Text("Start Break").bold()
             }
@@ -79,7 +75,7 @@ public struct TimerView: View {
             
             Button {
                 Self.hapticFeedback.impactOccurred()
-                self.viewModel.tapPlayButton()
+                self.timerService.tapPlayButton()
             } label: {
                 Image(systemName: timerButtonSystemName)
                     .resizable()
@@ -96,7 +92,7 @@ public struct TimerView: View {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     // TODO: 確認アラートを挟む
-                    self.viewModel.terminate()
+                    self.timerService.terminate()
                     self.dismiss()
                 } label: {
                     HStack {
@@ -108,8 +104,8 @@ public struct TimerView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     // TODO: 確認アラートを挟む
-                    resultFocusTimeSec = viewModel.totalFocusTimeSec
-                    viewModel.terminate()
+                    resultFocusTimeSec = timerService.totalFocusTimeSec
+                    timerService.terminate()
 
                 } label: {
                     Text("Done")
@@ -120,7 +116,7 @@ public struct TimerView: View {
             TimerRecordView(resultFocusTimeSec: $0)
         }
         .onAppear {
-            self.viewModel.onAppear()
+            self.timerService.onAppear()
         }
     }
 }
@@ -128,31 +124,39 @@ public struct TimerView: View {
 // MARK: - computed properties
 extension TimerView {
     private var modeColor: Color {
-        viewModel.timerMode == .focusMode ? focusColor : breakColor
+        timerService.timerMode == .focusMode ? focusColor : breakColor
     }
     
     private var trimTo: CGFloat {
-        viewModel.timerMode == .breakMode ? CGFloat(1 - (CGFloat(viewModel.remainingTimeSec) / CGFloat(viewModel.maxTimeSec))) : 1
+        timerService.timerMode == .breakMode ? CGFloat(1 - (CGFloat(timerService.remainingTimeSec) / CGFloat(timerService.maxTimeSec))) : 1
     }
     
     private var trimFrom: CGFloat {
-        viewModel.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(viewModel.remainingTimeSec) / CGFloat(viewModel.maxTimeSec)))
+        timerService.timerMode == .breakMode ? 0 : CGFloat(1 - (CGFloat(timerService.remainingTimeSec) / CGFloat(timerService.maxTimeSec)))
     }
     
     private var remainingTimeString: String {
-        "\(viewModel.remainingTimeSec / 60):\(String(format: "%02d", viewModel.remainingTimeSec % 60))"
+        "\(timerService.remainingTimeSec / 60):\(String(format: "%02d", timerService.remainingTimeSec % 60))"
     }
     
     private var totalFocusTimeString: String {
-        "\(viewModel.totalFocusTimeSec / 60):\(String(format: "%02d", viewModel.totalFocusTimeSec % 60))"
+        "\(timerService.totalFocusTimeSec / 60):\(String(format: "%02d", timerService.totalFocusTimeSec % 60))"
     }
     
     private var timerButtonSystemName: String {
-        viewModel.isRunning ? "pause.fill" : "play.fill"
+        timerService.isRunning ? "pause.fill" : "play.fill"
     }
     
     private var startBreakButtonDisabled: Bool {
-        viewModel.timerMode != .additionalFocusMode
+        timerService.timerMode != .additionalFocusMode
+    }
+    
+    private var timerModeName: String {
+        switch timerService.timerMode {
+        case .focusMode: "Focus Mode"
+        case .breakMode: "Break Mode"
+        case .additionalFocusMode: "Additional Focus Mode"
+        }
     }
 }
 
