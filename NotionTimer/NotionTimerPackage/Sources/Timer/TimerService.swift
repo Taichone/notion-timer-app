@@ -10,16 +10,16 @@ import ManagedSettings // TODO: これも ScreenTime に隠蔽したい（Set<Ap
 import ScreenTime
 
 @MainActor
-final class TimerService: ObservableObject {
+public final class TimerService: ObservableObject {
     // Dependency
-    private let isManualBreakStartEnabled: Bool
-    private let focusTimeSec: Int
-    private let breakTimeSec: Int
-    private let screenTimeAPI: ScreenTimeAPIProtocol
-    private let restrictedApps: Set<ApplicationToken>?
+    let isManualBreakStartEnabled: Bool
+    let focusTimeSec: Int
+    let breakTimeSec: Int
+    let screenTimeAPI: ScreenTimeAPIProtocol
+    let restrictedApps: Set<ApplicationToken>?
     
     // Timer status
-    private var timer: Timer?
+    var timer: Timer?
     @Published var timerMode: Mode
     @Published var maxTimeSec: Int = 0
     @Published var remainingTimeSec: Int = 0
@@ -30,8 +30,8 @@ final class TimerService: ObservableObject {
         isManualBreakStartEnabled: Bool,
         focusTimeMin: Int,
         breakTimeMin: Int,
-        screenTimeAPI: ScreenTimeAPIProtocol,
-        restrictedApps: Set<ApplicationToken>?
+        screenTimeAPI: ScreenTimeAPIProtocol = ScreenTimeAPI.shared,
+        restrictedApps: Set<ApplicationToken>? = nil
     ) {
         self.isManualBreakStartEnabled = isManualBreakStartEnabled
         self.focusTimeSec = focusTimeMin * 60
@@ -72,13 +72,13 @@ extension TimerService {
 }
 
 extension TimerService {
-    private func endAdditionalFocusAndStartBreak() {
+    func endAdditionalFocusAndStartBreak() {
         stopTimer()
         changeToBreakMode()
         startTimer()
     }
     
-    private func tickInFocusMode() {
+    func tickInFocusMode() {
         if remainingTimeSec > 0 {
             remainingTimeSec -= 1
             totalFocusTimeSec += 1
@@ -89,11 +89,11 @@ extension TimerService {
         }
     }
     
-    private func tickInAdditionalFocusMode() {
+    func tickInAdditionalFocusMode() {
         totalFocusTimeSec += 1
     }
     
-    private func tickInBreakMode() {
+    func tickInBreakMode() {
         if remainingTimeSec > 0 {
             remainingTimeSec -= 1
         } else {
@@ -103,29 +103,29 @@ extension TimerService {
         }
     }
     
-    private func stopTimer() {
+    func stopTimer() {
         isRunning = false
         timer?.invalidate()
         timer = nil
     }
     
-    private func changeToFocusMode() {
+    func changeToFocusMode() {
         timerMode = .focusMode
         maxTimeSec = focusTimeSec
         remainingTimeSec = focusTimeSec
     }
     
-    private func changeToAdditionalFocusMode() {
+    func changeToAdditionalFocusMode() {
         timerMode = .additionalFocusMode
     }
     
-    private func changeToBreakMode() {
+    func changeToBreakMode() {
         timerMode = .breakMode
         maxTimeSec = breakTimeSec
         remainingTimeSec = breakTimeSec
     }
     
-    private func startTimer() {
+    func startTimer() {
         isRunning = true
         
         switch timerMode {

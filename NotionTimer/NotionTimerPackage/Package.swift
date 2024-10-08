@@ -42,5 +42,9 @@ let package = Package(
             name: "TimerSetting",
             dependencies: ["ScreenTime", "Timer"]
         ),
+        .testTarget(
+            name: "TimerTests",
+            dependencies: ["Timer"]
+        ),
     ]
 )
