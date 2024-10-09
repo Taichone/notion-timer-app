@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "NotionTimerPackage",
+    defaultLocalization: "ja",
     platforms: [
         .iOS(.v17),
     ],
