@@ -8,14 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		52775BFA2CA936510093CC0F /* TimerSetting in Frameworks */ = {isa = PBXBuildFile; productRef = 52775BF92CA936510093CC0F /* TimerSetting */; };
-		52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 52950C312C72559400D62CD0 /* Localizable.xcstrings */; };
 		5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5472C66819D001C243E /* NotionTimerApp.swift */; };
 		5297A54C2C66819E001C243E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54B2C66819E001C243E /* Assets.xcassets */; };
 		5297A54F2C66819E001C243E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54E2C66819E001C243E /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		52950C312C72559400D62CD0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		525174E12CBD05E8006C241E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		52950C332C72603C00D62CD0 /* NotionTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotionTimer.entitlements; sourceTree = "<group>"; };
 		5297A5442C66819D001C243E /* NotionTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotionTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5297A5472C66819D001C243E /* NotionTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionTimerApp.swift; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		5297A5462C66819D001C243E /* NotionTimer */ = {
 			isa = PBXGroup;
 			children = (
+				525174E12CBD05E8006C241E /* Info.plist */,
 				52950C332C72603C00D62CD0 /* NotionTimer.entitlements */,
 				5297A5472C66819D001C243E /* NotionTimerApp.swift */,
 				5297A5742C6B06B2001C243E /* Resources */,
@@ -82,7 +82,6 @@
 			children = (
 				5297A54D2C66819E001C243E /* Preview Content */,
 				5297A54B2C66819E001C243E /* Assets.xcassets */,
-				52950C312C72559400D62CD0 /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -153,7 +152,6 @@
 			files = (
 				5297A54F2C66819E001C243E /* Preview Assets.xcassets in Resources */,
 				5297A54C2C66819E001C243E /* Assets.xcassets in Resources */,
-				52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +300,7 @@
 				DEVELOPMENT_TEAM = PBBV5BVMZD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotionTimer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -332,6 +331,7 @@
 				DEVELOPMENT_TEAM = PBBV5BVMZD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotionTimer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
