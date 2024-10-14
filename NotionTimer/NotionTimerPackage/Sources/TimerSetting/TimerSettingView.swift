@@ -33,36 +33,36 @@ public struct TimerSettingView: View {
         NavigationStack {
             Form {
                 Section {
-                    Picker("Focus Time", selection: self.$focusTimeMin) {
+                    Picker(String(moduleLocalized: "focus-time"), selection: self.$focusTimeMin) {
                         ForEach(1..<91) { minute in
-                            (Text("\(minute) ") + Text("min")).tag(minute)
+                            (Text("\(minute) ") + Text(String(moduleLocalized: "min"))).tag(minute)
                         }
                     }.pickerStyle(.navigationLink)
-                    Picker("Break Time", selection: self.$breakTimeMin) {
+                    Picker(String(moduleLocalized: "break-time"), selection: self.$breakTimeMin) {
                         ForEach(1..<91) { minute in
-                            (Text("\(minute) ") + Text("min")).tag(minute)
+                            (Text("\(minute) ") + Text(String(localized: "min", bundle: .module))).tag(minute)
                         }
                     }.pickerStyle(.navigationLink)
                 }
 
                 Section {
                     Toggle(isOn: self.$isBreakEndSoundEnabled) {
-                        Text("Enable Sound At Break End")
+                        Text(String(moduleLocalized: "enable-sound-at-break-end"))
                     }
                     Toggle(isOn: self.$isManualBreakStartEnabled) {
-                        Text("Start Break Time Manually")
+                        Text(String(moduleLocalized: "start-break-time-manually"))
                     }
-                    ColorPicker("Focus Time Color", selection: self.$focusColor)
-                    ColorPicker("Break Time Color", selection: self.$breakColor)
+                    ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
+                    ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
                 }
 
                 Button {
                     self.isFamilyActivityPickerPresented = true
                 } label: {
-                    Text("Select Apps to Restrict")
+                    Text(String(moduleLocalized: "select-apps-to-restrict"))
                 }
             }
-            .navigationTitle("Timer Setting")
+            .navigationTitle(String(moduleLocalized: "timer-setting"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -82,7 +82,7 @@ public struct TimerSettingView: View {
                         breakColor: self.breakColor,
                         restrictedApps: self.restrictedApps.applicationTokens
                     ))) {
-                        Text("OK")
+                        Text(String(moduleLocalized: "ok"))
                     }
                 }
             }

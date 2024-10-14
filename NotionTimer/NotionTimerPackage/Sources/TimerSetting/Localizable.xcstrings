@@ -1,21 +1,33 @@
 {
-  "sourceLanguage" : "en",
+  "sourceLanguage" : "ja",
   "strings" : {
     "%lld " : {
 
     },
-    "Break Time" : {
+    "break-time" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Break Time"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "休憩モード"
+            "value" : "休憩時間"
           }
         }
       }
     },
-    "Break Time Color" : {
+    "break-time-color" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Break Time Color"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24,8 +36,14 @@
         }
       }
     },
-    "Enable Sound At Break End" : {
+    "enable-sound-at-break-end" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable Sound At Break End"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34,8 +52,14 @@
         }
       }
     },
-    "Focus Time" : {
+    "focus-time" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus Time"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -44,8 +68,14 @@
         }
       }
     },
-    "Focus Time Color" : {
+    "focus-time-color" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus Time Color"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -56,6 +86,12 @@
     },
     "min" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -64,18 +100,30 @@
         }
       }
     },
-    "OK" : {
+    "ok" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "決定"
+            "value" : "OK"
           }
         }
       }
     },
-    "Select Apps to Restrict" : {
+    "select-apps-to-restrict" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Apps to Restrict"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -84,8 +132,14 @@
         }
       }
     },
-    "Start Break Time Manually" : {
+    "start-break-time-manually" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Break Time Manually"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -94,8 +148,14 @@
         }
       }
     },
-    "Timer Setting" : {
+    "timer-setting" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer Setting"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",

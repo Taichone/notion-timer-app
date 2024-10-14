@@ -53,13 +53,13 @@ public struct TimerView: View {
                 }
                 
                 HStack {
-                    Text("Remaining Time")
+                    Text(String(moduleLocalized: "remaining-time"))
                     Spacer()
                     Text(remainingTimeString)
                 }
                 
                 HStack {
-                    Text("Total Focus Time")
+                    Text(String(moduleLocalized: "total-focus-time"))
                     Spacer()
                     Text(totalFocusTimeString)
                 }
@@ -70,7 +70,7 @@ public struct TimerView: View {
                 ExternalOutput.tapticFeedback()
                 self.timerService.tapBreakStartButton()
             } label: {
-                Text("Start Break").bold()
+                Text(String(moduleLocalized: "start-break")).bold()
             }
             .hidden(startBreakButtonDisabled)
             
@@ -87,7 +87,7 @@ public struct TimerView: View {
         }
         .background(Color(.systemGroupedBackground)) // List 背景色に合わせる
         .navigationBarBackButtonHidden(true)
-        .navigationTitle("Timer")
+        .navigationTitle(String(moduleLocalized: "timer"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -98,7 +98,7 @@ public struct TimerView: View {
                 } label: {
                     HStack {
                         Image(systemName: "chevron.left")
-                        Text("Cancel")
+                        Text(String(moduleLocalized: "cancel"))
                     }
                 }
             }
@@ -109,7 +109,7 @@ public struct TimerView: View {
                     timerService.terminate()
 
                 } label: {
-                    Text("Done")
+                    Text(String(moduleLocalized: "done"))
                 }
             }
         }
@@ -158,9 +158,9 @@ extension TimerView {
     
     private var timerModeName: String {
         switch timerService.timerMode {
-        case .focusMode: String(localized: "Focus Mode")
-        case .breakMode: String(localized: "Break Mode")
-        case .additionalFocusMode: String(localized: "Additional Focus Mode")
+        case .focusMode: String(moduleLocalized: "focus-mode")
+        case .breakMode: String(moduleLocalized: "break-mode")
+        case .additionalFocusMode: String(moduleLocalized: "additional-focus-mode")
         }
     }
 }

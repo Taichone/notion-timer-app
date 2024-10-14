@@ -1,91 +1,145 @@
 {
-  "sourceLanguage" : "en",
+  "sourceLanguage" : "ja",
   "strings" : {
-    "Additional Focus Mode" : {
+    "additional-focus-mode" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Additional Focus Mode"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "集中継続モード"
           }
         }
       }
     },
-    "Break Mode" : {
+    "break-mode" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Break Mode"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "休憩モード"
           }
         }
       }
     },
-    "Cancel" : {
+    "cancel" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Cancel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "キャンセル"
           }
         }
       }
     },
-    "Done" : {
+    "done" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Done"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "完了"
           }
         }
       }
     },
-    "Focus Mode" : {
+    "focus-mode" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Focus Mode"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "集中モード"
           }
         }
       }
     },
-    "Remaining Time" : {
+    "remaining-time" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Remaining Time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "残り時間"
           }
         }
       }
     },
-    "Start Break" : {
+    "start-break" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Start Break"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "休憩開始"
           }
         }
       }
     },
-    "Timer" : {
+    "timer" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Timer"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "タイマー"
           }
         }
       }
     },
-    "Total Focus Time" : {
+    "total-focus-time" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Total Focus Time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "合計集中時間"
           }
         }
