@@ -26,7 +26,7 @@ let package = Package(
             name: "Timer",
             dependencies: ["ScreenTime", "TimerRecord", "ViewCommon"],
             resources: [
-                .process("Localizable.xcstrings")
+                .process("Resources/Localizable.xcstrings")
             ]
         ),
         .target(
@@ -41,7 +41,7 @@ let package = Package(
             name: "TimerSetting",
             dependencies: ["ScreenTime", "Timer"],
             resources: [
-                .process("Localizable.xcstrings")
+                .process("Resources/Localizable.xcstrings")
             ]
         ),
         .testTarget(
