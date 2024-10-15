@@ -1,7 +1,17 @@
 {
   "sourceLanguage" : "ja",
   "strings" : {
-    "%lld " : {
+    ":" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ":"
+          }
+        }
+      }
+    },
+    "%lld" : {
 
     },
     "break-time" : {
@@ -32,6 +42,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "休憩カラー"
+          }
+        }
+      }
+    },
+    "break-time-picker-title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BreakTime"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休憩時間（分 : 秒）"
+          }
+        }
+      }
+    },
+    "cancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャンセル"
           }
         }
       }
@@ -84,6 +126,22 @@
         }
       }
     },
+    "focus-time-picker-title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus Time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集中時間（分 : 秒）"
+          }
+        }
+      }
+    },
     "min" : {
       "localizations" : {
         "en" : {
@@ -112,6 +170,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "sec" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sec"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒"
           }
         }
       }
