@@ -13,12 +13,30 @@ enum TimerNavigationPath {
     case setting, timer, record
 }
 
+enum TimerSettingSheetType: String, Identifiable {
+    case focusTimePicker
+    case breakTimePicker
+    
+    var id: String { self.rawValue }
+    var title: String {
+        switch self {
+        case .focusTimePicker:
+            String(moduleLocalized: "focus-time-picker-title")
+        case .breakTimePicker:
+            String(moduleLocalized: "break-time-picker-title")
+        }
+    }
+}
+
 public struct TimerSettingView: View {
+    // Timer
+    @AppStorage(wrappedValue: 1500, "focusTimeSec") private var focusTimeSec
+    @AppStorage(wrappedValue: 300, "breakTimeSec") private var breakTimeSec
+    @State private var sheetType: TimerSettingSheetType?
+    
+    // Color
     @AppStorage(wrappedValue: false, "isBreakEndSoundEnabled") private var isBreakEndSoundEnabled
     @AppStorage(wrappedValue: true, "isManualBreakStartEnabled") private var isManualBreakStartEnabled
-    @AppStorage(wrappedValue: 25, "focusTimeMin") private var focusTimeMin
-    @AppStorage(wrappedValue: 5, "breakTimeMin") private var breakTimeMin
-
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.blue
 
@@ -33,56 +51,58 @@ public struct TimerSettingView: View {
         NavigationStack {
             Form {
                 Section {
-                    Picker("Focus Time", selection: self.$focusTimeMin) {
-                        ForEach(1..<91) { minute in
-                            (Text("\(minute) ") + Text("min")).tag(minute)
+                    HStack {
+                        Text(String(moduleLocalized: "focus-time"))
+                        Spacer()
+                        Button {
+                            sheetType = .focusTimePicker
+                        } label: {
+                            Text(String(focusTimeString))
                         }
-                    }.pickerStyle(.navigationLink)
-                    Picker("Break Time", selection: self.$breakTimeMin) {
-                        ForEach(1..<91) { minute in
-                            (Text("\(minute) ") + Text("min")).tag(minute)
+                    }
+                    
+                    HStack {
+                        Text(String(moduleLocalized: "break-time"))
+                        Spacer()
+                        Button {
+                            sheetType = .breakTimePicker
+                        } label: {
+                            Text(String(breakTimeString))
                         }
-                    }.pickerStyle(.navigationLink)
+                    }
                 }
 
                 Section {
                     Toggle(isOn: self.$isBreakEndSoundEnabled) {
-                        Text("Enable Sound At Break End")
+                        Text(String(moduleLocalized: "enable-sound-at-break-end"))
                     }
                     Toggle(isOn: self.$isManualBreakStartEnabled) {
-                        Text("Start Break Time Manually")
+                        Text(String(moduleLocalized: "start-break-time-manually"))
                     }
-                    ColorPicker("Focus Time Color", selection: self.$focusColor)
-                    ColorPicker("Break Time Color", selection: self.$breakColor)
+                    ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
+                    ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
                 }
 
                 Button {
                     self.isFamilyActivityPickerPresented = true
                 } label: {
-                    Text("Select Apps to Restrict")
+                    Text(String(moduleLocalized: "select-apps-to-restrict"))
                 }
             }
-            .navigationTitle("Timer Setting")
+            .navigationTitle(String(moduleLocalized: "timer-setting"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        print("Tapped Setting Button")
-                    } label: {
-                        Image(systemName: "line.3.horizontal")
-                    }
-                }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: TimerView(dependency: .init(
                         isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
                         isManualBreakStartEnabled: self.isManualBreakStartEnabled,
-                        focusTimeMin: self.focusTimeMin,
-                        breakTimeMin: self.focusTimeMin,
+                        focusTimeSec: self.focusTimeSec,
+                        breakTimeSec: self.breakTimeSec,
                         focusColor: self.focusColor,
                         breakColor: self.breakColor,
                         restrictedApps: self.restrictedApps.applicationTokens
                     ))) {
-                        Text("OK")
+                        Text(String(moduleLocalized: "ok"))
                     }
                 }
             }
@@ -93,7 +113,28 @@ public struct TimerSettingView: View {
             .task {
                 self.screenTimeAPI.stopAppRestriction()
             }
+            .sheet(item: $sheetType) { type in
+                switch type {
+                case .focusTimePicker:
+                    TimePickerView(sec: $focusTimeSec, title: type.title)
+                        .presentationDetents([.medium])
+                case .breakTimePicker:
+                    TimePickerView(sec: $breakTimeSec, title: type.title)
+                        .presentationDetents([.medium])
+                }
+                    
+            }
         }
+    }
+}
+
+extension TimerSettingView {
+    private var focusTimeString: String {
+        "\(focusTimeSec / 60):\(String(format: "%02d", focusTimeSec % 60))"
+    }
+    
+    private var breakTimeString: String {
+        "\(breakTimeSec / 60):\(String(format: "%02d", breakTimeSec % 60))"
     }
 }
 

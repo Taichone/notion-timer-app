@@ -1,31 +1,27 @@
 {
-  "sourceLanguage" : "en",
+  "sourceLanguage" : "ja",
   "strings" : {
-    "Additional Focus Mode" : {
-      "extractionState" : "stale",
+    ":" : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "集中継続モード"
+            "value" : ":"
           }
         }
       }
     },
-    "Break Mode" : {
-      "extractionState" : "stale",
+    "%lld" : {
+
+    },
+    "break-time" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "休憩モード"
+            "value" : "Break Time"
           }
-        }
-      }
-    },
-    "Break Time" : {
-      "extractionState" : "stale",
-      "localizations" : {
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34,9 +30,14 @@
         }
       }
     },
-    "Break Time Color" : {
-      "extractionState" : "stale",
+    "break-time-color" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Break Time Color"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -45,9 +46,30 @@
         }
       }
     },
-    "Cancel" : {
-      "extractionState" : "stale",
+    "break-time-picker-title" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BreakTime"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休憩時間（分 : 秒）"
+          }
+        }
+      }
+    },
+    "cancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -56,20 +78,14 @@
         }
       }
     },
-    "Done" : {
-      "extractionState" : "stale",
+    "enable-sound-at-break-end" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "完了"
+            "value" : "Enable Sound At Break End"
           }
-        }
-      }
-    },
-    "Enable Sound At Break End" : {
-      "extractionState" : "stale",
-      "localizations" : {
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -78,20 +94,14 @@
         }
       }
     },
-    "Focus Mode" : {
-      "extractionState" : "stale",
+    "focus-time" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "集中モード"
+            "value" : "Focus Time"
           }
-        }
-      }
-    },
-    "Focus Time" : {
-      "extractionState" : "stale",
-      "localizations" : {
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -100,9 +110,14 @@
         }
       }
     },
-    "Focus Time Color" : {
-      "extractionState" : "stale",
+    "focus-time-color" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus Time Color"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -111,9 +126,30 @@
         }
       }
     },
-    "min" : {
-      "extractionState" : "stale",
+    "focus-time-picker-title" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus Time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集中時間（分 : 秒）"
+          }
+        }
+      }
+    },
+    "min" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -122,31 +158,46 @@
         }
       }
     },
-    "OK" : {
-      "extractionState" : "stale",
+    "ok" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "決定"
+            "value" : "OK"
           }
         }
       }
     },
-    "Remaining Time" : {
-      "extractionState" : "stale",
+    "sec" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sec"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "残り時間"
+            "value" : "秒"
           }
         }
       }
     },
-    "Select Apps to Restrict" : {
-      "extractionState" : "stale",
+    "select-apps-to-restrict" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Apps to Restrict"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -155,20 +206,14 @@
         }
       }
     },
-    "Start Break" : {
-      "extractionState" : "stale",
+    "start-break-time-manually" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "休憩開始"
+            "value" : "Start Break Time Manually"
           }
-        }
-      }
-    },
-    "Start Break Time Manually" : {
-      "extractionState" : "stale",
-      "localizations" : {
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -177,35 +222,18 @@
         }
       }
     },
-    "Timer" : {
-      "extractionState" : "stale",
+    "timer-setting" : {
       "localizations" : {
-        "ja" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "タイマー"
+            "value" : "Timer Setting"
           }
-        }
-      }
-    },
-    "Timer Setting" : {
-      "extractionState" : "stale",
-      "localizations" : {
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "タイマー設定"
-          }
-        }
-      }
-    },
-    "Total Focus Time" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "合計集中時間"
           }
         }
       }

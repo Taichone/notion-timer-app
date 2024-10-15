@@ -8,38 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		52775BFA2CA936510093CC0F /* TimerSetting in Frameworks */ = {isa = PBXBuildFile; productRef = 52775BF92CA936510093CC0F /* TimerSetting */; };
-		52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 52950C312C72559400D62CD0 /* Localizable.xcstrings */; };
 		5297A5482C66819D001C243E /* NotionTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A5472C66819D001C243E /* NotionTimerApp.swift */; };
 		5297A54C2C66819E001C243E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54B2C66819E001C243E /* Assets.xcassets */; };
 		5297A54F2C66819E001C243E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5297A54E2C66819E001C243E /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5297A5552C66819E001C243E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5297A53C2C66819D001C243E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5297A5432C66819D001C243E;
-			remoteInfo = NotionTimer;
-		};
-		5297A55F2C66819E001C243E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5297A53C2C66819D001C243E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5297A5432C66819D001C243E;
-			remoteInfo = NotionTimer;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		52950C312C72559400D62CD0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		525174E12CBD05E8006C241E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		52950C332C72603C00D62CD0 /* NotionTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotionTimer.entitlements; sourceTree = "<group>"; };
 		5297A5442C66819D001C243E /* NotionTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotionTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5297A5472C66819D001C243E /* NotionTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionTimerApp.swift; sourceTree = "<group>"; };
 		5297A54B2C66819E001C243E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5297A54E2C66819E001C243E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		5297A5542C66819E001C243E /* NotionTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotionTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5297A55E2C66819E001C243E /* NotionTimerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotionTimerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,20 +28,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				52775BFA2CA936510093CC0F /* TimerSetting in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5297A5512C66819E001C243E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5297A55B2C66819E001C243E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,8 +54,6 @@
 			isa = PBXGroup;
 			children = (
 				5297A5442C66819D001C243E /* NotionTimer.app */,
-				5297A5542C66819E001C243E /* NotionTimerTests.xctest */,
-				5297A55E2C66819E001C243E /* NotionTimerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +61,7 @@
 		5297A5462C66819D001C243E /* NotionTimer */ = {
 			isa = PBXGroup;
 			children = (
+				525174E12CBD05E8006C241E /* Info.plist */,
 				52950C332C72603C00D62CD0 /* NotionTimer.entitlements */,
 				5297A5472C66819D001C243E /* NotionTimerApp.swift */,
 				5297A5742C6B06B2001C243E /* Resources */,
@@ -117,7 +82,6 @@
 			children = (
 				5297A54D2C66819E001C243E /* Preview Content */,
 				5297A54B2C66819E001C243E /* Assets.xcassets */,
-				52950C312C72559400D62CD0 /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -145,42 +109,6 @@
 			productReference = 5297A5442C66819D001C243E /* NotionTimer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5297A5532C66819E001C243E /* NotionTimerTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5297A56B2C66819E001C243E /* Build configuration list for PBXNativeTarget "NotionTimerTests" */;
-			buildPhases = (
-				5297A5502C66819E001C243E /* Sources */,
-				5297A5512C66819E001C243E /* Frameworks */,
-				5297A5522C66819E001C243E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5297A5562C66819E001C243E /* PBXTargetDependency */,
-			);
-			name = NotionTimerTests;
-			productName = NotionTimerTests;
-			productReference = 5297A5542C66819E001C243E /* NotionTimerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		5297A55D2C66819E001C243E /* NotionTimerUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5297A56E2C66819E001C243E /* Build configuration list for PBXNativeTarget "NotionTimerUITests" */;
-			buildPhases = (
-				5297A55A2C66819E001C243E /* Sources */,
-				5297A55B2C66819E001C243E /* Frameworks */,
-				5297A55C2C66819E001C243E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5297A5602C66819E001C243E /* PBXTargetDependency */,
-			);
-			name = NotionTimerUITests;
-			productName = NotionTimerUITests;
-			productReference = 5297A55E2C66819E001C243E /* NotionTimerUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -193,14 +121,6 @@
 				TargetAttributes = {
 					5297A5432C66819D001C243E = {
 						CreatedOnToolsVersion = 15.4;
-					};
-					5297A5532C66819E001C243E = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = 5297A5432C66819D001C243E;
-					};
-					5297A55D2C66819E001C243E = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = 5297A5432C66819D001C243E;
 					};
 				};
 			};
@@ -221,8 +141,6 @@
 			projectRoot = "";
 			targets = (
 				5297A5432C66819D001C243E /* NotionTimer */,
-				5297A5532C66819E001C243E /* NotionTimerTests */,
-				5297A55D2C66819E001C243E /* NotionTimerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -234,21 +152,6 @@
 			files = (
 				5297A54F2C66819E001C243E /* Preview Assets.xcassets in Resources */,
 				5297A54C2C66819E001C243E /* Assets.xcassets in Resources */,
-				52950C322C72559400D62CD0 /* Localizable.xcstrings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5297A5522C66819E001C243E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5297A55C2C66819E001C243E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,34 +166,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5297A5502C66819E001C243E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5297A55A2C66819E001C243E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5297A5562C66819E001C243E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5297A5432C66819D001C243E /* NotionTimer */;
-			targetProxy = 5297A5552C66819E001C243E /* PBXContainerItemProxy */;
-		};
-		5297A5602C66819E001C243E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5297A5432C66819D001C243E /* NotionTimer */;
-			targetProxy = 5297A55F2C66819E001C243E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5297A5662C66819E001C243E /* Debug */ = {
@@ -424,6 +300,7 @@
 				DEVELOPMENT_TEAM = PBBV5BVMZD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotionTimer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,6 +331,7 @@
 				DEVELOPMENT_TEAM = PBBV5BVMZD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotionTimer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -469,74 +347,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		5297A56C2C66819E001C243E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.taichone.NotionTimerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NotionTimer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NotionTimer";
-			};
-			name = Debug;
-		};
-		5297A56D2C66819E001C243E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.taichone.NotionTimerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NotionTimer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NotionTimer";
-			};
-			name = Release;
-		};
-		5297A56F2C66819E001C243E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.taichone.NotionTimerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = NotionTimer;
-			};
-			name = Debug;
-		};
-		5297A5702C66819E001C243E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.taichone.NotionTimerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = NotionTimer;
 			};
 			name = Release;
 		};
@@ -557,24 +367,6 @@
 			buildConfigurations = (
 				5297A5692C66819E001C243E /* Debug */,
 				5297A56A2C66819E001C243E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5297A56B2C66819E001C243E /* Build configuration list for PBXNativeTarget "NotionTimerTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5297A56C2C66819E001C243E /* Debug */,
-				5297A56D2C66819E001C243E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5297A56E2C66819E001C243E /* Build configuration list for PBXNativeTarget "NotionTimerUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5297A56F2C66819E001C243E /* Debug */,
-				5297A5702C66819E001C243E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
