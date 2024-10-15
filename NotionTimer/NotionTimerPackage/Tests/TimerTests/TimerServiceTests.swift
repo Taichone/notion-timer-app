@@ -6,8 +6,8 @@ struct TimerServiceTests {
     func service(isManualBreakStartEnabled: Bool = true) -> TimerService {
         return .init(
             isManualBreakStartEnabled: isManualBreakStartEnabled,
-            focusTimeMin: 0,
-            breakTimeMin: 0
+            focusTimeSec: 0,
+            breakTimeSec: 0
         )
     }
     

@@ -25,8 +25,8 @@ public struct TimerView: View {
         
         self._timerService = StateObject(wrappedValue: .init(
             isManualBreakStartEnabled: dependency.isManualBreakStartEnabled,
-            focusTimeMin: dependency.focusTimeMin,
-            breakTimeMin: dependency.breakTimeMin,
+            focusTimeSec: dependency.focusTimeSec,
+            breakTimeSec: dependency.breakTimeSec,
             screenTimeAPI: ScreenTimeAPI.shared,
             restrictedApps: dependency.restrictedApps
         ))
@@ -166,11 +166,11 @@ extension TimerView {
 }
 
 extension TimerView {
-    public struct Dependency { // TODO: rename to Dependency
+    public struct Dependency {
         let isBreakEndSoundEnabled: Bool
         let isManualBreakStartEnabled: Bool
-        let focusTimeMin: Int
-        let breakTimeMin: Int
+        let focusTimeSec: Int
+        let breakTimeSec: Int
         let focusColor: Color
         let breakColor: Color
         let restrictedApps: Set<ApplicationToken>?
@@ -178,16 +178,16 @@ extension TimerView {
         public init(
             isBreakEndSoundEnabled: Bool,
             isManualBreakStartEnabled: Bool,
-            focusTimeMin: Int,
-            breakTimeMin: Int,
+            focusTimeSec: Int,
+            breakTimeSec: Int,
             focusColor: Color,
             breakColor: Color,
             restrictedApps: Set<ApplicationToken>?
         ) {
             self.isBreakEndSoundEnabled = isBreakEndSoundEnabled
             self.isManualBreakStartEnabled = isManualBreakStartEnabled
-            self.focusTimeMin = focusTimeMin
-            self.breakTimeMin = breakTimeMin
+            self.focusTimeSec = focusTimeSec
+            self.breakTimeSec = breakTimeSec
             self.focusColor = focusColor
             self.breakColor = breakColor
             self.restrictedApps = restrictedApps
@@ -200,8 +200,8 @@ extension TimerView {
         TimerView(dependency: .init(
             isBreakEndSoundEnabled: true,
             isManualBreakStartEnabled: true,
-            focusTimeMin: 25,
-            breakTimeMin: 5,
+            focusTimeSec: 1500,
+            breakTimeSec: 300,
             focusColor: .mint,
             breakColor: .pink,
             restrictedApps: nil
