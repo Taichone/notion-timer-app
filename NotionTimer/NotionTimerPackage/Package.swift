@@ -16,7 +16,7 @@ let package = Package(
     targets: [
         .target(
             name: "Root",
-            dependencies: ["TimerSetting", "ViewCommon"]
+            dependencies: ["TimerSetting", "Common"]
         ),
         .target(
             name: "Record",
@@ -28,7 +28,7 @@ let package = Package(
         ),
         .target(
             name: "Timer",
-            dependencies: ["ScreenTime", "TimerRecord", "ViewCommon"],
+            dependencies: ["ScreenTime", "TimerRecord", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
@@ -38,7 +38,7 @@ let package = Package(
             dependencies: ["Record"]
         ),
         .target(
-            name: "ViewCommon",
+            name: "Common",
             dependencies: []
         ),
         .target(

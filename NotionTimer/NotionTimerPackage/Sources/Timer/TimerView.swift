@@ -9,7 +9,7 @@ import SwiftUI
 import ManagedSettings
 import ScreenTime
 import TimerRecord
-import ViewCommon
+import Common
 
 public struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
@@ -85,7 +85,6 @@ public struct TimerView: View {
             }
             .padding()
         }
-        .background(Color(.systemGroupedBackground)) // List 背景色に合わせる
         .navigationBarBackButtonHidden(true)
         .navigationTitle(String(moduleLocalized: "timer"))
         .navigationBarTitleDisplayMode(.inline)

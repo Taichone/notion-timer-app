@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 import TimerSetting
 import Record
-import ViewCommon
+import Common
 
 public struct RootView: View {
     public init() {}
@@ -18,8 +18,8 @@ public struct RootView: View {
         NavigationStack {
             ZStack {
                 LinearGradient(
-                    gradient: Gradient(colors: [.blue, .black]),
-                    startPoint: .topLeading, endPoint: .bottomTrailing
+                    gradient: Gradient(colors: [Color("darkBlue", bundle: CommonColor.bundle), .black]),
+                    startPoint: .topLeading, endPoint: .bottom
                 ).ignoresSafeArea()
                 
                 VStack {

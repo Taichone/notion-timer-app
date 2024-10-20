@@ -13,7 +13,7 @@ struct GlassmorphismRoundedRectangle: View {
     var body: some View {
         RoundedRectangle(cornerRadius: radius)
             .foregroundStyle(.ultraThinMaterial) // ぼかし効果
-            .shadow(color: .init(white: 0.4, opacity: 0.4), radius: 5, x: 0, y: 0)
+            .shadow(color: .init(white: 0.4, opacity: 0.4), radius: 7, x: 0, y: 0)
             .overlay(
                 RoundedRectangle(cornerRadius: radius)
                     .stroke(Color.init(white: 1, opacity: 0.5), lineWidth: 1) // ガラスの縁を表現

@@ -50,80 +50,78 @@ public struct TimerSettingView: View {
     public init() {}
 
     public var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    HStack {
-                        Text(String(moduleLocalized: "focus-time"))
-                        Spacer()
-                        Button {
-                            sheetType = .focusTimePicker
-                        } label: {
-                            Text(String(focusTimeString))
-                        }
-                    }
-                    
-                    HStack {
-                        Text(String(moduleLocalized: "break-time"))
-                        Spacer()
-                        Button {
-                            sheetType = .breakTimePicker
-                        } label: {
-                            Text(String(breakTimeString))
-                        }
+        Form {
+            Section {
+                HStack {
+                    Text(String(moduleLocalized: "focus-time"))
+                    Spacer()
+                    Button {
+                        sheetType = .focusTimePicker
+                    } label: {
+                        Text(String(focusTimeString))
                     }
                 }
-
-                Section {
-                    Toggle(isOn: self.$isBreakEndSoundEnabled) {
-                        Text(String(moduleLocalized: "enable-sound-at-break-end"))
-                    }
-                    Toggle(isOn: self.$isManualBreakStartEnabled) {
-                        Text(String(moduleLocalized: "start-break-time-manually"))
-                    }
-                    ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
-                    ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
-                }
-
-                Button {
-                    self.isFamilyActivityPickerPresented = true
-                } label: {
-                    Text(String(moduleLocalized: "select-apps-to-restrict"))
-                }
-            }
-            .navigationTitle(String(moduleLocalized: "timer-setting"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: TimerView(dependency: .init(
-                        isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
-                        isManualBreakStartEnabled: self.isManualBreakStartEnabled,
-                        focusTimeSec: self.focusTimeSec,
-                        breakTimeSec: self.breakTimeSec,
-                        focusColor: self.focusColor,
-                        breakColor: self.breakColor,
-                        restrictedApps: self.restrictedApps.applicationTokens
-                    ))) {
-                        Text(String(moduleLocalized: "ok"))
+                
+                HStack {
+                    Text(String(moduleLocalized: "break-time"))
+                    Spacer()
+                    Button {
+                        sheetType = .breakTimePicker
+                    } label: {
+                        Text(String(breakTimeString))
                     }
                 }
             }
-            .familyActivityPicker(
-                isPresented: self.$isFamilyActivityPickerPresented,
-                selection: self.$restrictedApps
-            )
-            .task {
-                self.screenTimeAPI.stopAppRestriction()
-            }
-            .sheet(item: $sheetType) { type in
-                switch type {
-                case .focusTimePicker:
-                    TimePickerView(sec: $focusTimeSec, title: type.title)
-                        .presentationDetents([.medium])
-                case .breakTimePicker:
-                    TimePickerView(sec: $breakTimeSec, title: type.title)
-                        .presentationDetents([.medium])
+            
+            Section {
+                Toggle(isOn: self.$isBreakEndSoundEnabled) {
+                    Text(String(moduleLocalized: "enable-sound-at-break-end"))
                 }
+                Toggle(isOn: self.$isManualBreakStartEnabled) {
+                    Text(String(moduleLocalized: "start-break-time-manually"))
+                }
+                ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
+                ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
+            }
+            
+            Button {
+                self.isFamilyActivityPickerPresented = true
+            } label: {
+                Text(String(moduleLocalized: "select-apps-to-restrict"))
+            }
+        }
+        .navigationTitle(String(moduleLocalized: "timer-setting"))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: TimerView(dependency: .init(
+                    isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
+                    isManualBreakStartEnabled: self.isManualBreakStartEnabled,
+                    focusTimeSec: self.focusTimeSec,
+                    breakTimeSec: self.breakTimeSec,
+                    focusColor: self.focusColor,
+                    breakColor: self.breakColor,
+                    restrictedApps: self.restrictedApps.applicationTokens
+                ))) {
+                    Text(String(moduleLocalized: "ok"))
+                }
+            }
+        }
+        .familyActivityPicker(
+            isPresented: self.$isFamilyActivityPickerPresented,
+            selection: self.$restrictedApps
+        )
+        .task {
+            self.screenTimeAPI.stopAppRestriction()
+        }
+        .sheet(item: $sheetType) { type in
+            switch type {
+            case .focusTimePicker:
+                TimePickerView(sec: $focusTimeSec, title: type.title)
+                    .presentationDetents([.medium])
+            case .breakTimePicker:
+                TimePickerView(sec: $breakTimeSec, title: type.title)
+                    .presentationDetents([.medium])
             }
         }
     }
