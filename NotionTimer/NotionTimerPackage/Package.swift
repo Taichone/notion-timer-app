@@ -9,14 +9,18 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "TimerSetting",
-            targets: ["TimerSetting"]
+            name: "Root",
+            targets: ["Root"]
         ),
     ],
     targets: [
         .target(
             name: "Records",
             dependencies: []
+        ),
+        .target(
+            name: "Root",
+            dependencies: ["TimerSetting", "Records", "ViewCommon"]
         ),
         .target(
             name: "ScreenTime",

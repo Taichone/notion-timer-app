@@ -7,16 +7,7 @@
 
 import Foundation
 
-struct TaskCategory: Hashable, Identifiable {
-    let id = UUID()
-    let name: String
-}
-
-extension TaskCategory {
-    static let mockList: [Self] = [
-        TaskCategory(name: "Swift"),
-        TaskCategory(name: "Kotlin"),
-        TaskCategory(name: "Python"),
-        TaskCategory(name: "TypeScript")
-    ]
+public struct TaskCategory: Hashable, Identifiable {
+    public let id = UUID().uuidString
+    public var name: String
 }

@@ -14,13 +14,14 @@ public struct FlippableCard<Content: View>: View {
     @State var backDegree = -90.0
     @State var isFlipping = false
 
-    let height: CGFloat = 350
+    let height: CGFloat
     let durationAndDelay: CGFloat = 0.2
     
-    init(
+    public init(
         frontDegree: Double = 0.0,
         backDegree: Double = 90.0,
         isFlipping: Bool = false,
+        height: CGFloat = 350,
         @ViewBuilder frontContent: () -> Content,
         @ViewBuilder backContent: () -> Content
     ) {
@@ -29,6 +30,7 @@ public struct FlippableCard<Content: View>: View {
         self.frontDegree = frontDegree
         self.backDegree = backDegree
         self.isFlipping = isFlipping
+        self.height = height
     }
 
     public var body: some View {

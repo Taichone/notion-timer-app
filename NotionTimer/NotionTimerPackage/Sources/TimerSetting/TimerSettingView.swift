@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import ScreenTime
 import Timer
 
@@ -123,7 +124,6 @@ public struct TimerSettingView: View {
                     TimePickerView(sec: $breakTimeSec, title: type.title)
                         .presentationDetents([.medium])
                 }
-                    
             }
         }
     }
