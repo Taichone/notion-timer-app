@@ -36,6 +36,7 @@ public struct RootView: View {
                 .padding()
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
 

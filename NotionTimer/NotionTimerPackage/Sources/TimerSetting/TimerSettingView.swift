@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import ScreenTime
 import Timer
+import Common
 
 enum TimerNavigationPath {
     case setting, timer, record
@@ -50,45 +51,53 @@ public struct TimerSettingView: View {
     public init() {}
 
     public var body: some View {
-        Form {
-            Section {
-                HStack {
-                    Text(String(moduleLocalized: "focus-time"))
-                    Spacer()
-                    Button {
-                        sheetType = .focusTimePicker
-                    } label: {
-                        Text(String(focusTimeString))
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [Color("darkBlue", bundle: CommonColor.bundle), .black]),
+                startPoint: .topLeading, endPoint: .bottom
+            ).ignoresSafeArea()
+            
+            Form {
+                Section {
+                    HStack {
+                        Text(String(moduleLocalized: "focus-time"))
+                        Spacer()
+                        Button {
+                            sheetType = .focusTimePicker
+                        } label: {
+                            Text(String(focusTimeString))
+                        }
+                    }
+                    
+                    HStack {
+                        Text(String(moduleLocalized: "break-time"))
+                        Spacer()
+                        Button {
+                            sheetType = .breakTimePicker
+                        } label: {
+                            Text(String(breakTimeString))
+                        }
                     }
                 }
                 
-                HStack {
-                    Text(String(moduleLocalized: "break-time"))
-                    Spacer()
-                    Button {
-                        sheetType = .breakTimePicker
-                    } label: {
-                        Text(String(breakTimeString))
+                Section {
+                    Toggle(isOn: self.$isBreakEndSoundEnabled) {
+                        Text(String(moduleLocalized: "enable-sound-at-break-end"))
                     }
+                    Toggle(isOn: self.$isManualBreakStartEnabled) {
+                        Text(String(moduleLocalized: "start-break-time-manually"))
+                    }
+                    ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
+                    ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
+                }
+                
+                Button {
+                    self.isFamilyActivityPickerPresented = true
+                } label: {
+                    Text(String(moduleLocalized: "select-apps-to-restrict"))
                 }
             }
-            
-            Section {
-                Toggle(isOn: self.$isBreakEndSoundEnabled) {
-                    Text(String(moduleLocalized: "enable-sound-at-break-end"))
-                }
-                Toggle(isOn: self.$isManualBreakStartEnabled) {
-                    Text(String(moduleLocalized: "start-break-time-manually"))
-                }
-                ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
-                ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
-            }
-            
-            Button {
-                self.isFamilyActivityPickerPresented = true
-            } label: {
-                Text(String(moduleLocalized: "select-apps-to-restrict"))
-            }
+            .scrollContentBackground(.hidden)
         }
         .navigationTitle(String(moduleLocalized: "timer-setting"))
         .navigationBarTitleDisplayMode(.inline)

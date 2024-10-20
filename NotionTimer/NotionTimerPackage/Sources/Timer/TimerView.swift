@@ -33,55 +33,75 @@ public struct TimerView: View {
     }
     
     public var body: some View {
-        VStack {
-            ZStack {
-                TimerCircle(color: Color(.gray).opacity(0.1))
-                TimerCircle(
-                    color: modeColor,
-                    trimFrom: trimFrom,
-                    trimTo: trimTo
-                )
-                .animation(.smooth, value: trimFrom)
-                .animation(.smooth, value: trimTo)
-                .rotationEffect(Angle(degrees: -90))
-                .shadow(radius: 10)
-            }
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [Color("darkBlue", bundle: CommonColor.bundle), .black]),
+                startPoint: .topLeading, endPoint: .bottom
+            ).ignoresSafeArea()
             
-            List {
-                HStack {
-                    Text(timerModeName)
+            VStack {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(timerModeName)
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text(String(moduleLocalized: "remaining-time"))
+                        Spacer()
+                        Text(remainingTimeString)
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text(String(moduleLocalized: "total-focus-time"))
+                        Spacer()
+                        Text(totalFocusTimeString)
+                    }
+                    .foregroundStyle(totalFocusTimeDisplayColor)
+                }
+                .padding()
+                .background {
+                    GlassmorphismRoundedRectangle()
                 }
                 
-                HStack {
-                    Text(String(moduleLocalized: "remaining-time"))
-                    Spacer()
-                    Text(remainingTimeString)
+                Spacer()
+                
+                ZStack {
+                    TimerCircle(color: Color(.gray).opacity(0.1))
+                    TimerCircle(
+                        color: modeColor,
+                        trimFrom: trimFrom,
+                        trimTo: trimTo
+                    )
+                    .animation(.smooth, value: trimFrom)
+                    .animation(.smooth, value: trimTo)
+                    .rotationEffect(Angle(degrees: -90))
+                    .shadow(radius: 10)
                 }
                 
-                HStack {
-                    Text(String(moduleLocalized: "total-focus-time"))
-                    Spacer()
-                    Text(totalFocusTimeString)
+                Spacer()
+                
+                Button {
+                    ExternalOutput.tapticFeedback()
+                    self.timerService.tapBreakStartButton()
+                } label: {
+                    Text(String(moduleLocalized: "start-break")).bold()
                 }
-                .foregroundStyle(totalFocusTimeDisplayColor)
-            }
-            
-            Button {
-                ExternalOutput.tapticFeedback()
-                self.timerService.tapBreakStartButton()
-            } label: {
-                Text(String(moduleLocalized: "start-break")).bold()
-            }
-            .hidden(startBreakButtonDisabled)
-            
-            Button {
-                ExternalOutput.tapticFeedback()
-                self.timerService.tapPlayButton()
-            } label: {
-                Image(systemName: timerButtonSystemName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 50)
+                .hidden(startBreakButtonDisabled)
+                
+                Button {
+                    ExternalOutput.tapticFeedback()
+                    self.timerService.tapPlayButton()
+                } label: {
+                    Image(systemName: timerButtonSystemName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 50)
+                }
+                .padding()
             }
             .padding()
         }
