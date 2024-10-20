@@ -15,7 +15,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Notion",
+            name: "Records",
             dependencies: []
         ),
         .target(
