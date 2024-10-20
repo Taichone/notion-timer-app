@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
+import Record
 
 public struct TimerRecordView: View {
+    @Environment(\.modelContext) private var context
     public let resultFocusTimeSec: Int
     
     public init(resultFocusTimeSec: Int) {
@@ -15,7 +18,17 @@ public struct TimerRecordView: View {
     }
     
     public var body: some View {
-        Text(String(resultFocusTimeSec))
+        VStack {
+            // TODO: Category を選択・追加画面の追加
+            
+            Text(String(resultFocusTimeSec))
+            Button {
+                let data = TaskCategoryRecord(category: TaskCategory(name: "test"), time: resultFocusTimeSec)
+                context.insert(data)
+            } label: {
+                Text("model に add")
+            }
+        }
     }
 }
 

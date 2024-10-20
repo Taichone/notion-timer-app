@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 import TimerSetting
-import Records
+import Record
 import ViewCommon
 
 public struct RootView: View {
@@ -18,19 +18,12 @@ public struct RootView: View {
         NavigationStack {
             ZStack {
                 LinearGradient(
-                    gradient: Gradient(colors: [.mint, .black]),
+                    gradient: Gradient(colors: [.blue, .black]),
                     startPoint: .topLeading, endPoint: .bottomTrailing
                 ).ignoresSafeArea()
+                
                 VStack {
-                    FlippableCard(
-                        height: 350,
-                        frontContent: {
-                            Text("Front")
-                        },
-                        backContent: {
-                            Text("Back")
-                        }
-                    )
+                    RecordsPreviewCard()
                     
                     Spacer()
                     
@@ -48,4 +41,27 @@ public struct RootView: View {
 
 #Preview {
     RootView()
+}
+
+struct RecordsPreviewCard: View {
+    @Environment(\.modelContext) private var context
+    @Query private var records: [TaskCategoryRecord]
+
+    var body: some View {
+        NavigationStack {
+            FlippableCard(
+                height: 350,
+                frontContent: {
+                    // TODO: Swift Charts で category 毎に time をグラフ表示
+                    VStack {
+                        Text(records.first?.category.name ?? "ないよ")
+                        Text(String(records.first?.time ?? 0))
+                    }
+                },
+                backContent: {
+                    Text("Back")
+                }
+            )
+        }
+    }
 }

@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-public struct FlippableCard<Content: View>: View {
-    let frontContent: Content
-    let backContent: Content
+public struct FlippableCard<FrontContent: View, BackContent: View>: View {
+    let frontContent: FrontContent
+    let backContent: BackContent
     @State var frontDegree = 0.0
     @State var backDegree = -90.0
     @State var isFlipping = false
@@ -22,8 +22,8 @@ public struct FlippableCard<Content: View>: View {
         backDegree: Double = 90.0,
         isFlipping: Bool = false,
         height: CGFloat = 350,
-        @ViewBuilder frontContent: () -> Content,
-        @ViewBuilder backContent: () -> Content
+        @ViewBuilder frontContent: () -> FrontContent,
+        @ViewBuilder backContent: () -> BackContent
     ) {
         self.frontContent = frontContent()
         self.backContent = backContent()

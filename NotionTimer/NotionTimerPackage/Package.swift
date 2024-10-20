@@ -9,18 +9,18 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Root",
-            targets: ["Root"]
+            name: "NotionTimerPackage",
+            targets: ["Root", "Record"]
         ),
     ],
     targets: [
         .target(
-            name: "Records",
-            dependencies: []
+            name: "Root",
+            dependencies: ["TimerSetting", "ViewCommon"]
         ),
         .target(
-            name: "Root",
-            dependencies: ["TimerSetting", "Records", "ViewCommon"]
+            name: "Record",
+            dependencies: []
         ),
         .target(
             name: "ScreenTime",
@@ -35,7 +35,7 @@ let package = Package(
         ),
         .target(
             name: "TimerRecord",
-            dependencies: []
+            dependencies: ["Record"]
         ),
         .target(
             name: "ViewCommon",

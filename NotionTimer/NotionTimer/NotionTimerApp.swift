@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Root
+import Record
 
 @main
 struct NotionTimerApp: App {
@@ -14,5 +15,8 @@ struct NotionTimerApp: App {
         WindowGroup {
             RootView()
         }
+        .modelContainer(
+            for: [TaskCategoryRecord.self]
+        )
     }
 }
