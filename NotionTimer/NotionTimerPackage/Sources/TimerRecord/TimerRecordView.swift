@@ -19,15 +19,34 @@ public struct TimerRecordView: View {
     
     public var body: some View {
         VStack {
-            // TODO: Category を選択・追加画面の追加
-            
+            // TODO: Label を選択・追加画面の追加
             Text(String(resultFocusTimeSec))
             Button {
-                let data = TaskCategoryRecord(category: TaskCategory(name: "test"), time: resultFocusTimeSec)
-                context.insert(data)
+                addRecord(
+                    taskCategory: .init(name: "test"),
+                    time: resultFocusTimeSec
+                )
             } label: {
                 Text("model に add")
             }
+        }
+    }
+    
+    private func addRecord(taskCategory: TaskCategory, time: Int) {
+        let fetchDescriptor = FetchDescriptor<Record>()
+        do {
+            let records = try context.fetch(fetchDescriptor)
+            if let record = records.first(where: {
+                $0.taskCategory.name == taskCategory.name
+            }) {
+                record.time += time
+            }
+            
+            let newRecord = Record(taskCategory: taskCategory, time: time)
+            context.insert(newRecord)
+            try context.save()
+        } catch {
+            print("データの取得または保存に失敗")
         }
     }
 }

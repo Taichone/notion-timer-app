@@ -31,7 +31,6 @@ enum TimerSettingSheetType: String, Identifiable {
 }
 
 public struct TimerSettingView: View {
-    // TODO: 永続化部分は Repository として分割
     // Timer
     @AppStorage(wrappedValue: 1500, "focusTimeSec") private var focusTimeSec
     @AppStorage(wrappedValue: 300, "breakTimeSec") private var breakTimeSec

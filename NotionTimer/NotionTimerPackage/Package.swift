@@ -15,12 +15,19 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Root",
+            name: "Home",
             dependencies: ["TimerSetting", "Common"]
         ),
         .target(
             name: "Record",
-            dependencies: []
+            dependencies: [],
+            resources: [
+                .process("Resources/Localizable.xcstrings")
+            ]
+        ),
+        .target(
+            name: "Root",
+            dependencies: ["Home", "Record"]
         ),
         .target(
             name: "ScreenTime",
@@ -43,7 +50,7 @@ let package = Package(
         ),
         .target(
             name: "TimerSetting",
-            dependencies: ["ScreenTime", "Timer"],
+            dependencies: ["ScreenTime", "Timer", "Record"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
