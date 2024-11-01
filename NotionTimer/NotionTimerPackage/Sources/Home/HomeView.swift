@@ -21,8 +21,12 @@ public struct HomeView: View {
         NavigationStack {
             ZStack {
                 LinearGradient(
-                    gradient: Gradient(colors: [Color("darkBlue", bundle: CommonColor.bundle), .black]),
-                    startPoint: .topLeading, endPoint: .bottom
+                    gradient: Gradient(colors: [
+                        Color("darkBlue", bundle: CommonColor.bundle),
+                        .black
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottom
                 ).ignoresSafeArea()
                 
                 VStack {
