@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 import ScreenTime
 import Timer
 import Common

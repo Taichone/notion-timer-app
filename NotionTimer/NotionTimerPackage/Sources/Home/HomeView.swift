@@ -6,15 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
 import TimerSetting
-import Record
 import Common
 
 public struct HomeView: View {
-    @Environment(\.modelContext) private var context
-    @Query private var records: [Record]
-    
     public init() {}
     
     public var body: some View {
@@ -30,7 +25,7 @@ public struct HomeView: View {
                 ).ignoresSafeArea()
                 
                 VStack {
-                    RecordsPreviewCard(records: records) // TODO: 値渡しも検討
+                    // RecordsPreviewCard(records: records)
                     
                     Spacer()
                     
@@ -47,6 +42,7 @@ public struct HomeView: View {
     }
 }
 
+/*
 struct RecordsPreviewCard: View {
     var records: [Record]
 
@@ -68,3 +64,4 @@ struct RecordsPreviewCard: View {
         }
     }
 }
+*/

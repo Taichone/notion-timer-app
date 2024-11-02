@@ -14,7 +14,6 @@ struct NotionTimerApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .modelContainer(for: Record.self)
         }
     }
 }
