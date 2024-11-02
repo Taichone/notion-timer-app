@@ -15,8 +15,8 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Home",
-            dependencies: ["TimerSetting", "Common", "Notion"]
+            name: "Common",
+            dependencies: []
         ),
         .target(
             name: "Notion",
@@ -24,7 +24,7 @@ let package = Package(
         ),
         .target(
             name: "Root",
-            dependencies: ["Home", "Common"]
+            dependencies: ["Common", "TimerSetting", "Notion"]
         ),
         .target(
             name: "ScreenTime",
@@ -39,10 +39,6 @@ let package = Package(
         ),
         .target(
             name: "TimerRecord",
-            dependencies: []
-        ),
-        .target(
-            name: "Common",
             dependencies: []
         ),
         .target(
