@@ -124,10 +124,10 @@ public struct TimerSettingView: View {
         .sheet(item: $sheetType) { type in
             switch type {
             case .focusTimePicker:
-                TimePickerView(sec: $focusTimeSec, title: type.title)
+                TimePicker(sec: $focusTimeSec, title: type.title)
                     .presentationDetents([.medium])
             case .breakTimePicker:
-                TimePickerView(sec: $breakTimeSec, title: type.title)
+                TimePicker(sec: $breakTimeSec, title: type.title)
                     .presentationDetents([.medium])
             }
         }
