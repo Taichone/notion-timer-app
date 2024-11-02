@@ -16,12 +16,12 @@ public struct TimerRecordView: View {
     
     public var body: some View {
         VStack {
-            // TODO: Label を選択・追加画面の追加
+            // TODO: Label を選択・追加画面の追加、Notion DB に追加
             Text(String(resultFocusTimeSec))
             Button {
-                print("// TODO: Notion DB に記録")
+                print("Notion DB に記録（仮）")
             } label: {
-                Text("// TODO: Notion DB に記録")
+                Text("Notion DB に記録 (仮)")
             }
         }
     }
