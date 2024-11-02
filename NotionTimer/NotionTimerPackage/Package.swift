@@ -9,14 +9,26 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "TimerSetting",
-            targets: ["TimerSetting"]
+            name: "NotionTimerPackage",
+            targets: ["Root"]
         ),
     ],
     targets: [
         .target(
-            name: "Notion",
+            name: "Common",
             dependencies: []
+        ),
+        .target(
+            name: "LocalRepository",
+            dependencies: []
+        ),
+        .target(
+            name: "Notion",
+            dependencies: ["LocalRepository"]
+        ),
+        .target(
+            name: "Root",
+            dependencies: ["Common", "LocalRepository", "Notion", "TimerSetting"]
         ),
         .target(
             name: "ScreenTime",
@@ -24,17 +36,13 @@ let package = Package(
         ),
         .target(
             name: "Timer",
-            dependencies: ["ScreenTime", "TimerRecord", "ViewCommon"],
+            dependencies: ["ScreenTime", "TimerRecord", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
         ),
         .target(
             name: "TimerRecord",
-            dependencies: []
-        ),
-        .target(
-            name: "ViewCommon",
             dependencies: []
         ),
         .target(

@@ -1,5 +1,5 @@
 //
-//  TimePickerView.swift
+//  TimePicker.swift
 //  NotionTimerPackage
 //
 //  Created by Taichi on 2024/10/14.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TimePickerView: View {
+struct TimePicker: View {
     @Binding var sec: Int
     @State private var minSelection: Int
     @State private var secSelection: Int
@@ -84,7 +84,7 @@ fileprivate struct TimePickerViewWrapper: View {
             Circle()
         }
         .sheet(isPresented: $isShowSheet) {
-            TimePickerView(sec: $sec, title: "TimePickerView")
+            TimePicker(sec: $sec, title: "TimePickerView")
                 .presentationDetents([.medium])
         }
     }

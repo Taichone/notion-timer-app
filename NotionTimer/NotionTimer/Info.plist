@@ -4,5 +4,18 @@
 <dict>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>jp.taichone.notion-timer</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>notion-timer</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
