@@ -19,12 +19,8 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "Notion",
-            dependencies: ["Common"]
-        ),
-        .target(
             name: "Root",
-            dependencies: ["Common", "TimerSetting", "Notion"]
+            dependencies: ["Common", "TimerSetting"]
         ),
         .target(
             name: "ScreenTime",
