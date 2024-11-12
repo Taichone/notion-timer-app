@@ -9,7 +9,7 @@ import Foundation
 import LocalRepository
 
 public struct NotionService {
-    // TODO: public にはしない（一時的に public にしている）
+    // FIXME: public にはしない（一時的に public にしている）
     public static var accessToken: String? {
         KeychainManager.retrieveToken(type: .notionAccessToken)
     }

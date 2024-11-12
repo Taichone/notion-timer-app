@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Root
-import Record
 
 @main
 struct NotionTimerApp: App {
