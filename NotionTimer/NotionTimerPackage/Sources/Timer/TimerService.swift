@@ -9,6 +9,7 @@ import Combine
 import ManagedSettings // TODO: これも ScreenTime に隠蔽したい（Set<ApplicationToken>? を ScreenTime.Xxx? のように）
 import ScreenTime
 
+// TODO: Observable を積極検討
 @MainActor
 public final class TimerService: ObservableObject {
     // Dependency
@@ -125,6 +126,7 @@ extension TimerService {
         remainingTimeSec = breakTimeSec
     }
     
+    // TODO: Timer は AsyncStream でよくない？
     func startTimer() {
         isRunning = true
         

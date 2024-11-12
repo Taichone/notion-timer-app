@@ -10,6 +10,7 @@ import TimerSetting
 import Notion
 import Common
 
+// TODO: 名前の再検討（認証後の画面であることがわかるように）
 public struct HomeView: View {
     public init() {}
     
