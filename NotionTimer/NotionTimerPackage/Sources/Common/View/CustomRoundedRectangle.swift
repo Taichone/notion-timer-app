@@ -7,10 +7,14 @@
 
 import SwiftUI
 
-struct CustomRoundedRectangle: View {
+public struct CustomRoundedRectangle: View {
     let type: TemplateType
+    
+    public init(type: TemplateType) {
+        self.type = type
+    }
 
-    var body: some View {
+    public var body: some View {
         switch type {
         case let .custom(lightColor, color, shadowColor):
             Content(
@@ -21,17 +25,23 @@ struct CustomRoundedRectangle: View {
         }
     }
 
-    enum TemplateType {
+    public enum TemplateType {
         case custom(lightColor: Color, color: Color, shadowColor: Color)
     }
 
-    struct Content: View {
+    public struct Content: View {
         let lightColor: Color
         let color: Color
         let shadowColor: Color
         let radius: CGFloat = 15
 
-        var body: some View {
+        public init(lightColor: Color, color: Color, shadowColor: Color) {
+            self.lightColor = lightColor
+            self.color = color
+            self.shadowColor = shadowColor
+        }
+        
+        public var body: some View {
             RoundedRectangle(cornerRadius: radius)
                 .fill(
                     .shadow(.inner(color: lightColor, radius: 6, x: 4, y: 4)) // 上部の光沢

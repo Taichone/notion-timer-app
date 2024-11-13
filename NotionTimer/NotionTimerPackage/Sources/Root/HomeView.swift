@@ -10,10 +10,10 @@ import TimerSetting
 import Notion
 import Common
 
-public struct HomeView: View {
-    public init() {}
+struct HomeView: View {
+    init() {}
     
-    public var body: some View {
+    var body: some View {
         NavigationStack {
             ZStack {
                 LinearGradient(

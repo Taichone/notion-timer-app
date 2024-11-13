@@ -1,0 +1,25 @@
+{
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "authorize-notion" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Authorize Notion"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notionにログインする"
+          }
+        }
+      }
+    },
+    "Timer" : {
+
+    }
+  },
+  "version" : "1.0"
+}
