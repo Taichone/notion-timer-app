@@ -22,6 +22,7 @@ enum AccessTokenError: Error {
 @MainActor
 @Observable final class NotionAuthService {
     var status: NotionAuthStatus = .unauthorized
+    var accessToken: String?
     
     /// Temporary Token から Access Token を取得する関数
     func fetchAccessToken(temporaryToken: String) async throws {
@@ -58,6 +59,13 @@ enum AccessTokenError: Error {
             }
         } catch {
             throw AccessTokenError.urlSessionError(error)
+        }
+    }
+    
+    func retrieveAccessTokenFromKeychain() {
+        if let token = KeychainManager.retrieveToken(type: .notionAccessToken) {
+            accessToken = token
+            status = .authorized
         }
     }
 }
