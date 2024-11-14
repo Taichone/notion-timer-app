@@ -1,34 +1,15 @@
 //
-//  NotionService.swift
+//  NotionAPI.swift
 //  NotionTimerPackage
 //
-//  Created by Taichi on 2024/11/03.
+//  Created by Taichi on 2024/11/14.
 //
 
 import Foundation
-import LocalRepository
 import Alamofire
 
-enum NotionError: Error {
-    case accessTokenNotFound
-    case failedToGetPageList
-}
-
-public struct NotionService {
-    // FIXME: public にはしない（一時的に public にしている）
-    public static var accessToken: String? {
-        KeychainManager.retrieveToken(type: .notionAccessToken)
-    }
-    
-    public init() {}
-}
-
-extension NotionService {
-    public func getPageList() async throws -> [Page] {
-        guard let accessToken = Self.accessToken else {
-            throw NotionError.accessTokenNotFound
-        }
-        
+struct NotionAPIClient {
+    static func getPageList(accessToken: String) async throws -> [Page] {
         let endPoint = "https://api.notion.com/v1/search"
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(accessToken)",
@@ -66,7 +47,7 @@ extension NotionService {
     }
 }
 
-extension NotionService {
+extension NotionAPIClient {
     struct SearchRequestBody: Encodable {
         let filter: Filter
         let sort: Sort = Sort()
@@ -135,4 +116,3 @@ extension NotionService {
         }
     }
 }
-

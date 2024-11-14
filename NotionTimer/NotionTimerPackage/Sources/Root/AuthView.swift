@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Notion
 import Common
 
 struct AuthView: View {

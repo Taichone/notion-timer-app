@@ -7,7 +7,7 @@
 
 import SwiftUI
 import TimerSetting
-import Notion
+import NotionRepository
 
 struct HomeView: View {
     init() {}
@@ -16,7 +16,6 @@ struct HomeView: View {
         VStack {
             // TODO: Notion DB から記録を取得して表示
 //            RecordsPreviewCard(records: records)
-            Text(NotionService.accessToken ?? "Error: Keychain に AccessToken がない")
             
             Spacer()
             
@@ -29,8 +28,8 @@ struct HomeView: View {
         .padding()
         .task {
             // TODO: デバッグの残骸なので消す
-            let service = NotionService()
-            if let pages = try? await service.getPageList() {
+            let repository = NotionRepository()
+            if let pages = try? await repository.getPageList() {
                 pages.forEach {
                     print($0.title)
                 }

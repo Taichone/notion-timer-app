@@ -26,7 +26,7 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "Notion",
+            name: "NotionRepository",
             dependencies: [
                 "LocalRepository",
                 .product(name: "Alamofire", package: "Alamofire"),
@@ -34,7 +34,7 @@ let package = Package(
         ),
         .target(
             name: "Root",
-            dependencies: ["LocalRepository", "Notion", "TimerSetting", "Common"],
+            dependencies: ["LocalRepository", "NotionRepository", "TimerSetting", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
