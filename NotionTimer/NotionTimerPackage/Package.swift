@@ -13,6 +13,9 @@ let package = Package(
             targets: ["Root"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.10.0"))
+    ],
     targets: [
         .target(
             name: "Common",
@@ -24,7 +27,10 @@ let package = Package(
         ),
         .target(
             name: "Notion",
-            dependencies: ["LocalRepository"]
+            dependencies: [
+                "LocalRepository",
+                .product(name: "Alamofire", package: "Alamofire"),
+            ]
         ),
         .target(
             name: "Root",

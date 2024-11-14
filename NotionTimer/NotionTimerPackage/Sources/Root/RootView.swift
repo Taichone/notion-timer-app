@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Common
+import Notion
 
 public struct RootView: View {
     @State private var notionAuthService = NotionAuthService()

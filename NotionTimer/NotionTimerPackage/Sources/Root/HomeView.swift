@@ -27,6 +27,11 @@ struct HomeView: View {
             }
         }
         .padding()
+        .task {
+            // TODO: デバッグの残骸なので消す
+            let service = NotionService()
+            try? await service.getPageList()
+        }
     }
 }
 
