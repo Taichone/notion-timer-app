@@ -30,5 +30,8 @@ struct AuthView: View {
 }
 
 #Preview {
-    AuthView()
+    ZStack {
+        Color.black
+        AuthView()
+    }
 }
