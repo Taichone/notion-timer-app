@@ -36,7 +36,6 @@ public struct RootView: View {
         }
         .onAppear {
             Task {
-                try await Task.sleep(nanoseconds: 1000000000)
                 notionAuthService.retrieveAccessTokenFromKeychain()
             }
         }
@@ -47,8 +46,6 @@ public struct RootView: View {
                 case .notionTemporaryToken(let token):
                     Task {
                         do {
-                            // TODO: ローディング中 Indicator を表示する（status に fetchingAccessToken といった case を追加）
-                            try await Task.sleep(nanoseconds: 1000000000)
                             try await notionAuthService.fetchAccessToken(temporaryToken: token)
                         } catch {
                             debugPrint(error) // TODO: ハンドリング
