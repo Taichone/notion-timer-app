@@ -7,25 +7,28 @@
 
 import SwiftUI
 
-struct LoadingView<Content: View>: View {
-    let label: String
+public struct LoadingView<Content: View>: View {
+    let label: String?
     let textColor: Color
     let backgroundContent: Content
 
-    init(label: String, textColor: Color, @ViewBuilder content: () -> Content) {
+    public init(label: String?, textColor: Color, @ViewBuilder content: () -> Content) {
         self.label = label
         self.textColor = textColor
         self.backgroundContent = content()
     }
 
-    var body: some View {
+    public var body: some View {
         VStack {
             ProgressView()
                 .padding()
-            Text(label)
-                .foregroundStyle(textColor)
-                .padding(.horizontal)
-                .padding(.bottom)
+            
+            if let label = label {
+                Text(label)
+                    .foregroundStyle(textColor)
+                    .padding(.horizontal)
+                    .padding(.bottom)
+            }
         }
         .background {
             backgroundContent

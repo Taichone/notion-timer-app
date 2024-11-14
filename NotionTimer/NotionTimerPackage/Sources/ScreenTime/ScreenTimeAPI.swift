@@ -11,7 +11,6 @@ import ManagedSettings
 public final class ScreenTimeAPI {
     private let store = ManagedSettingsStore()
     
-    /// Singleton
     @MainActor public static let shared = ScreenTimeAPI()
     private init() {}
     

@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
-import TimerSetting
+import Root
 
 @main
 struct NotionTimerApp: App {
     var body: some Scene {
         WindowGroup {
-            TimerSettingView()
+            RootView()
         }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 import ManagedSettings
 import ScreenTime
 import TimerRecord
-import ViewCommon
+import Common
 
 public struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
@@ -18,7 +18,7 @@ public struct TimerView: View {
     
     private let focusColor: Color
     private let breakColor: Color
-
+    
     public init(dependency: Dependency) {
         self.focusColor = dependency.focusColor
         self.breakColor = dependency.breakColor
@@ -34,6 +34,35 @@ public struct TimerView: View {
     
     public var body: some View {
         VStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(timerModeName)
+                }
+                
+                Divider()
+                
+                HStack {
+                    Text(String(moduleLocalized: "remaining-time"))
+                    Spacer()
+                    Text(remainingTimeString)
+                }
+                
+                Divider()
+                
+                HStack {
+                    Text(String(moduleLocalized: "total-focus-time"))
+                    Spacer()
+                    Text(totalFocusTimeString)
+                }
+                .foregroundStyle(totalFocusTimeDisplayColor)
+            }
+            .padding()
+            .background {
+                GlassmorphismRoundedRectangle()
+            }
+            
+            Spacer()
+            
             ZStack {
                 TimerCircle(color: Color(.gray).opacity(0.1))
                 TimerCircle(
@@ -47,24 +76,7 @@ public struct TimerView: View {
                 .shadow(radius: 10)
             }
             
-            List {
-                HStack {
-                    Text(timerModeName)
-                }
-                
-                HStack {
-                    Text(String(moduleLocalized: "remaining-time"))
-                    Spacer()
-                    Text(remainingTimeString)
-                }
-                
-                HStack {
-                    Text(String(moduleLocalized: "total-focus-time"))
-                    Spacer()
-                    Text(totalFocusTimeString)
-                }
-                .foregroundStyle(totalFocusTimeDisplayColor)
-            }
+            Spacer()
             
             Button {
                 ExternalOutput.tapticFeedback()
@@ -85,7 +97,6 @@ public struct TimerView: View {
             }
             .padding()
         }
-        .background(Color(.systemGroupedBackground)) // List 背景色に合わせる
         .navigationBarBackButtonHidden(true)
         .navigationTitle(String(moduleLocalized: "timer"))
         .navigationBarTitleDisplayMode(.inline)
@@ -107,7 +118,7 @@ public struct TimerView: View {
                     // TODO: 確認アラートを挟む
                     resultFocusTimeSec = timerService.totalFocusTimeSec
                     timerService.terminate()
-
+                    
                 } label: {
                     Text(String(moduleLocalized: "done"))
                 }
