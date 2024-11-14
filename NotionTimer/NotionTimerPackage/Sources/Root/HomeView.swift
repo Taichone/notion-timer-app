@@ -30,7 +30,13 @@ struct HomeView: View {
         .task {
             // TODO: デバッグの残骸なので消す
             let service = NotionService()
-            try? await service.getPageList()
+            if let pages = try? await service.getPageList() {
+                pages.forEach {
+                    print($0.title)
+                }
+            } else {
+                print("PageList 取得できず")
+            }
         }
     }
 }
