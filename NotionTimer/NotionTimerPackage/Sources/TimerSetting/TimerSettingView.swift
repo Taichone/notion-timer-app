@@ -40,63 +40,56 @@ public struct TimerSettingView: View {
     @AppStorage(wrappedValue: true, "isManualBreakStartEnabled") private var isManualBreakStartEnabled
     @State private var focusColor = Color.mint
     @State private var breakColor = Color.blue
-
+    
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
     @State private var restrictedApps = ScreenTime.appSelection()
     private let screenTimeAPI = ScreenTimeAPI.shared
     
     public init() {}
-
+    
     public var body: some View {
-        ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color("darkBlue", bundle: CommonColor.bundle), .black]),
-                startPoint: .topLeading, endPoint: .bottom
-            ).ignoresSafeArea()
-            
-            Form {
-                Section {
-                    HStack {
-                        Text(String(moduleLocalized: "focus-time"))
-                        Spacer()
-                        Button {
-                            sheetType = .focusTimePicker
-                        } label: {
-                            Text(String(focusTimeString))
-                        }
-                    }
-                    
-                    HStack {
-                        Text(String(moduleLocalized: "break-time"))
-                        Spacer()
-                        Button {
-                            sheetType = .breakTimePicker
-                        } label: {
-                            Text(String(breakTimeString))
-                        }
+        Form {
+            Section {
+                HStack {
+                    Text(String(moduleLocalized: "focus-time"))
+                    Spacer()
+                    Button {
+                        sheetType = .focusTimePicker
+                    } label: {
+                        Text(String(focusTimeString))
                     }
                 }
                 
-                Section {
-                    Toggle(isOn: self.$isBreakEndSoundEnabled) {
-                        Text(String(moduleLocalized: "enable-sound-at-break-end"))
+                HStack {
+                    Text(String(moduleLocalized: "break-time"))
+                    Spacer()
+                    Button {
+                        sheetType = .breakTimePicker
+                    } label: {
+                        Text(String(breakTimeString))
                     }
-                    Toggle(isOn: self.$isManualBreakStartEnabled) {
-                        Text(String(moduleLocalized: "start-break-time-manually"))
-                    }
-                    ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
-                    ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
-                }
-                
-                Button {
-                    self.isFamilyActivityPickerPresented = true
-                } label: {
-                    Text(String(moduleLocalized: "select-apps-to-restrict"))
                 }
             }
-            .scrollContentBackground(.hidden)
+            
+            Section {
+                Toggle(isOn: self.$isBreakEndSoundEnabled) {
+                    Text(String(moduleLocalized: "enable-sound-at-break-end"))
+                }
+                Toggle(isOn: self.$isManualBreakStartEnabled) {
+                    Text(String(moduleLocalized: "start-break-time-manually"))
+                }
+                ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
+                ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
+            }
+            
+            Button {
+                self.isFamilyActivityPickerPresented = true
+            } label: {
+                Text(String(moduleLocalized: "select-apps-to-restrict"))
+            }
         }
+        .scrollContentBackground(.hidden)
         .navigationTitle(String(moduleLocalized: "timer-setting"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

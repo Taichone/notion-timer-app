@@ -28,7 +28,7 @@ let package = Package(
         ),
         .target(
             name: "Root",
-            dependencies: ["LocalRepository", "Notion", "TimerSetting"],
+            dependencies: ["LocalRepository", "Notion", "TimerSetting", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]

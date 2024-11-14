@@ -7,6 +7,7 @@
 
 import FamilyControls
 
+// FIXME: なぜ ScreenTimeAPI と分けてる？再検討
 public struct ScreenTime {
     public static func appSelection() -> FamilyActivitySelection {
         return FamilyActivitySelection()

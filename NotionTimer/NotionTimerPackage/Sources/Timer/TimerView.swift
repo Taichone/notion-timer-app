@@ -18,7 +18,7 @@ public struct TimerView: View {
     
     private let focusColor: Color
     private let breakColor: Color
-
+    
     public init(dependency: Dependency) {
         self.focusColor = dependency.focusColor
         self.breakColor = dependency.breakColor
@@ -33,75 +33,67 @@ public struct TimerView: View {
     }
     
     public var body: some View {
-        ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color("darkBlue", bundle: CommonColor.bundle), .black]),
-                startPoint: .topLeading, endPoint: .bottom
-            ).ignoresSafeArea()
+        VStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(timerModeName)
+                }
+                
+                Divider()
+                
+                HStack {
+                    Text(String(moduleLocalized: "remaining-time"))
+                    Spacer()
+                    Text(remainingTimeString)
+                }
+                
+                Divider()
+                
+                HStack {
+                    Text(String(moduleLocalized: "total-focus-time"))
+                    Spacer()
+                    Text(totalFocusTimeString)
+                }
+                .foregroundStyle(totalFocusTimeDisplayColor)
+            }
+            .padding()
+            .background {
+                GlassmorphismRoundedRectangle()
+            }
             
-            VStack {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(timerModeName)
-                    }
-                    
-                    Divider()
-                    
-                    HStack {
-                        Text(String(moduleLocalized: "remaining-time"))
-                        Spacer()
-                        Text(remainingTimeString)
-                    }
-                    
-                    Divider()
-                    
-                    HStack {
-                        Text(String(moduleLocalized: "total-focus-time"))
-                        Spacer()
-                        Text(totalFocusTimeString)
-                    }
-                    .foregroundStyle(totalFocusTimeDisplayColor)
-                }
-                .padding()
-                .background {
-                    GlassmorphismRoundedRectangle()
-                }
-                
-                Spacer()
-                
-                ZStack {
-                    TimerCircle(color: Color(.gray).opacity(0.1))
-                    TimerCircle(
-                        color: modeColor,
-                        trimFrom: trimFrom,
-                        trimTo: trimTo
-                    )
-                    .animation(.smooth, value: trimFrom)
-                    .animation(.smooth, value: trimTo)
-                    .rotationEffect(Angle(degrees: -90))
-                    .shadow(radius: 10)
-                }
-                
-                Spacer()
-                
-                Button {
-                    ExternalOutput.tapticFeedback()
-                    self.timerService.tapBreakStartButton()
-                } label: {
-                    Text(String(moduleLocalized: "start-break")).bold()
-                }
-                .hidden(startBreakButtonDisabled)
-                
-                Button {
-                    ExternalOutput.tapticFeedback()
-                    self.timerService.tapPlayButton()
-                } label: {
-                    Image(systemName: timerButtonSystemName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 50)
-                }
-                .padding()
+            Spacer()
+            
+            ZStack {
+                TimerCircle(color: Color(.gray).opacity(0.1))
+                TimerCircle(
+                    color: modeColor,
+                    trimFrom: trimFrom,
+                    trimTo: trimTo
+                )
+                .animation(.smooth, value: trimFrom)
+                .animation(.smooth, value: trimTo)
+                .rotationEffect(Angle(degrees: -90))
+                .shadow(radius: 10)
+            }
+            
+            Spacer()
+            
+            Button {
+                ExternalOutput.tapticFeedback()
+                self.timerService.tapBreakStartButton()
+            } label: {
+                Text(String(moduleLocalized: "start-break")).bold()
+            }
+            .hidden(startBreakButtonDisabled)
+            
+            Button {
+                ExternalOutput.tapticFeedback()
+                self.timerService.tapPlayButton()
+            } label: {
+                Image(systemName: timerButtonSystemName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 50)
             }
             .padding()
         }
@@ -126,7 +118,7 @@ public struct TimerView: View {
                     // TODO: 確認アラートを挟む
                     resultFocusTimeSec = timerService.totalFocusTimeSec
                     timerService.terminate()
-
+                    
                 } label: {
                     Text(String(moduleLocalized: "done"))
                 }

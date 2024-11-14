@@ -8,7 +8,6 @@
 import SwiftUI
 import TimerSetting
 import Notion
-import Common
 
 struct HomeView: View {
     init() {}
@@ -16,7 +15,7 @@ struct HomeView: View {
     var body: some View {
         VStack {
             // TODO: Notion DB から記録を取得して表示
-            // RecordsPreviewCard(records: records)
+//            RecordsPreviewCard(records: records)
             Text(NotionService.accessToken ?? "Error: Keychain に AccessToken がない")
             
             Spacer()

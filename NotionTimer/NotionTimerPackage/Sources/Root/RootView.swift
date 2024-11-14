@@ -16,14 +16,7 @@ public struct RootView: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color("darkBlue", bundle: CommonColor.bundle),
-                        .black
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottom
-                ).ignoresSafeArea()
+                CommonGradient()
                 
                 switch notionAuthService.status {
                 case .loading:
