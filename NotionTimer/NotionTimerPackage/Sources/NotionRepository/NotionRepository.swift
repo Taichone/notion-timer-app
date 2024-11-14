@@ -18,6 +18,8 @@ public actor NotionRepository {
         KeychainManager.retrieveToken(type: .notionAccessToken)
     }
     
+    public init() {}
+    
     public func getPageList() async throws -> [Page] {
         guard let accessToken = Self.accessToken else {
             throw NotionError.accessTokenNotFound
@@ -25,6 +27,4 @@ public actor NotionRepository {
         
         return try await NotionAPIClient.getPageList(accessToken: accessToken)
     }
-    
-    public init() {}
 }
