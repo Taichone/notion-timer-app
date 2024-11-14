@@ -14,34 +14,20 @@ struct HomeView: View {
     init() {}
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color("darkBlue", bundle: CommonColor.bundle),
-                        .black
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottom
-                ).ignoresSafeArea()
-                
-                VStack {
-                    // TODO: Notion DB から記録を取得して表示
-                    // RecordsPreviewCard(records: records)
-                    Text(NotionService.accessToken ?? "Error: Keychain に AccessToken がない")
-                    
-                    Spacer()
-                    
-                    NavigationLink {
-                        TimerSettingView()
-                    } label: {
-                        Text("Timer")
-                    }
-                }
-                .padding()
+        VStack {
+            // TODO: Notion DB から記録を取得して表示
+            // RecordsPreviewCard(records: records)
+            Text(NotionService.accessToken ?? "Error: Keychain に AccessToken がない")
+            
+            Spacer()
+            
+            NavigationLink {
+                TimerSettingView()
+            } label: {
+                Text("Timer")
             }
         }
-        .preferredColorScheme(.dark)
+        .padding()
     }
 }
 

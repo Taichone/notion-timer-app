@@ -9,6 +9,7 @@ import Foundation
 import LocalRepository
 
 enum NotionAuthStatus {
+    case loading
     case authorized
     case unauthorized
 }
@@ -21,11 +22,13 @@ enum AccessTokenError: Error {
 
 @MainActor
 @Observable final class NotionAuthService {
-    var status: NotionAuthStatus = .unauthorized
+    var status: NotionAuthStatus = .loading
     var accessToken: String?
     
     /// Temporary Token から Access Token を取得する関数
     func fetchAccessToken(temporaryToken: String) async throws {
+        status = .loading
+        
         // TODO: Alamofire 検討
         guard let url = URL(
             string: "https://ft52ipjcsrdyyzviuos2pg6loi0ejzdv.lambda-url.ap-northeast-1.on.aws/"
@@ -63,9 +66,13 @@ enum AccessTokenError: Error {
     }
     
     func retrieveAccessTokenFromKeychain() {
+        status = .loading
+        
         if let token = KeychainManager.retrieveToken(type: .notionAccessToken) {
             accessToken = token
             status = .authorized
+        } else {
+            status = .unauthorized
         }
     }
 }
