@@ -20,7 +20,7 @@ import Notion
 }
 
 public struct RootView: View {
-    @State private var authService = NotionService()
+    @State private var notionService = NotionService()
     @State private var router = RootRouter()
     
     public init() {}
@@ -30,7 +30,7 @@ public struct RootView: View {
             ZStack {
                 CommonGradient()
                 
-                switch authService.status {
+                switch notionService.authStatus {
                 case .loading:
                     CommonLoadingView()
                 case .authorized:
@@ -52,16 +52,16 @@ public struct RootView: View {
         }
         .onAppear {
 //            authService.retrieveAccessTokenFromKeychain()
-            authService.changeStatusToUnauthorized()
+            notionService.changeStatusToUnauthorized()
         }
         .onOpenURL(perform: { url in
             if let deeplink = url.getDeeplink() {
                 switch deeplink {
                 case .notionTemporaryToken(let token):
-                    authService.changeStatusToLoading()
+                    notionService.changeStatusToLoading()
                     Task {
                         do {
-                            try await authService.fetchAccessToken(temporaryToken: token)
+                            try await notionService.fetchAccessToken(temporaryToken: token)
                             router.items.append(.pageSelection)
                         } catch {
                             // TODO: アラートを表示（アクセストークンの取得に失敗）
@@ -70,9 +70,9 @@ public struct RootView: View {
                 }
             }
         })
-        .animation(.default, value: authService.status)
+        .animation(.default, value: notionService.authStatus)
         .preferredColorScheme(.dark)
-        .environment(authService)
+        .environment(notionService)
         .environment(router)
     }
 }

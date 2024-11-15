@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 
 struct NotionAPIClient {
+    /// accessToken で許可されている Page 一覧を取得
     static func getPageList(accessToken: String) async throws -> [Page] {
         let endPoint = "https://api.notion.com/v1/search"
         let headers: HTTPHeaders = [
@@ -34,10 +35,11 @@ struct NotionAPIClient {
             return response.asPageList
         } catch {
             debugPrint(error)
-            throw NotionError.failedToGetPageList
+            throw NotionServiceError.failedToGetPageList
         }
     }
     
+    /// temporaryToken から accessToken を取得
     public static func getAccessToken(temporaryToken: String) async throws -> String {
         let endPoint = "https://ft52ipjcsrdyyzviuos2pg6loi0ejzdv.lambda-url.ap-northeast-1.on.aws/"
         let headers: HTTPHeaders = [
@@ -59,7 +61,7 @@ struct NotionAPIClient {
             return response.accessToken
         } catch {
             debugPrint(error)
-            throw AccessTokenError.failedToFetchAccessToken
+            throw NotionServiceError.failedToFetchAccessToken
         }
     }
 }

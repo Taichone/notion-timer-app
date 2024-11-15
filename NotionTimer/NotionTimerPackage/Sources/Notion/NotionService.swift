@@ -14,17 +14,19 @@ public enum NotionAuthStatus {
     case unauthorized
 }
 
-public enum AccessTokenError: Error {
+public enum NotionServiceError: Error {
     case failedToSaveToKeychain
     case failedToFetchAccessToken
-    case urlSessionError(Error)
+    case accessTokenNotFound
+    case failedToGetPageList
 }
 
 @MainActor
 @Observable public final class NotionService {
-    // TODO: accessToken だけじゃなく、pageID, databaseID までが取得できてから、status を authorized にする
-    public var status: NotionAuthStatus = .loading
-    public var accessToken: String?
+    public var authStatus: NotionAuthStatus = .loading
+    public var accessToken: String? {
+        KeychainManager.retrieveToken(type: .notionAccessToken)
+    }
     
     public init() {}
     
@@ -34,25 +36,23 @@ public enum AccessTokenError: Error {
         do {
             let accessToken = try await NotionAPIClient.getAccessToken(temporaryToken: temporaryToken)
             
-            if KeychainManager.saveToken(token: accessToken, type: .notionAccessToken) {
-                status = .authorized
-            } else {
-                throw AccessTokenError.failedToSaveToKeychain
+            if !KeychainManager.saveToken(token: accessToken, type: .notionAccessToken) {
+                throw NotionServiceError.failedToSaveToKeychain
             }
         } catch {
-            status = .unauthorized
+            authStatus = .unauthorized
             throw error
         }
     }
     
-    public func retrieveAccessTokenFromKeychain() {
-        status = .loading
+    // TODO: accessToken だけじゃなく、pageID, databaseID までが取得できてから、status を authorized にする
+    public func fetchAuthStatus() {
+        authStatus = .loading
         
-        if let token = KeychainManager.retrieveToken(type: .notionAccessToken) {
-            accessToken = token
-            status = .authorized
+        if accessToken == nil {
+            authStatus = .unauthorized
         } else {
-            status = .unauthorized
+            authStatus = .authorized
         }
     }
     
@@ -60,7 +60,7 @@ public enum AccessTokenError: Error {
     
     public func getPageList() async throws -> [Page] {
         guard let accessToken = accessToken else {
-            throw NotionError.accessTokenNotFound
+            throw NotionServiceError.accessTokenNotFound
         }
         
         let pages = try await NotionAPIClient.getPageList(accessToken: accessToken)
@@ -69,10 +69,10 @@ public enum AccessTokenError: Error {
     }
     
     public func changeStatusToLoading() {
-        status = .loading
+        authStatus = .loading
     }
     
     public func changeStatusToUnauthorized() {
-        status = .unauthorized
+        authStatus = .unauthorized
     }
 }
