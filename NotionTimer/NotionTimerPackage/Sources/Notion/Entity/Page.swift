@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Page: Sendable {
+public struct Page: Sendable, Identifiable {
     public let id: String
     public let lastEditedTime: Date
     public let parentPageID: String?

@@ -14,8 +14,8 @@ import Notion
     var items: [Item] = []
     
     enum Item: Hashable {
-        case pageSelection
-        case databaseCreation
+        case login
+        case databaseSelection
     }
 }
 
@@ -36,24 +36,26 @@ public struct RootView: View {
                 case .authorized:
                     HomeView()
                 case .unauthorized:
-                    AuthView() // ログインさせるだけ
+                    EmptyView()
                 }
             }
             .navigationDestination(for: RootRouter.Item.self) { item in
                 switch item {
-                case .pageSelection:
-                    PageSelectionView()
-                        .navigationTitle(String(moduleLocalized: "select-page"))
-                case .databaseCreation:
-                    DatabaseCreationView()
-                        .navigationTitle(String(moduleLocalized: "create-database"))
+                case .login:
+                    LoginView()
+                case .databaseSelection:
+                    DatabaseSelectionView()
+                        .navigationTitle(String(moduleLocalized: "select-database"))
                 }
             }
         }
         .onAppear {
-            // FIXME: Page 選択の実装のために一時的
+            // FIXME: Database 選択の実装のために一時的
             notionService.authStatus = .unauthorized
 //            notionService.fetchAuthStatus()
+            if notionService.authStatus == .unauthorized {
+                router.items.append(.login)
+            }
         }
         .onOpenURL(perform: { url in
             if let deeplink = url.getDeeplink() {
@@ -62,7 +64,7 @@ public struct RootView: View {
                     Task {
                         do {
                             try await notionService.fetchAccessToken(temporaryToken: token)
-                            router.items.append(.pageSelection)
+                            router.items.append(.databaseSelection)
                         } catch {
                             // TODO: アラートを表示（アクセストークンの取得に失敗）
                             debugPrint(error)

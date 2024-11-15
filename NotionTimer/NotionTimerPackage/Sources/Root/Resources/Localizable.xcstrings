@@ -17,16 +17,13 @@
         }
       }
     },
-    "create-database" : {
+    "database-selection" : {
 
     },
-    "DatabaseCreationView" : {
+    "DatabaseSelectionView" : {
 
     },
-    "PageSelectionView" : {
-
-    },
-    "select-page" : {
+    "select-database" : {
 
     },
     "Timer" : {

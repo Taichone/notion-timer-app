@@ -8,7 +8,7 @@
 import SwiftUI
 import Common
 
-struct AuthView: View {
+struct LoginView: View {
     private static let notionLoginPageURL = URL(string: "https://api.notion.com/v1/oauth/authorize?client_id=131d872b-594c-8062-9bf9-0037ad7ce49b&response_type=code&owner=user&redirect_uri=https%3A%2F%2Ftaichone.github.io%2Fnotion-timer-web%2F")!
     
     var body: some View {
@@ -31,6 +31,6 @@ struct AuthView: View {
 #Preview {
     ZStack {
         Color.black
-        AuthView()
+        LoginView()
     }
 }
