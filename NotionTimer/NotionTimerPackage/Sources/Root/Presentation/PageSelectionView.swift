@@ -9,7 +9,7 @@ import SwiftUI
 import Notion
 
 struct PageSelectionView: View {
-    @Environment(NotionAuthService.self) private var authService: NotionAuthService
+    @Environment(NotionService.self) private var authService: NotionService
     
     var body: some View {
         VStack {

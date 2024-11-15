@@ -26,17 +26,6 @@ struct HomeView: View {
             }
         }
         .padding()
-        .task {
-            // TODO: デバッグの残骸なので消す
-            let repository = NotionRepository()
-            if let pages = try? await repository.getPageList() {
-                pages.forEach {
-                    print($0.title)
-                }
-            } else {
-                print("PageList 取得できず")
-            }
-        }
     }
 }
 

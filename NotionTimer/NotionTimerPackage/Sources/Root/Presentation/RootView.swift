@@ -20,7 +20,7 @@ import Notion
 }
 
 public struct RootView: View {
-    @State private var authService = NotionAuthService()
+    @State private var authService = NotionService()
     @State private var router = RootRouter()
     
     public init() {}
@@ -51,19 +51,20 @@ public struct RootView: View {
             }
         }
         .onAppear {
-            authService.retrieveAccessTokenFromKeychain()
+//            authService.retrieveAccessTokenFromKeychain()
+            authService.changeStatusToUnauthorized()
         }
         .onOpenURL(perform: { url in
             if let deeplink = url.getDeeplink() {
                 switch deeplink {
                 case .notionTemporaryToken(let token):
+                    authService.changeStatusToLoading()
                     Task {
                         do {
                             try await authService.fetchAccessToken(temporaryToken: token)
                             router.items.append(.pageSelection)
                         } catch {
                             // TODO: アラートを表示（アクセストークンの取得に失敗）
-                            authService.changeStatusToUnauthorized() // AuthView へ
                         }
                     }
                 }

@@ -18,26 +18,18 @@ struct NotionAPIClient {
             "API-Version": "v1"
         ]
         
-        let requestBody = Self.SearchRequestBody(
-            filter: .init(value: .page)
-        )
-        
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
+        let requestBody = Self.SearchRequestBody(filter: .init(value: .page))
         
         do {
             let response = try await AF.request(
                 endPoint,
                 method: .post,
                 parameters: requestBody,
-                encoder: JSONParameterEncoder(encoder: encoder),
+                encoder: JSONParameterEncoder(encoder: JSONEncoder.snakeCase),
                 headers: headers
             )
                 .validate()
-                .serializingDecodable(SearchResponseBody.self, decoder: decoder).value
+                .serializingDecodable(SearchResponseBody.self, decoder: JSONDecoder.snakeCase).value
             
             return response.asPageList
         } catch {
@@ -45,10 +37,43 @@ struct NotionAPIClient {
             throw NotionError.failedToGetPageList
         }
     }
+    
+    public static func getAccessToken(temporaryToken: String) async throws -> String {
+        let endPoint = "https://ft52ipjcsrdyyzviuos2pg6loi0ejzdv.lambda-url.ap-northeast-1.on.aws/"
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+        ]
+        let requestBody = Self.GetAccessTokenRequestBody(code: temporaryToken)
+        
+        do {
+            let response = try await AF.request(
+                endPoint,
+                method: .post,
+                parameters: requestBody,
+                encoder: JSONParameterEncoder(encoder: JSONEncoder.snakeCase),
+                headers: headers
+            )
+                .validate()
+                .serializingDecodable(GetAccessTokenResponseBody.self, decoder: JSONDecoder.snakeCase).value
+            
+            return response.accessToken
+        } catch {
+            debugPrint(error)
+            throw AccessTokenError.failedToFetchAccessToken
+        }
+    }
 }
 
 extension NotionAPIClient {
-    struct SearchRequestBody: Encodable {
+    private struct GetAccessTokenRequestBody: Encodable {
+        let code: String
+    }
+    
+    private struct GetAccessTokenResponseBody: Decodable {
+        let accessToken: String
+    }
+    
+    private struct SearchRequestBody: Encodable {
         let filter: Filter
         let sort: Sort = Sort()
         
@@ -68,7 +93,7 @@ extension NotionAPIClient {
         }
     }
     
-    struct SearchResponseBody: Decodable {
+    private struct SearchResponseBody: Decodable {
         let results: [Result]
         
         struct Result: Decodable {
