@@ -26,7 +26,7 @@ public struct TimerView: View {
             isManualBreakStartEnabled: dependency.isManualBreakStartEnabled,
             focusTimeSec: dependency.focusTimeSec,
             breakTimeSec: dependency.breakTimeSec,
-            screenTimeAPI: ScreenTimeAPI.shared,
+            screenTimeAPI: ScreenTimeAPIClient.shared,
             restrictedApps: dependency.restrictedApps
         ))
     }

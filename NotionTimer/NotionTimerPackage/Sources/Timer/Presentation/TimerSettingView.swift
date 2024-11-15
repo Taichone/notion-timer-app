@@ -43,7 +43,7 @@ public struct TimerSettingView: View {
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
     @State private var restrictedApps = ScreenTime.appSelection()
-    private let screenTimeAPI = ScreenTimeAPI.shared
+    private let screenTimeAPI = ScreenTimeAPIClient.shared
     
     public init() {}
     
