@@ -51,20 +51,21 @@ public struct RootView: View {
             }
         }
         .onAppear {
-//            authService.retrieveAccessTokenFromKeychain()
-            notionService.changeStatusToUnauthorized()
+            // FIXME: Page 選択の実装のために一時的
+            notionService.authStatus = .unauthorized
+//            notionService.fetchAuthStatus()
         }
         .onOpenURL(perform: { url in
             if let deeplink = url.getDeeplink() {
                 switch deeplink {
                 case .notionTemporaryToken(let token):
-                    notionService.changeStatusToLoading()
                     Task {
                         do {
                             try await notionService.fetchAccessToken(temporaryToken: token)
                             router.items.append(.pageSelection)
                         } catch {
                             // TODO: アラートを表示（アクセストークンの取得に失敗）
+                            debugPrint(error)
                         }
                     }
                 }

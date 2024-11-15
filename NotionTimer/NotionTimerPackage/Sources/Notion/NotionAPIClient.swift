@@ -132,7 +132,7 @@ extension NotionAPIClient {
                     return .init(
                         id: $0.id,
                         lastEditedTime: date,
-                        parentPageId: $0.parent?.pageId,
+                        parentPageID: $0.parent?.pageId,
                         title: title.plainText
                     )
                 } else {

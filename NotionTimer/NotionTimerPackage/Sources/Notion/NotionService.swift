@@ -1,5 +1,5 @@
 //
-//  NotionAuthService.swift
+//  NotionService.swift
 //  NotionTimerPackage
 //
 //  Created by Taichi on 2024/11/03.
@@ -33,27 +33,25 @@ public enum NotionServiceError: Error {
     // MARK: AccesToken
     
     public func fetchAccessToken(temporaryToken: String) async throws {
+        authStatus = .loading
+        
         do {
             let accessToken = try await NotionAPIClient.getAccessToken(temporaryToken: temporaryToken)
             
-            if !KeychainManager.saveToken(token: accessToken, type: .notionAccessToken) {
+            guard KeychainManager.saveToken(token: accessToken, type: .notionAccessToken) else {
                 throw NotionServiceError.failedToSaveToKeychain
             }
+            
+            fetchAuthStatus()
         } catch {
             authStatus = .unauthorized
             throw error
         }
     }
     
-    // TODO: accessToken だけじゃなく、pageID, databaseID までが取得できてから、status を authorized にする
     public func fetchAuthStatus() {
-        authStatus = .loading
-        
-        if accessToken == nil {
-            authStatus = .unauthorized
-        } else {
-            authStatus = .authorized
-        }
+        // TODO: accessToken だけじゃなく、pageID, databaseID までが取得できてから、status を authorized にする
+        authStatus = accessToken == nil ? .unauthorized : .authorized
     }
     
     // MARK:  Page List
@@ -63,16 +61,6 @@ public enum NotionServiceError: Error {
             throw NotionServiceError.accessTokenNotFound
         }
         
-        let pages = try await NotionAPIClient.getPageList(accessToken: accessToken)
-        pages.forEach { debugPrint($0.title) }
-        return pages
-    }
-    
-    public func changeStatusToLoading() {
-        authStatus = .loading
-    }
-    
-    public func changeStatusToUnauthorized() {
-        authStatus = .unauthorized
+        return try await NotionAPIClient.getPageList(accessToken: accessToken)
     }
 }
