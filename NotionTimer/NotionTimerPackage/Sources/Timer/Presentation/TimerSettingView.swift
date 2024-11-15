@@ -9,10 +9,6 @@ import SwiftUI
 import ScreenTime
 import Common
 
-enum TimerNavigationPath {
-    case setting, timer, record
-}
-
 enum TimerSettingSheetType: String, Identifiable {
     case focusTimePicker
     case breakTimePicker
