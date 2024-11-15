@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ScreenTime
-import Timer
 import Common
 
 enum TimerNavigationPath {

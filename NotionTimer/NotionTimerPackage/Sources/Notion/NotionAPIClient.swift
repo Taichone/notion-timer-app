@@ -109,7 +109,6 @@ extension NotionAPIClient {
                         title: title.plainText
                     )
                 } else {
-                    print("DATE: \($0.lastEditedTime)")
                     return nil
                 }
             }

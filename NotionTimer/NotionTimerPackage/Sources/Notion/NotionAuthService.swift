@@ -8,25 +8,28 @@
 import Foundation
 import LocalRepository
 
-enum NotionAuthStatus {
+public enum NotionAuthStatus {
     case loading
     case authorized
     case unauthorized
 }
 
-enum AccessTokenError: Error {
+public enum AccessTokenError: Error {
     case failedToSaveToKeychain
     case failedToFetchAccessToken
     case urlSessionError(Error)
 }
 
 @MainActor
-@Observable final class NotionAuthService {
-    var status: NotionAuthStatus = .loading
-    var accessToken: String?
+@Observable public final class NotionAuthService {
+    // TODO: accessToken だけじゃなく、pageID, databaseID までが取得できてから、status を authorized にする
+    public var status: NotionAuthStatus = .loading
+    public var accessToken: String?
     
-    /// Temporary Token から Access Token を取得する関数
-    func fetchAccessToken(temporaryToken: String) async throws {
+    public init() {}
+    
+    /// Temporary Token から Access Token を取得
+    public func fetchAccessToken(temporaryToken: String) async throws {
         status = .loading
         
         // TODO: Alamofire 検討
@@ -65,7 +68,7 @@ enum AccessTokenError: Error {
         }
     }
     
-    func retrieveAccessTokenFromKeychain() {
+    public func retrieveAccessTokenFromKeychain() {
         status = .loading
         
         if let token = KeychainManager.retrieveToken(type: .notionAccessToken) {
@@ -74,5 +77,9 @@ enum AccessTokenError: Error {
         } else {
             status = .unauthorized
         }
+    }
+    
+    public func changeStatusToUnauthorized() {
+        status = .unauthorized
     }
 }

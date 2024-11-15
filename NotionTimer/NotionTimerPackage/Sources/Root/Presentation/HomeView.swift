@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import TimerSetting
-import NotionRepository
+import Timer
+import Notion
 
 struct HomeView: View {
     init() {}

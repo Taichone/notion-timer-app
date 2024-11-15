@@ -7,8 +7,9 @@
 
 import LocalRepository
 
-enum NotionError: Error {
+public enum NotionError: Error {
     case accessTokenNotFound
+    case failedToFetchAccessToken
     case failedToGetPageList
 }
 

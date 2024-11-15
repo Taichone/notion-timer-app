@@ -26,7 +26,7 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "NotionRepository",
+            name: "Notion",
             dependencies: [
                 "LocalRepository",
                 .product(name: "Alamofire", package: "Alamofire"),
@@ -34,7 +34,7 @@ let package = Package(
         ),
         .target(
             name: "Root",
-            dependencies: ["LocalRepository", "NotionRepository", "TimerSetting", "Common"],
+            dependencies: ["LocalRepository", "Notion", "Timer", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
@@ -45,18 +45,7 @@ let package = Package(
         ),
         .target(
             name: "Timer",
-            dependencies: ["ScreenTime", "TimerRecord", "Common"],
-            resources: [
-                .process("Resources/Localizable.xcstrings")
-            ]
-        ),
-        .target(
-            name: "TimerRecord",
-            dependencies: []
-        ),
-        .target(
-            name: "TimerSetting",
-            dependencies: ["ScreenTime", "Timer"],
+            dependencies: ["ScreenTime", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]

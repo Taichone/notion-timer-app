@@ -7,18 +7,32 @@
 
 import SwiftUI
 
-public struct LoadingView<Content: View>: View {
+public struct CommonLoadingView: View {
+    public let label: String?
+    
+    public init(label: String? = nil) {
+        self.label = label
+    }
+    
+    public var body: some View {
+        LoadingView(label: label, textColor: .white) {
+            GlassmorphismRoundedRectangle()
+        }
+    }
+}
+
+struct LoadingView<Content: View>: View {
     let label: String?
     let textColor: Color
     let backgroundContent: Content
 
-    public init(label: String?, textColor: Color, @ViewBuilder content: () -> Content) {
+    init(label: String?, textColor: Color, @ViewBuilder content: () -> Content) {
         self.label = label
         self.textColor = textColor
         self.backgroundContent = content()
     }
 
-    public var body: some View {
+    var body: some View {
         VStack {
             ProgressView()
                 .padding()

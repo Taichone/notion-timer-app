@@ -17,6 +17,18 @@
         }
       }
     },
+    "create-database" : {
+
+    },
+    "DatabaseCreationView" : {
+
+    },
+    "PageSelectionView" : {
+
+    },
+    "select-page" : {
+
+    },
     "Timer" : {
 
     }

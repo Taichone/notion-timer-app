@@ -8,7 +8,6 @@
 import SwiftUI
 import ManagedSettings
 import ScreenTime
-import TimerRecord
 import Common
 
 public struct TimerView: View {
