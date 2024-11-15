@@ -10,4 +10,5 @@ import Foundation
 public struct Database: Sendable, Identifiable {
     public let id: String
     public let title: String
+    public let lastEditedTime: Date
 }

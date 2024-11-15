@@ -54,5 +54,9 @@ let package = Package(
             name: "TimerTests",
             dependencies: ["Timer"]
         ),
+        .testTarget(
+            name: "NotionTests",
+            dependencies: ["Notion"]
+        ),
     ]
 )

@@ -12,7 +12,7 @@ import Common
 struct DatabaseSelectionView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var isLoading = true
-    @State private var pages: [Page] = []
+    @State private var databases: [Database] = []
     
     var body: some View {
         ZStack {
@@ -21,26 +21,25 @@ struct DatabaseSelectionView: View {
             if isLoading {
                 CommonLoadingView()
             } else {
-                Text("DatabaseSelectionView")
+                List {
+                    ForEach(databases) { database in
+                        Text(database.title)
+                    }
+                }
             }
         }
         .navigationTitle(String(moduleLocalized: "database-selection-view"))
-    }
-}
-
-struct DatabasePicker: View {
-    @State var databases: [Database] = []
-    
-    var body: some View {
-        List {
-            ForEach(databases) { database in
-                Text(database.title)
+        .task {
+            do {
+                databases = try await notionService.getDatabaseList()
+                isLoading = false
+            } catch {
+                // TODO: ハンドリング
+                debugPrint("データベース一覧の取得に失敗")
             }
         }
     }
 }
-
-
 
 #Preview {
     DatabaseSelectionView()

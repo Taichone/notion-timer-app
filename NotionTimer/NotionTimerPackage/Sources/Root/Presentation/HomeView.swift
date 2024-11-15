@@ -17,6 +17,7 @@ struct HomeView: View {
         VStack {
             // TODO: Notion DB から記録を取得して表示
 //            RecordsPreviewCard(records: records)
+            DatabaseSelectionView()
             
             Spacer()
             

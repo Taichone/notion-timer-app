@@ -19,6 +19,7 @@ public enum NotionServiceError: Error {
     case failedToFetchAccessToken
     case accessTokenNotFound
     case failedToGetPageList
+    case failedToGetDatabaseList
 }
 
 @MainActor
@@ -51,10 +52,14 @@ public enum NotionServiceError: Error {
     
     public func fetchAuthStatus() {
         // TODO: accessToken だけじゃなく、pageID, databaseID までが取得できてから、status を authorized にする
-        authStatus = accessToken == nil ? .unauthorized : .authorized
+        if let accessToken = self.accessToken {
+            authStatus = .authorized
+        } else {
+            authStatus = .unauthorized
+        }
     }
     
-    // MARK:  Page List
+    // MARK:  Page
     
     public func getPageList() async throws -> [Page] {
         guard let accessToken = accessToken else {
@@ -62,5 +67,15 @@ public enum NotionServiceError: Error {
         }
         
         return try await NotionAPIClient.getPageList(accessToken: accessToken)
+    }
+    
+    // MARK: Database
+    
+    public func getDatabaseList() async throws -> [Database] {
+        guard let accessToken = accessToken else {
+            throw NotionServiceError.accessTokenNotFound
+        }
+        
+        return try await NotionAPIClient.getDatabaseList(accessToken: accessToken)
     }
 }

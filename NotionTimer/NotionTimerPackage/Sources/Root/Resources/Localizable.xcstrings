@@ -17,13 +17,7 @@
         }
       }
     },
-    "database-selection" : {
-
-    },
-    "DatabaseSelectionView" : {
-
-    },
-    "select-database" : {
+    "database-selection-view" : {
 
     },
     "Timer" : {
