@@ -9,8 +9,9 @@ import SwiftUI
 import Timer
 import Notion
 
+// TODO: Keychain に databaseID がなければ、選択画面を表示
 struct HomeView: View {
-    init() {}
+    @Environment(NotionService.self) private var notionService
     
     var body: some View {
         VStack {

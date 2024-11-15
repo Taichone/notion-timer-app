@@ -24,9 +24,23 @@ struct DatabaseSelectionView: View {
                 Text("DatabaseSelectionView")
             }
         }
-        .navigationTitle(String(moduleLocalized: "database-selection"))
+        .navigationTitle(String(moduleLocalized: "database-selection-view"))
     }
 }
+
+struct DatabasePicker: View {
+    @State var databases: [Database] = []
+    
+    var body: some View {
+        List {
+            ForEach(databases) { database in
+                Text(database.title)
+            }
+        }
+    }
+}
+
+
 
 #Preview {
     DatabaseSelectionView()
