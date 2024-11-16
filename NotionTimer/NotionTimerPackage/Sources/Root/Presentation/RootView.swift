@@ -46,7 +46,6 @@ public struct RootView: View {
             }
         })
         .animation(.default, value: notionService.authStatus)
-        .preferredColorScheme(.dark)
         .environment(notionService)
     }
 }
