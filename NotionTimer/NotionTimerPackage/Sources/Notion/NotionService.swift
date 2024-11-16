@@ -51,8 +51,10 @@ public enum NotionServiceError: Error {
     }
     
     public func fetchAuthStatus() {
-        // TODO: accessToken だけじゃなく、pageID, databaseID までが取得できてから、status を authorized にする
-        if let accessToken = self.accessToken {
+        // TODO: 検討：ログイン状態にするが、後の通信で
+        // - accessToken が無効なら unauthorized に
+        // - databaseID が無効なら authorized のままで、database を選択させる？
+        if self.accessToken != nil {
             authStatus = .authorized
         } else {
             authStatus = .unauthorized
