@@ -9,73 +9,134 @@ import SwiftUI
 import Notion
 import Common
 
+enum SelectedDatabaseType {
+    case newDatabase(name: String)
+    case existing(database: Database)
+}
+
 struct DatabaseSelectionView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var isLoading = true
     @State private var databases: [Database] = []
+    @State private var selectedDatabase: SelectedDatabaseType?
+    @State private var newDatabaseName: String = String(moduleLocalized: "new-database")
+    @State private var isNewDatabaseNameAlertPresented: Bool = false
     
     // TODO: DB 検索機能
     
     var body: some View {
         ZStack {
-            CommonLoadingView()
-                .hidden(!isLoading)
-            
-            List {
-                Button {
-                    // TODO: データベースを新規作成
-                    print("データベースを新規作成")
-                } label: {
-                    Text(String(moduleLocalized: "create-new-db"))
-                }
-                
-                Section(String(moduleLocalized: "existing-db")) {
-                    ForEach(databases) { database in
-                        Button {
-                            // TODO: データベースを選択
-                            print(database.title)
-                        } label: {
-                            Text(database.title)
+            Form {
+                Section(String(moduleLocalized: "create-new-db")) {
+                    Button {
+                        isNewDatabaseNameAlertPresented = true
+                    } label: {
+                        HStack {
+                            Text(newDatabaseName)
+                            Spacer()
+                            Image(systemName: "checkmark")
+                                .hidden(hiddenCheckmarkForNewDatabase())
                         }
                     }
                 }
+                
+                Section(String(moduleLocalized: "select-existing-db")) {
+                    ForEach(databases) { database in
+                        Button {
+                            selectedDatabase = .existing(database: database)
+                        } label: {
+                            HStack {
+                                Text(database.title)
+                                Spacer()
+                                Image(systemName: "checkmark")
+                                    .hidden(hiddenCheckmarkForExisting(database))
+                            }
+                        }
+                        .tint(Color(.label))
+                    }
+                }
             }
+            
+            CommonLoadingView()
+                .hidden(!isLoading)
         }
         .navigationTitle(String(moduleLocalized: "database-selection-view"))
+        .navigationBarTitleDisplayMode(.inline)
         .task {
             await fetchDatabases()
         }
+        .alert(
+            String(moduleLocalized: "new-database-name"),
+            isPresented: $isNewDatabaseNameAlertPresented
+        ) {
+            TextField(
+                String(moduleLocalized: "new-database"),
+                text: $newDatabaseName
+            )
+            
+            Button {
+                selectedDatabase = .newDatabase(name: newDatabaseName)
+            } label: {
+                Text(String(moduleLocalized: "ok"))
+            }
+            .disabled(newDatabaseName.isEmpty)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    Task { await fetchDatabases() }
+                } label: {
+                    Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    print("TODO: データベース接続処理")
+                } label: {
+                    Text(String(moduleLocalized: "ok"))
+                }
+                .disabled(selectedDatabase == nil)
+            }
+        }
+        
     }
     
     private func fetchDatabases() async {
         isLoading = true
-        defer {
-            isLoading = false
-        }
-        
         do {
-            databases = try await notionService.getDatabaseList()
+            self.databases = try await notionService.getDatabaseList()
         } catch {
-            // TODO: ハンドリング
-            debugPrint("データベース一覧の取得に失敗")
+            debugPrint("データベース一覧の取得に失敗") // TODO: ハンドリング
         }
+        isLoading = false
+    }
+    
+    private func hiddenCheckmarkForNewDatabase() -> Bool {
+        if let selectedDatabase = selectedDatabase {
+            switch selectedDatabase {
+            case .newDatabase:
+                return false
+            case .existing:
+                return true
+            }
+        }
+        return true
+    }
+    
+    private func hiddenCheckmarkForExisting(_ database: Database) -> Bool {
+        if let selectedDatabase = selectedDatabase {
+            switch selectedDatabase {
+            case .newDatabase:
+                return true
+            case .existing(let existingDatabase):
+                return existingDatabase.id != database.id
+            }
+        }
+        return true
     }
 }
 
 #Preview {
     DatabaseSelectionView()
 }
-
-
-/*
- // 1. データベースの構造を取得
- let database = fetchDatabase(databaseId)
- let existingProperties = database["properties"]
-
- // 2. 追加したいプロパティが存在するか確認
- if !existingProperties.contains("NewProperty") {
-     // 3. 存在しなければ新しいプロパティを追加
-     addNewPropertyToDatabase(databaseId, propertyName: "NewProperty", propertyType: "rich_text")
- }
-
- */

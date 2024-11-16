@@ -40,11 +40,7 @@ struct RecordsPreviewCard: View {
                 height: 350,
                 frontContent: {
                     // TODO: Swift Charts で taskCategory 毎に time をグラフ表示
-                    NavigationLink {
-                        DatabaseSelectionView()
-                    } label: {
-                        Text(String(moduleLocalized: "navigate-to-database-selection-view"))
-                    }
+                    EmptyView()
                 },
                 backContent: {
                     Text("Back")
