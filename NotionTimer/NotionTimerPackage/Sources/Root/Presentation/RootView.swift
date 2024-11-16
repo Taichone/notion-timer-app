@@ -19,10 +19,12 @@ public struct RootView: View {
             switch notionService.authStatus {
             case .loading:
                 CommonLoadingView()
-            case .authorized:
-                HomeView()
-            case .unauthorized:
+            case .invalidToken:
                 LoginView()
+            case .invalidDatabase:
+                DatabaseSelectionView()
+            case .complete:
+                HomeView()
             }
         }
         .onAppear {

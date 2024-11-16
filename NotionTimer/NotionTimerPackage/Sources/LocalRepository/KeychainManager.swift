@@ -10,6 +10,7 @@ import Foundation
 
 public enum TokenType: String {
     case notionAccessToken
+    case notionDatabaseID
 }
 
 public struct KeychainManager {

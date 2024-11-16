@@ -43,13 +43,21 @@ struct DatabaseSelectionView: View {
         }
         .navigationTitle(String(moduleLocalized: "database-selection-view"))
         .task {
-            do {
-                databases = try await notionService.getDatabaseList()
-                isLoading = false
-            } catch {
-                // TODO: ハンドリング
-                debugPrint("データベース一覧の取得に失敗")
-            }
+            await fetchDatabases()
+        }
+    }
+    
+    private func fetchDatabases() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        
+        do {
+            databases = try await notionService.getDatabaseList()
+        } catch {
+            // TODO: ハンドリング
+            debugPrint("データベース一覧の取得に失敗")
         }
     }
 }

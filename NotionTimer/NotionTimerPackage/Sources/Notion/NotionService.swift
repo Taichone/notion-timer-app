@@ -10,8 +10,9 @@ import LocalRepository
 
 public enum NotionAuthStatus {
     case loading
-    case authorized
-    case unauthorized
+    case invalidToken
+    case invalidDatabase
+    case complete
 }
 
 public enum NotionServiceError: Error {
@@ -27,6 +28,9 @@ public enum NotionServiceError: Error {
     public var authStatus: NotionAuthStatus = .loading
     public var accessToken: String? {
         KeychainManager.retrieveToken(type: .notionAccessToken)
+    }
+    public var databaseID: String? {
+        KeychainManager.retrieveToken(type: .notionDatabaseID)
     }
     
     public init() {}
@@ -45,20 +49,27 @@ public enum NotionServiceError: Error {
             
             fetchAuthStatus()
         } catch {
-            authStatus = .unauthorized
+            authStatus = .invalidToken
             throw error
         }
     }
     
     public func fetchAuthStatus() {
-        // TODO: 検討：ログイン状態にするが、後の通信で
-        // - accessToken が無効なら unauthorized に
-        // - databaseID が無効なら authorized のままで、database を選択させる？
-        if self.accessToken != nil {
-            authStatus = .authorized
-        } else {
-            authStatus = .unauthorized
+        // TODO: 有効チェック
+        
+        // -[] accessToken 有効チェック
+        guard accessToken != nil else {
+            authStatus = .invalidToken
+            return
         }
+        
+        // -[] databaseID 有効チェック
+        guard databaseID != nil else {
+            authStatus = .invalidDatabase
+            return
+        }
+
+        authStatus = .complete
     }
     
     // MARK:  Page
