@@ -14,16 +14,29 @@ struct DatabaseSelectionView: View {
     @State private var isLoading = true
     @State private var databases: [Database] = []
     
+    // TODO: DB 検索機能
+    
     var body: some View {
         ZStack {
-            CommonGradient()
+            CommonLoadingView()
+                .hidden(!isLoading)
             
-            if isLoading {
-                CommonLoadingView()
-            } else {
-                List {
+            List {
+                Button {
+                    // TODO: データベースを新規作成
+                    print("データベースを新規作成")
+                } label: {
+                    Text(String(moduleLocalized: "create-new-db"))
+                }
+                
+                Section(String(moduleLocalized: "existing-db")) {
                     ForEach(databases) { database in
-                        Text(database.title)
+                        Button {
+                            // TODO: データベースを選択
+                            print(database.title)
+                        } label: {
+                            Text(database.title)
+                        }
                     }
                 }
             }
@@ -44,3 +57,17 @@ struct DatabaseSelectionView: View {
 #Preview {
     DatabaseSelectionView()
 }
+
+
+/*
+ // 1. データベースの構造を取得
+ let database = fetchDatabase(databaseId)
+ let existingProperties = database["properties"]
+
+ // 2. 追加したいプロパティが存在するか確認
+ if !existingProperties.contains("NewProperty") {
+     // 3. 存在しなければ新しいプロパティを追加
+     addNewPropertyToDatabase(databaseId, propertyName: "NewProperty", propertyType: "rich_text")
+ }
+
+ */

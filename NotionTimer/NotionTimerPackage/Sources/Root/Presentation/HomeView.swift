@@ -8,16 +8,15 @@
 import SwiftUI
 import Timer
 import Notion
+import Common
 
-// TODO: Keychain に databaseID がなければ、選択画面を表示
 struct HomeView: View {
     @Environment(NotionService.self) private var notionService
     
     var body: some View {
         VStack {
             // TODO: Notion DB から記録を取得して表示
-//            RecordsPreviewCard(records: records)
-            DatabaseSelectionView()
+            RecordsPreviewCard(service: notionService)
             
             Spacer()
             
@@ -31,19 +30,20 @@ struct HomeView: View {
     }
 }
 
-/*
-struct RecordsPreviewCard: View {
-    var records: [Record]
 
+struct RecordsPreviewCard: View {
+    let service: NotionService
+    
     var body: some View {
         NavigationStack {
             FlippableCard(
                 height: 350,
                 frontContent: {
                     // TODO: Swift Charts で taskCategory 毎に time をグラフ表示
-                    VStack {
-                        Text(records.first?.taskCategory.name ?? "ないよ")
-                        Text(String(records.first?.time ?? 0))
+                    NavigationLink {
+                        DatabaseSelectionView()
+                    } label: {
+                        Text(String(moduleLocalized: "navigate-to-database-selection-view"))
                     }
                 },
                 backContent: {
@@ -53,4 +53,3 @@ struct RecordsPreviewCard: View {
         }
     }
 }
-*/

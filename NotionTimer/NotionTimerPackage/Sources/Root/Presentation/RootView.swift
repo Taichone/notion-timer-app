@@ -16,17 +16,13 @@ public struct RootView: View {
     
     public var body: some View {
         NavigationStack {
-            ZStack {
-                CommonGradient()
-                
-                switch notionService.authStatus {
-                case .loading:
-                    CommonLoadingView()
-                case .authorized:
-                    HomeView()
-                case .unauthorized:
-                    LoginView()
-                }
+            switch notionService.authStatus {
+            case .loading:
+                CommonLoadingView()
+            case .authorized:
+                HomeView()
+            case .unauthorized:
+                LoginView()
             }
         }
         .onAppear {
