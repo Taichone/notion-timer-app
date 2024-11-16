@@ -65,22 +65,6 @@ struct DatabaseSelectionView: View {
         .task {
             await fetchDatabases()
         }
-        .alert(
-            String(moduleLocalized: "new-database-name"),
-            isPresented: $isNewDatabaseNameAlertPresented
-        ) {
-            TextField(
-                String(moduleLocalized: "new-database"),
-                text: $newDatabaseName
-            )
-            
-            Button {
-                selectedDatabase = .newDatabase(name: newDatabaseName)
-            } label: {
-                Text(String(moduleLocalized: "ok"))
-            }
-            .disabled(newDatabaseName.isEmpty)
-        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -99,9 +83,27 @@ struct DatabaseSelectionView: View {
                 .disabled(selectedDatabase == nil)
             }
         }
-        
+        // 新規データベース名入力用アラート
+        .alert(
+            String(moduleLocalized: "new-database-name"),
+            isPresented: $isNewDatabaseNameAlertPresented
+        ) {
+            TextField(
+                String(moduleLocalized: "new-database"),
+                text: $newDatabaseName
+            )
+            
+            Button {
+                selectedDatabase = .newDatabase(name: newDatabaseName)
+            } label: {
+                Text(String(moduleLocalized: "ok"))
+            }
+            .disabled(newDatabaseName.isEmpty)
+        }
     }
-    
+}
+
+extension DatabaseSelectionView {
     private func fetchDatabases() async {
         isLoading = true
         do {
@@ -113,27 +115,23 @@ struct DatabaseSelectionView: View {
     }
     
     private func hiddenCheckmarkForNewDatabase() -> Bool {
-        if let selectedDatabase = selectedDatabase {
-            switch selectedDatabase {
-            case .newDatabase:
-                return false
-            case .existing:
-                return true
-            }
+        guard let selectedDatabase = selectedDatabase else { return true }
+        switch selectedDatabase {
+        case .newDatabase:
+            return false
+        case .existing:
+            return true
         }
-        return true
     }
     
     private func hiddenCheckmarkForExisting(_ database: Database) -> Bool {
-        if let selectedDatabase = selectedDatabase {
-            switch selectedDatabase {
-            case .newDatabase:
-                return true
-            case .existing(let existingDatabase):
-                return existingDatabase.id != database.id
-            }
+        guard let selectedDatabase = selectedDatabase else { return true }
+        switch selectedDatabase {
+        case .newDatabase:
+            return true
+        case .existing(let existingDatabase):
+            return existingDatabase.id != database.id
         }
-        return true
     }
 }
 
