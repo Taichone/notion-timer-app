@@ -40,7 +40,14 @@
         }
       }
     },
+    "existing-db" : {
+
+    },
+    "Hello, World!" : {
+
+    },
     "new-database" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -51,6 +58,7 @@
       }
     },
     "new-database-name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -77,6 +85,7 @@
       }
     },
     "select-existing-db" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
