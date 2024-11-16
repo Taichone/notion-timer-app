@@ -91,4 +91,22 @@ public enum NotionServiceError: Error {
         
         return try await NotionAPIClient.getDatabaseList(accessToken: accessToken)
     }
+    
+    public func createDatabase(title: String) async throws {
+        // TODO: データベース作成
+        // - プロパティの設定
+        // - databaseID の保存
+        // - authStatus = .complete
+    }
+    
+    public func selectDatabase(id: String ) async throws {
+        // TODO: 既存データベースの整形
+        // - 必要に応じてプロパティを追加
+        // - databaseID の保存
+        // - authStatus = .complete
+    }
+    
+//    public func appendMultiSelectLabel(id: String, selectLabelTitle: String) async throws {
+//        print("TODO: append\(selectLabelTitle)")
+//    }
 }
