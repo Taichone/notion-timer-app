@@ -68,6 +68,7 @@ struct DatabaseSelectionView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
+                    selectedDatabase = nil
                     Task { await fetchDatabases() }
                 } label: {
                     Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
@@ -76,7 +77,15 @@ struct DatabaseSelectionView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    print("TODO: データベース接続処理")
+                    guard let selectedDatabase = selectedDatabase else { return }
+                    Task {
+                        do {
+                            try await setDatabase(selectedDatabase)
+                        } catch {
+                            debugPrint(error) // TODO: ハンドリング
+                            debugPrint("データベースの設定に失敗")
+                        }
+                    }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
@@ -132,6 +141,10 @@ extension DatabaseSelectionView {
         case .existing(let existingDatabase):
             return existingDatabase.id != database.id
         }
+    }
+    
+    private func setDatabase(_ selectedDatabase: SelectedDatabaseType) async throws {
+        print("setDatabase")
     }
 }
 
