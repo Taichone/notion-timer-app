@@ -7,8 +7,12 @@
 
 import Foundation
 
-public struct Database: Sendable, Identifiable {
+public struct Database: Sendable, Identifiable, Hashable {
     public let id: String
     public let title: String
-    public let lastEditedTime: Date
+    
+    public init(id: String, title: String) {
+        self.id = id
+        self.title = title
+    }
 }

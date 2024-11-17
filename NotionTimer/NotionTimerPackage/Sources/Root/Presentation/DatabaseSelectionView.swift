@@ -13,7 +13,7 @@ struct DatabaseSelectionView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var isLoading = true
     @State private var databases: [Database] = []
-    @State private var selectedDatabase: Database?
+    @State private var selectedDatabase: Database = .placeholder
     
     var body: some View {
         ZStack {
@@ -23,24 +23,23 @@ struct DatabaseSelectionView: View {
                 } label: {
                     Text(String(moduleLocalized: "create-new-db"))
                 }
-                
-                Section(String(moduleLocalized: "existing-db")) {
-                    ForEach(databases) { database in
-                        Button {
-                            selectedDatabase = database
-                        } label: {
-                            HStack {
-                                Text(database.title)
-                                Spacer()
-                                Image(systemName: "checkmark")
-                                    .hidden(
-                                        selectedDatabase?.id != database.id
-                                    )
+  
+                Section (
+                    content: {
+                        Picker("", selection: $selectedDatabase) {
+                            ForEach(databases) { database in
+                                Text("\(database.title)").tag(database)
                             }
                         }
-                        .tint(Color(.label))
+                        .pickerStyle(NavigationLinkPickerStyle())
+                    },
+                    header: {
+                        Text(String(moduleLocalized: "select-existing-database"))
+                    },
+                    footer: {
+                        Text(String(moduleLocalized: "select-existing-database-description"))
                     }
-                }
+                )
             }
             
             CommonLoadingView()
@@ -49,7 +48,13 @@ struct DatabaseSelectionView: View {
         .navigationTitle(String(moduleLocalized: "database-selection-view"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
+            guard selectedDatabase == .placeholder else { return }
             await fetchDatabases()
+            guard let firstDatabase = databases.first else {
+                debugPrint("TODO: ページが無いときのハンドリング")
+                return
+            }
+            selectedDatabase = firstDatabase
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -62,14 +67,11 @@ struct DatabaseSelectionView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    guard let selectedDatabase = selectedDatabase else {
-                        fatalError("Error: setDatabase - データベース未選択時に呼ばれた")
-                    }
                     Task { await setExistingDatabase(id: selectedDatabase.id) }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
-                .disabled(selectedDatabase == nil)
+                .disabled(isLoading || selectedDatabase == .placeholder)
             }
         }
     }
@@ -101,4 +103,13 @@ extension DatabaseSelectionView {
         DatabaseSelectionView()
             .environment(NotionService())
     }
+}
+
+
+extension Database {
+    public static let placeholderID: String = "Placeholder"
+    public static let placeholder: Database = .init(
+        id: placeholderID,
+        title: String(moduleLocalized: "placeholder-database-title")
+    )
 }

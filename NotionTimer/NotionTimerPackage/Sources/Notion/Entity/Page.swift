@@ -7,9 +7,12 @@
 
 import Foundation
 
-public struct Page: Sendable, Identifiable {
+public struct Page: Sendable, Identifiable, Hashable {
     public let id: String
-    public let lastEditedTime: Date
-    public let parentPageID: String?
     public let title: String
+    
+    public init(id: String, title: String) {
+        self.id = id
+        self.title = title
+    }
 }

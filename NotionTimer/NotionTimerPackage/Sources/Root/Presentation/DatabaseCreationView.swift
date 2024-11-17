@@ -13,38 +13,45 @@ struct DatabaseCreationView: View {
     @Environment(NotionService.self) private var notionService
     @State private var isLoading = true
     @State private var title: String = ""
-    @State private var pages: [Page] = []
-    @State private var selectedPage: Page?
+    @State private var pages: [Page] = [.placeholder]
+    @State private var selectedPage: Page = .placeholder
     
     var body: some View {
         ZStack {
             Form {
                 TextField(String(moduleLocalized: "new-database-title"), text: $title)
                 
-                Section(String(moduleLocalized: "select-parent-page")) {
-                    ForEach(pages) { page in
-                        Button {
-                            selectedPage = page
-                        } label: {
-                            HStack {
-                                Text(page.title)
-                                Spacer()
-                                Image(systemName: "checkmark")
-                                    .hidden(
-                                        selectedPage?.id != page.id
-                                    )
+                Section (
+                    content: {
+                        Picker("", selection: $selectedPage) {
+                            ForEach(pages) { page in
+                                Text("\(page.title)").tag(page)
                             }
                         }
-                        .tint(Color(.label))
+                        .pickerStyle(NavigationLinkPickerStyle())
+                    },
+                    header: {
+                        Text(String(moduleLocalized: "select-parent-page"))
+                    },
+                    footer: {
+                        Text(String(moduleLocalized: "select-parent-page-description"))
                     }
-                }
+                )
             }
             
             CommonLoadingView()
                 .hidden(!isLoading)
         }
+        .navigationTitle(String("database-creation-view"))
+        .navigationBarTitleDisplayMode(.inline)
         .task {
+            guard selectedPage == .placeholder else { return }
             await fetchPages()
+            guard let firstPage = pages.first else {
+                debugPrint("TODO: ページが無いときのハンドリング")
+                return
+            }
+            selectedPage = firstPage
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -57,14 +64,11 @@ struct DatabaseCreationView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    guard let selectedPage = selectedPage else {
-                        fatalError("Error: createDatabase - ページ未選択時に呼ばれた")
-                    }
                     Task { await createDatabase(title: title, parentPageID: selectedPage.id) }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
-                .disabled(selectedPage == nil || title.isEmpty)
+                .disabled(title.isEmpty || isLoading || selectedPage.id == Page.placeholderID)
             }
         }
     }
@@ -87,4 +91,12 @@ struct DatabaseCreationView: View {
 #Preview {
     DatabaseCreationView()
         .environment(NotionService())
+}
+
+extension Page {
+    public static let placeholderID: String = "Placeholder"
+    public static let placeholder: Page = .init(
+        id: placeholderID,
+        title: String(moduleLocalized: "placeholder-page-title")
+    )
 }

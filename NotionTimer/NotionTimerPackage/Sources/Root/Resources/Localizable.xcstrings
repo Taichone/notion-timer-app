@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "ja",
   "strings" : {
+    "" : {
+
+    },
+    "%@" : {
+
+    },
     "authorize-notion" : {
       "localizations" : {
         "en" : {
@@ -37,9 +43,6 @@
         }
       }
     },
-    "existing-db" : {
-
-    },
     "new-database-title" : {
 
     },
@@ -59,7 +62,22 @@
         }
       }
     },
+    "placeholder-database-title" : {
+
+    },
+    "placeholder-page-title" : {
+
+    },
+    "select-existing-database" : {
+
+    },
+    "select-existing-database-description" : {
+
+    },
     "select-parent-page" : {
+
+    },
+    "select-parent-page-description" : {
 
     },
     "Timer" : {

@@ -131,17 +131,11 @@ extension NotionAPIClient {
         
         struct Result: Decodable {
             let id: String
-            let lastEditedTime: String
-            let parent: Parent?
             let properties: Properties
             let title: [DatabaseTitleContent]?
             
             struct DatabaseTitleContent: Decodable {
                 let plainText: String
-            }
-            
-            struct Parent: Decodable {
-                let pageId: String?
             }
             
             struct Properties: Decodable {
@@ -164,16 +158,10 @@ extension NotionAPIClient {
                     return nil
                 }
                 
-                if let date = try? Date(fromCustomISO8601: $0.lastEditedTime) {
-                    return .init(
-                        id: $0.id,
-                        lastEditedTime: date,
-                        parentPageID: $0.parent?.pageId,
-                        title: title.plainText
-                    )
-                } else {
-                    return nil
-                }
+                return .init(
+                    id: $0.id,
+                    title: title.plainText
+                )
             }
         }
         
@@ -183,15 +171,10 @@ extension NotionAPIClient {
                     return nil
                 }
                 
-                if let date = try? Date(fromCustomISO8601: $0.lastEditedTime) {
-                    return .init(
-                        id: $0.id,
-                        title: title.plainText,
-                        lastEditedTime: date
-                    )
-                } else {
-                    return nil
-                }
+                return .init(
+                    id: $0.id,
+                    title: title.plainText
+                )
             }
         }
     }
