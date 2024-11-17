@@ -7,6 +7,7 @@
 
 import Foundation
 import LocalRepository
+import NotionSwift
 
 public enum NotionAuthStatus {
     case loading
@@ -26,13 +27,14 @@ public enum NotionServiceError: Error {
 
 @MainActor
 @Observable public final class NotionService {
-    public var authStatus: NotionAuthStatus = .loading
-    public var accessToken: String? {
+    private var accessToken: String? {
         KeychainManager.retrieveToken(type: .notionAccessToken)
     }
-    public var databaseID: String? {
+    private var databaseID: String? {
         KeychainManager.retrieveToken(type: .notionDatabaseID)
     }
+    private var notionClient: NotionClient?
+    public var authStatus: NotionAuthStatus = .loading
     
     public init() {}
     
@@ -48,6 +50,7 @@ public enum NotionServiceError: Error {
                 throw NotionServiceError.failedToSaveToKeychain
             }
             
+            notionClient = NotionClient(accessKeyProvider: StringAccessKeyProvider(accessKey: accessToken))
             fetchAuthStatus()
         } catch {
             authStatus = .invalidToken
@@ -103,11 +106,20 @@ public enum NotionServiceError: Error {
     // MARK: Database
     
     public func getDatabaseList() async throws -> [Database] {
-        guard let accessToken = accessToken else {
-            throw NotionServiceError.accessTokenNotFound
+        var resultDatabases: Result<[Database], NotionClientError>
+        
+        notionClient?.search(request: .init(filter: .database)) { result in
+            resultDatabases = result.map { objects in
+                objects.results.compactMap({ object -> Database? in
+                    if case .database(let db) = object {
+                        return db
+                    }
+                    return nil
+                })
+            }
         }
         
-        return try await NotionAPIClient.getDatabaseList(accessToken: accessToken)
+        return try resultDatabases.get()
     }
     
     public func createDatabase(parentPageID: String, title: String) async throws {
@@ -121,15 +133,4 @@ public enum NotionServiceError: Error {
         }
         authStatus = .complete
     }
-    
-    public func selectDatabase(id: String ) async throws {
-        // TODO: 既存データベースの整形
-        // - 必要に応じてプロパティを追加
-        // - databaseID の保存
-        // - authStatus = .complete
-    }
-    
-//    public func appendMultiSelectLabel(id: String, selectLabelTitle: String) async throws {
-//        print("TODO: append\(selectLabelTitle)")
-//    }
 }
