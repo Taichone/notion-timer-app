@@ -95,7 +95,7 @@ public enum NotionServiceError: Error {
     
     // MARK:  Page
     
-    public func getPageList() async throws -> [Page] {
+    public func getPageList() async throws -> [PageEntity] {
         guard let accessToken = accessToken else {
             throw NotionServiceError.accessTokenNotFound
         }
@@ -105,7 +105,7 @@ public enum NotionServiceError: Error {
     
     // MARK: Database
     
-    public func getDatabaseList() async throws -> [Database] {
+    public func getDatabaseList() async throws -> [DatabaseEntity] {
         var resultDatabases: Result<[Database], NotionClientError>
         
         notionClient?.search(request: .init(filter: .database)) { result in

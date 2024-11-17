@@ -12,8 +12,8 @@ import Common
 struct DatabaseSelectionView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var isLoading = true
-    @State private var databases: [Database] = []
-    @State private var selectedDatabase: Database = .placeholder
+    @State private var databases: [DatabaseEntity] = []
+    @State private var selectedDatabase: DatabaseEntity = .placeholder
     
     var body: some View {
         ZStack {
@@ -106,9 +106,9 @@ extension DatabaseSelectionView {
 }
 
 
-extension Database {
+extension DatabaseEntity {
     public static let placeholderID: String = "Placeholder"
-    public static let placeholder: Database = .init(
+    public static let placeholder: DatabaseEntity = .init(
         id: placeholderID,
         title: String(moduleLocalized: "placeholder-database-title")
     )

@@ -13,8 +13,8 @@ struct DatabaseCreationView: View {
     @Environment(NotionService.self) private var notionService
     @State private var isLoading = true
     @State private var title: String = ""
-    @State private var pages: [Page] = [.placeholder]
-    @State private var selectedPage: Page = .placeholder
+    @State private var pages: [PageEntity] = [.placeholder]
+    @State private var selectedPage: PageEntity = .placeholder
     
     var body: some View {
         ZStack {
@@ -68,7 +68,7 @@ struct DatabaseCreationView: View {
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
-                .disabled(title.isEmpty || isLoading || selectedPage.id == Page.placeholderID)
+                .disabled(title.isEmpty || isLoading || selectedPage.id == PageEntity.placeholderID)
             }
         }
     }
@@ -99,9 +99,9 @@ struct DatabaseCreationView: View {
         .environment(NotionService())
 }
 
-extension Page {
+extension PageEntity {
     public static let placeholderID: String = "Placeholder"
-    public static let placeholder: Page = .init(
+    public static let placeholder: PageEntity = .init(
         id: placeholderID,
         title: String(moduleLocalized: "placeholder-page-title")
     )
