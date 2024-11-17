@@ -17,9 +17,6 @@
         }
       }
     },
-    "Back" : {
-
-    },
     "create-new-db" : {
       "localizations" : {
         "ja" : {
@@ -43,30 +40,8 @@
     "existing-db" : {
 
     },
-    "Hello, World!" : {
+    "new-database-title" : {
 
-    },
-    "new-database" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新規データベース"
-          }
-        }
-      }
-    },
-    "new-database-name" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新規データベースの名前"
-          }
-        }
-      }
     },
     "ok" : {
       "localizations" : {
@@ -84,16 +59,8 @@
         }
       }
     },
-    "select-existing-db" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "既存のデータベースを選択"
-          }
-        }
-      }
+    "select-parent-page" : {
+
     },
     "Timer" : {
       "localizations" : {

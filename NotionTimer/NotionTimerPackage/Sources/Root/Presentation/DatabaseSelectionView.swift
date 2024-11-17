@@ -54,6 +54,14 @@ struct DatabaseSelectionView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    Task { await fetchDatabases() }
+                } label: {
+                    Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
                     guard let selectedDatabase = selectedDatabase else {
                         fatalError("Error: setDatabase - データベース未選択時に呼ばれた")
                     }
@@ -62,14 +70,6 @@ struct DatabaseSelectionView: View {
                     Text(String(moduleLocalized: "ok"))
                 }
                 .disabled(selectedDatabase == nil)
-            }
-            
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    Task { await fetchDatabases() }
-                } label: {
-                    Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
-                }
             }
         }
     }
@@ -88,6 +88,8 @@ extension DatabaseSelectionView {
     
     private func setExistingDatabase(id: String) async {
         isLoading = true
+        
+        // TODO: 既存データベースの設定
         // notionService.setExistingDatabase(id: database.id)
         print("selectedDatabaseID: \(id)")
         isLoading = false
@@ -95,5 +97,8 @@ extension DatabaseSelectionView {
 }
 
 #Preview {
-    DatabaseSelectionView()
+    NavigationStack {
+        DatabaseSelectionView()
+            .environment(NotionService())
+    }
 }

@@ -43,7 +43,7 @@ struct RecordsPreviewCard: View {
                     EmptyView()
                 },
                 backContent: {
-                    Text("Back")
+                    EmptyView()
                 }
             )
         }

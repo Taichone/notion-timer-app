@@ -18,12 +18,12 @@ struct LoginView: View {
                 UIApplication.shared.open(Self.notionLoginPageURL)
             } label: {
                 Text(String(moduleLocalized: "authorize-notion"))
-                    .tint(.white)
                     .padding()
                     .background {
                         GlassmorphismRoundedRectangle()
                     }
             }
+            .tint(Color(.label))
         }
     }
 }

@@ -134,9 +134,9 @@ extension NotionAPIClient {
             let lastEditedTime: String
             let parent: Parent?
             let properties: Properties
-            let title: [DatabaseTitle]
+            let title: [DatabaseTitleContent]?
             
-            struct DatabaseTitle: Decodable {
+            struct DatabaseTitleContent: Decodable {
                 let plainText: String
             }
             
@@ -148,9 +148,9 @@ extension NotionAPIClient {
                 let title: PageTitle?
                 
                 struct PageTitle: Decodable {
-                    let title: [Title]
+                    let title: [PageTitleContent]
                     
-                    struct Title: Decodable {
+                    struct PageTitleContent: Decodable {
                         let plainText: String
                     }
                 }
@@ -179,7 +179,7 @@ extension NotionAPIClient {
         
         var asDatabaseList: [Database] {
             self.results.compactMap {
-                guard let title = $0.title.first else {
+                guard let title = $0.title?.first else {
                     return nil
                 }
                 
