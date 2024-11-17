@@ -18,6 +18,20 @@ struct HomeView: View {
             // TODO: Notion DB から記録を取得して表示
             RecordsPreviewCard(service: notionService)
             
+            List {
+                Button {
+                    notionService.releaseSelectedDatabase()
+                } label: {
+                    Text("データベースの再選択")
+                }
+                
+                Button {
+                    notionService.releaseAccessToken()
+                } label: {
+                    Text("ログアウト")
+                }
+            }
+            
             Spacer()
             
             NavigationLink {

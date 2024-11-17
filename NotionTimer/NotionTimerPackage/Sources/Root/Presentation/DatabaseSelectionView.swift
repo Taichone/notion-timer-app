@@ -51,7 +51,7 @@ struct DatabaseSelectionView: View {
             guard selectedDatabase == .placeholder else { return }
             await fetchDatabases()
             guard let firstDatabase = databases.first else {
-                debugPrint("TODO: ページが無いときのハンドリング")
+                debugPrint("TODO: データベースが無いときのハンドリング")
                 return
             }
             selectedDatabase = firstDatabase

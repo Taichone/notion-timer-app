@@ -64,7 +64,7 @@ struct DatabaseCreationView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    Task { await createDatabase(title: title, parentPageID: selectedPage.id) }
+                    Task { await createDatabase(parentPageID: selectedPage.id, title: title) }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
@@ -83,8 +83,14 @@ struct DatabaseCreationView: View {
         isLoading = false
     }
     
-    private func createDatabase(title: String, parentPageID: String) async {
-        print("TODO: createDatabase - title: \(title), parentPageID: \(parentPageID)")
+    private func createDatabase(parentPageID: String, title: String) async {
+        isLoading = true
+        do {
+            try await notionService.createDatabase(parentPageID: parentPageID, title: title)
+        } catch {
+            debugPrint("データベースの作成に失敗") // TODO: ハンドリング
+        }
+        isLoading = false
     }
 }
 

@@ -18,6 +18,7 @@ public enum NotionAuthStatus {
 public enum NotionServiceError: Error {
     case failedToSaveToKeychain
     case failedToFetchAccessToken
+    case failedToCreateDatabase
     case accessTokenNotFound
     case failedToGetPageList
     case failedToGetDatabaseList
@@ -72,6 +73,23 @@ public enum NotionServiceError: Error {
         authStatus = .complete
     }
     
+    public func releaseAccessToken() {
+        guard KeychainManager.deleteToken(type: .notionAccessToken),
+              KeychainManager.deleteToken(type: .notionDatabaseID) else {
+            fatalError("Keychain からトークンを削除できない")
+        }
+        
+        authStatus = .invalidToken
+    }
+    
+    public func releaseSelectedDatabase() {
+        guard KeychainManager.deleteToken(type: .notionDatabaseID) else {
+            fatalError("Keychain からトークンを削除できない")
+        }
+        
+        authStatus = .invalidDatabase
+    }
+    
     // MARK:  Page
     
     public func getPageList() async throws -> [Page] {
@@ -92,11 +110,16 @@ public enum NotionServiceError: Error {
         return try await NotionAPIClient.getDatabaseList(accessToken: accessToken)
     }
     
-    public func createDatabase(title: String) async throws {
-        // TODO: データベース作成
-        // - プロパティの設定
-        // - databaseID の保存
-        // - authStatus = .complete
+    public func createDatabase(parentPageID: String, title: String) async throws {
+        guard let accessToken = accessToken else {
+            throw NotionServiceError.accessTokenNotFound
+        }
+        
+        let databaseID = try await NotionAPIClient.createDatabase(accessToken: accessToken, parentPageID: parentPageID, title: title)
+        guard KeychainManager.saveToken(token: databaseID, type: .notionDatabaseID) else {
+            throw NotionServiceError.failedToSaveToKeychain
+        }
+        authStatus = .complete
     }
     
     public func selectDatabase(id: String ) async throws {

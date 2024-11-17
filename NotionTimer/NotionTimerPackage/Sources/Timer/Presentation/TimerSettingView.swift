@@ -84,7 +84,6 @@ public struct TimerSettingView: View {
                 Text(String(moduleLocalized: "select-apps-to-restrict"))
             }
         }
-        .scrollContentBackground(.hidden)
         .navigationTitle(String(moduleLocalized: "timer-setting"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
