@@ -53,7 +53,7 @@ struct NotionAPIClient {
                 headers: headers
             )
                 .validate()
-                .serializingDecodable(SearchResponseBody.self, decoder: JSONDecoder.snakeCase).value
+                .serializingDecodable(SearchDatabasesResponseBody.self, decoder: JSONDecoder.snakeCase).value
             
             return response.asDatabaseList
         
@@ -197,6 +197,32 @@ extension NotionAPIClient {
         var asDatabaseList: [Database] {
             self.results.compactMap {
                 guard let title = $0.title?.first else {
+                    return nil
+                }
+                
+                return .init(
+                    id: $0.id,
+                    title: title.plainText
+                )
+            }
+        }
+    }
+    
+    private struct SearchDatabasesResponseBody: Decodable {
+        let results: [Result]
+        
+        struct Result: Decodable {
+            let id: String
+            let title: [DatabaseTitleContent]
+            
+            struct DatabaseTitleContent: Decodable {
+                let plainText: String
+            }
+        }
+        
+        var asDatabaseList: [Database] {
+            self.results.compactMap {
+                guard let title = $0.title.first else {
                     return nil
                 }
                 
