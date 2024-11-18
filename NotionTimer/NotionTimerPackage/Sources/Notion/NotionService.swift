@@ -110,16 +110,8 @@ public enum NotionServiceError: Error {
             }
         }
         
-        // [PageEntity] に変換して返す
-        let notionPages = try resultPages.get()
-        let pages: [PageEntity] = notionPages.compactMap {
-            guard let title = $0.getTitle()?.first,
-                  case .text(let richTextType) = title.type else {
-                return nil
-            }
-            return .init(id: $0.id.rawValue, title: richTextType.content)
-        }
-        return pages
+        let pages = try resultPages.get()
+        return pages.compactMap { $0.asPageEntity }
     }
     
     // MARK: Database
@@ -139,16 +131,8 @@ public enum NotionServiceError: Error {
             }
         }
         
-        // [DatabaseEntity] に変換して返す
-        let notionDatabases = try resultDatabases.get()
-        let databases: [DatabaseEntity] = notionDatabases.compactMap {
-            guard let title = $0.title.first,
-                  case .text(let richTextType) = title.type else {
-                return nil
-            }
-            return .init(id: $0.id.rawValue, title: richTextType.content)
-        }
-        return databases
+        let databases = try resultDatabases.get()
+        return databases.compactMap { $0.asDatabaseEntity }
     }
     
     public func createDatabase(parentPageID: String, title: String) async throws {
@@ -161,5 +145,25 @@ public enum NotionServiceError: Error {
             throw NotionServiceError.failedToSaveToKeychain
         }
         authStatus = .complete
+    }
+}
+
+extension Database {
+    var asDatabaseEntity: DatabaseEntity? {
+        guard let title = self.title.first,
+              case .text(let richTextType) = title.type else {
+            return nil
+        }
+        return .init(id: self.id.rawValue, title: richTextType.content)
+    }
+}
+
+extension Page {
+    var asPageEntity: PageEntity? {
+        guard let title = self.getTitle()?.first,
+              case .text(let richTextType) = title.type else {
+            return nil
+        }
+        return .init(id: self.id.rawValue, title: richTextType.content)
     }
 }
