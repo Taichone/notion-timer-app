@@ -96,11 +96,30 @@ public enum NotionServiceError: Error {
     // MARK:  Page
     
     public func getPageList() async throws -> [PageEntity] {
-        guard let accessToken = accessToken else {
-            throw NotionServiceError.accessTokenNotFound
+        var resultPages: Result<[Page], NotionClientError>
+        
+        // TODO: Concurrency ラッピング
+        notionClient?.search(request: .init(filter: .page)) { result in
+            resultPages = result.map { objects in
+                objects.results.compactMap({ object -> Page? in
+                    if case .page(let page) = object {
+                        return page
+                    }
+                    return nil
+                })
+            }
         }
         
-        return try await NotionAPIClient.getPageList(accessToken: accessToken)
+        // [PageEntity] に変換して返す
+        let notionPages = try resultPages.get()
+        let pages: [PageEntity] = notionPages.compactMap {
+            guard let title = $0.getTitle()?.first,
+                  case .text(let richTextType) = title.type else {
+                return nil
+            }
+            return .init(id: $0.id.rawValue, title: richTextType.content)
+        }
+        return pages
     }
     
     // MARK: Database
