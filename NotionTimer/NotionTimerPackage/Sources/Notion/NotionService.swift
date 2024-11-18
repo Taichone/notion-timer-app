@@ -72,7 +72,7 @@ public enum NotionServiceError: Error {
             authStatus = .invalidDatabase
             return
         }
-
+        
         authStatus = .complete
     }
     
@@ -104,10 +104,11 @@ public enum NotionServiceError: Error {
     }
     
     // MARK: Database
-    
+        
     public func getDatabaseList() async throws -> [DatabaseEntity] {
         var resultDatabases: Result<[Database], NotionClientError>
         
+        // TODO: Concurrency ラッピング
         notionClient?.search(request: .init(filter: .database)) { result in
             resultDatabases = result.map { objects in
                 objects.results.compactMap({ object -> Database? in
@@ -119,7 +120,16 @@ public enum NotionServiceError: Error {
             }
         }
         
-        return try resultDatabases.get()
+        // [DatabaseEntity] に変換して返す
+        let notionDatabases = try resultDatabases.get()
+        let databases: [DatabaseEntity] = notionDatabases.compactMap {
+            guard let title = $0.title.first,
+                  case .text(let richTextType) = title.type else {
+                return nil
+            }
+            return .init(id: $0.id.rawValue, title: richTextType.content)
+        }
+        return databases
     }
     
     public func createDatabase(parentPageID: String, title: String) async throws {
