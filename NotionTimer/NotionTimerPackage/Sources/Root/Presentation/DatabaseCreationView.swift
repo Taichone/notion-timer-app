@@ -29,10 +29,10 @@ struct DatabaseCreationView: View {
                         .pickerStyle(NavigationLinkPickerStyle())
                     },
                     header: {
-                        Text(String(moduleLocalized: "select-parent-page"))
+                        Text(String(moduleLocalized: "parent-page"))
                     },
                     footer: {
-                        Text(String(moduleLocalized: "select-parent-page-description"))
+                        Text(String(moduleLocalized: "parent-page-description"))
                     }
                 )
                 
@@ -52,7 +52,7 @@ struct DatabaseCreationView: View {
             CommonLoadingView()
                 .hidden(!isLoading)
         }
-        .navigationTitle(String("database-creation-view"))
+        .navigationTitle(String("database-creation-view-navigation-title"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             guard selectedPage == .placeholder else { return }

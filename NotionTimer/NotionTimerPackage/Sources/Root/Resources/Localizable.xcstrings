@@ -9,12 +9,6 @@
     },
     "authorize-notion" : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Authorize Notion"
-          }
-        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23,22 +17,42 @@
         }
       }
     },
-    "create-new-db" : {
+    "create-database-view-navigation-link" : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新しいデータベースを作成"
+            "value" : "新しいデータベースを作成する"
           }
         }
       }
     },
-    "database-selection-view" : {
+    "database-selection-view-navigation-title" : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "データベースを選択"
+            "value" : "データベース選択"
+          }
+        }
+      }
+    },
+    "existing-database" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "既存のデータベース"
+          }
+        }
+      }
+    },
+    "existing-database-description" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集中時間の記録に用いるデータベースを選択してください。選択されたデータベースには、「Title」、「Date」、「Tag」「Description」、「Time」というプロパティが必要に応じて追加されます。"
           }
         }
       }
@@ -75,16 +89,30 @@
     },
     "ok" : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "parent-page" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "親ページ"
+          }
+        }
+      }
+    },
+    "parent-page-description" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択されたページに、新しいデータベースを作成します。"
           }
         }
       }
@@ -105,46 +133,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ページを読み込み中"
-          }
-        }
-      }
-    },
-    "select-existing-database" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "既存のデータベース"
-          }
-        }
-      }
-    },
-    "select-existing-database-description" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "集中時間の記録に用いるデータベースを選択してください。選択されたデータベースには、「Title」、「Date」、「Tag」「Description」、「Time」というプロパティが必要に応じて追加されます。"
-          }
-        }
-      }
-    },
-    "select-parent-page" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "親ページ"
-          }
-        }
-      }
-    },
-    "select-parent-page-description" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選択されたページに、新しいデータベースを作成します。"
           }
         }
       }

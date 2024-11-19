@@ -21,7 +21,7 @@ struct DatabaseSelectionView: View {
                 NavigationLink {
                     DatabaseCreationView()
                 } label: {
-                    Text(String(moduleLocalized: "create-new-db"))
+                    Text(String(moduleLocalized: "create-database-view-navigation-link"))
                 }
   
                 Section (
@@ -34,10 +34,10 @@ struct DatabaseSelectionView: View {
                         .pickerStyle(NavigationLinkPickerStyle())
                     },
                     header: {
-                        Text(String(moduleLocalized: "select-existing-database"))
+                        Text(String(moduleLocalized: "existing-database"))
                     },
                     footer: {
-                        Text(String(moduleLocalized: "select-existing-database-description"))
+                        Text(String(moduleLocalized: "existing-database-description"))
                     }
                 )
             }
@@ -45,7 +45,7 @@ struct DatabaseSelectionView: View {
             CommonLoadingView()
                 .hidden(!isLoading)
         }
-        .navigationTitle(String(moduleLocalized: "database-selection-view"))
+        .navigationTitle(String(moduleLocalized: "database-selection-view-navigation-title"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             guard selectedDatabase == .placeholder else { return }
