@@ -19,8 +19,6 @@ struct DatabaseCreationView: View {
     var body: some View {
         ZStack {
             Form {
-                TextField(String(moduleLocalized: "new-database-title"), text: $title)
-                
                 Section (
                     content: {
                         Picker("", selection: $selectedPage) {
@@ -35,6 +33,18 @@ struct DatabaseCreationView: View {
                     },
                     footer: {
                         Text(String(moduleLocalized: "select-parent-page-description"))
+                    }
+                )
+                
+                Section (
+                    content: {
+                        TextField(String(moduleLocalized: "new-database-title-text-field-spaceholder"), text: $title)
+                    },
+                    header: {
+                        Text(String(moduleLocalized: "new-database-title"))
+                    },
+                    footer: {
+                        Text(String(moduleLocalized: "new-database-title-description"))
                     }
                 )
             }

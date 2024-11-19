@@ -163,7 +163,8 @@ extension NotionService {
                 "Tag": .multiSelect([]),
                 "Time": .number(.numberWithCommas),
                 "Description": .richText,
-            ]
+            ],
+            isInline: true
         )
 
         return try await withCheckedThrowingContinuation { continuation in
