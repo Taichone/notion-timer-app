@@ -13,6 +13,10 @@ let package = Package(
             targets: ["Root"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.10.0")),
+        .package(url: "https://github.com/chojnac/NotionSwift.git", .upToNextMajor(from: "0.9.0")),
+    ],
     targets: [
         .target(
             name: "Common",
@@ -24,11 +28,15 @@ let package = Package(
         ),
         .target(
             name: "Notion",
-            dependencies: ["LocalRepository"]
+            dependencies: [
+                "LocalRepository",
+                .product(name: "Alamofire", package: "Alamofire"),
+                .product(name: "NotionSwift", package: "NotionSwift")
+            ]
         ),
         .target(
             name: "Root",
-            dependencies: ["LocalRepository", "Notion", "TimerSetting", "Common"],
+            dependencies: ["LocalRepository", "Notion", "Timer", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
@@ -39,18 +47,7 @@ let package = Package(
         ),
         .target(
             name: "Timer",
-            dependencies: ["ScreenTime", "TimerRecord", "Common"],
-            resources: [
-                .process("Resources/Localizable.xcstrings")
-            ]
-        ),
-        .target(
-            name: "TimerRecord",
-            dependencies: []
-        ),
-        .target(
-            name: "TimerSetting",
-            dependencies: ["ScreenTime", "Timer"],
+            dependencies: ["ScreenTime", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
@@ -58,6 +55,10 @@ let package = Package(
         .testTarget(
             name: "TimerTests",
             dependencies: ["Timer"]
+        ),
+        .testTarget(
+            name: "NotionTests",
+            dependencies: ["Notion"]
         ),
     ]
 )

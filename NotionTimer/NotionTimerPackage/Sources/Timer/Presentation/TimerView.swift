@@ -8,12 +8,11 @@
 import SwiftUI
 import ManagedSettings
 import ScreenTime
-import TimerRecord
 import Common
 
 public struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var timerService: TimerService // TODO: rename
+    @StateObject private var timerService: TimerService
     @State private var resultFocusTimeSec: Int?
     
     private let focusColor: Color
@@ -27,7 +26,7 @@ public struct TimerView: View {
             isManualBreakStartEnabled: dependency.isManualBreakStartEnabled,
             focusTimeSec: dependency.focusTimeSec,
             breakTimeSec: dependency.breakTimeSec,
-            screenTimeAPI: ScreenTimeAPI.shared,
+            screenTimeAPI: ScreenTimeAPIClient.shared,
             restrictedApps: dependency.restrictedApps
         ))
     }
@@ -97,6 +96,7 @@ public struct TimerView: View {
             }
             .padding()
         }
+        .padding()
         .navigationBarBackButtonHidden(true)
         .navigationTitle(String(moduleLocalized: "timer"))
         .navigationBarTitleDisplayMode(.inline)

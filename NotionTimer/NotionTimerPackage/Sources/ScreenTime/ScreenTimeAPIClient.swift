@@ -8,15 +8,15 @@
 import FamilyControls
 import ManagedSettings
 
-public final class ScreenTimeAPI {
+public final class ScreenTimeAPIClient {
     private let store = ManagedSettingsStore()
     
-    @MainActor public static let shared = ScreenTimeAPI()
+    @MainActor public static let shared = ScreenTimeAPIClient()
     private init() {}
     
 }
 
-extension ScreenTimeAPI: ScreenTimeAPIProtocol {
+extension ScreenTimeAPIClient: ScreenTimeAPIProtocol {
     public func authorize() async {
         do {
             try await AuthorizationCenter.shared.requestAuthorization(for: .individual)

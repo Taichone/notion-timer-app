@@ -7,12 +7,7 @@
 
 import SwiftUI
 import ScreenTime
-import Timer
 import Common
-
-enum TimerNavigationPath {
-    case setting, timer, record
-}
 
 enum TimerSettingSheetType: String, Identifiable {
     case focusTimePicker
@@ -44,7 +39,7 @@ public struct TimerSettingView: View {
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
     @State private var restrictedApps = ScreenTime.appSelection()
-    private let screenTimeAPI = ScreenTimeAPI.shared
+    private let screenTimeAPI = ScreenTimeAPIClient.shared
     
     public init() {}
     
@@ -89,7 +84,6 @@ public struct TimerSettingView: View {
                 Text(String(moduleLocalized: "select-apps-to-restrict"))
             }
         }
-        .scrollContentBackground(.hidden)
         .navigationTitle(String(moduleLocalized: "timer-setting"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

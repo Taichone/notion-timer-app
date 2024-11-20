@@ -73,10 +73,8 @@ public struct FlippableCard<FrontContent: View, BackContent: View>: View {
         Color(.mint)
         FlippableCard {
             Text("Front")
-                .foregroundStyle(.white)
         } backContent: {
             Text("Back")
-                .foregroundStyle(.white)
         }
     }
 }
