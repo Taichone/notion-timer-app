@@ -131,14 +131,17 @@ extension NotionService {
                 client: notionClient
             )
             
-            // Keychain にデータベースIDを保存し、認証状態を更新
-            guard KeychainManager.saveToken(token: databaseID, type: .notionDatabaseID) else {
-                throw NotionServiceError.failedToSaveToKeychain
-            }
-            authStatus = .complete
+            try registerDatabase(id: databaseID)
         } catch {
             throw NotionServiceError.failedToCreateDatabase(error: error)
         }
+    }
+    
+    public func registerDatabase(id: String) throws {
+        guard KeychainManager.saveToken(token: id, type: .notionDatabaseID) else {
+            throw NotionServiceError.failedToSaveToKeychain
+        }
+        authStatus = .complete
     }
 }
 
@@ -178,10 +181,6 @@ extension NotionService {
                 }
             }
         }
-    }
-    
-    private func propertiesNeedAdded(db: Database) async throws -> [String: DatabasePropertyType]  {
-        return .init()
     }
     
     private func getCompatibleDatabaseList(client: NotionClient) async throws -> [DatabaseEntity] {

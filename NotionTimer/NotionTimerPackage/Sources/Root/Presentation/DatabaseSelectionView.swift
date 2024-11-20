@@ -68,7 +68,15 @@ struct DatabaseSelectionView: View {
                     guard let selectedDatabaseID = selectedDatabase?.id else {
                         fatalError("ERROR: selectedDatabase が nil でも OK ボタンが押せている")
                     }
-                    Task { await setExistingDatabase(id: selectedDatabaseID) }
+                    
+                    Task {
+                        do {
+                            try notionService.registerDatabase(id: selectedDatabaseID)
+                        } catch {
+                            // TODO: ハンドリング
+                            debugPrint(error.localizedDescription)
+                        }
+                    }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
@@ -94,15 +102,6 @@ extension DatabaseSelectionView {
         } catch {
             debugPrint("ERROR: ページ一覧の取得に失敗") // TODO: ハンドリング
         }
-        isLoading = false
-    }
-    
-    private func setExistingDatabase(id: String) async {
-        isLoading = true
-        
-        // TODO: 既存データベースの設定
-        // notionService.setExistingDatabase(id: database.id)
-        print("selectedDatabaseID: \(id)")
         isLoading = false
     }
 }
