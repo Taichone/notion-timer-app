@@ -224,6 +224,7 @@ extension NotionService {
                 let resultPages = result.map { objects in
                     objects.results.compactMap({ object -> Page? in
                         if case .page(let page) = object {
+                            // TODO: DB 内の Page は除外したい
                             return page
                         }
                         return nil
