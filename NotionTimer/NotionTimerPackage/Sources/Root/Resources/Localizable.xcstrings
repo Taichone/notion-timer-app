@@ -52,7 +52,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "集中時間の記録に用いるデータベースを選択してください。選択されたデータベースには、「Title」、「Date」、「Tag」「Description」、「Time」というプロパティが必要に応じて追加されます。"
+            "value" : "集中時間の記録に用いるデータベースを選択してください。記録に用いるプロパティ（Dateの「Date」、Multi Selectの「Tag」、Textの「Description」、Numberの「Time」）を全て持つデータベースがあればここに表示されます。"
           }
         }
       }

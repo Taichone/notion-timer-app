@@ -94,8 +94,6 @@ public enum NotionServiceError: Error {
     }
 }
 
-// MARK: NotionSwift
-
 extension NotionService {
     public func getPageList() async throws -> [PageEntity] {
         guard let notionClient = notionClient else {
@@ -115,7 +113,7 @@ extension NotionService {
         }
         
         do {
-            return try await getDatabaseList(client: notionClient)
+            return try await getCompatibleDatabaseList(client: notionClient)
         } catch {
             throw NotionServiceError.failedToGetDatabaseList(error: error)
         }
@@ -143,6 +141,8 @@ extension NotionService {
         }
     }
 }
+
+// MARK: - NotionSwift
 
 extension NotionService {
     private func createDatabaseAndGetDatabaseID(
@@ -180,12 +180,28 @@ extension NotionService {
         }
     }
     
-    private func getDatabaseList(client: NotionClient) async throws -> [DatabaseEntity] {
+    private func propertiesNeedAdded(db: Database) async throws -> [String: DatabasePropertyType]  {
+        return .init()
+    }
+    
+    private func getCompatibleDatabaseList(client: NotionClient) async throws -> [DatabaseEntity] {
         return try await withCheckedThrowingContinuation { continuation in
             client.search(request: .init(filter: .database)) { result in
                 let resultDatabases = result.map { objects in
                     objects.results.compactMap({ object -> Database? in
                         if case .database(let db) = object {
+                            let properties = db.properties
+                            guard let dateProperty = properties["Date"],
+                                  case .date = dateProperty.type,
+                                  let tagProperty = properties["Tag"],
+                                  case .multiSelect = tagProperty.type,
+                                  let timeProperty = properties["Time"],
+                                  case .number = timeProperty.type,
+                                  let descriptionProperty = properties["Description"],
+                                  case .richText = descriptionProperty.type
+                            else {
+                                return nil
+                            }
                             return db
                         }
                         return nil
