@@ -15,18 +15,20 @@ struct DatabaseCreationView: View {
     @State private var isLoading = true
     @State private var title: String = ""
     @State private var pages: [PageEntity] = []
-    @State private var selectedPage: PageEntity?
+    @State private var selectedParentPage: PageEntity?
     
     var body: some View {
         ZStack {
             Form {
                 Section (
                     content: {
-                        Picker("", selection: $selectedPage) {
+                        Picker("", selection: $selectedParentPage) {
                             ForEach(pages) { page in
                                 Text("\(page.title)").tag(page)
                             }
-                            Text(String(moduleLocalized: "page-unselected")).tag(PageEntity?.none)
+                            Text(String(moduleLocalized: "parent-page-unselected"))
+                                .tag(PageEntity?.none)
+                                .foregroundStyle(Color(.tertiaryLabel))
                         }
                         .pickerStyle(NavigationLinkPickerStyle())
                     },
@@ -57,6 +59,7 @@ struct DatabaseCreationView: View {
         .navigationTitle(String(moduleLocalized: "database-creation-view-navigation-title"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
+            // TODO: 初回読み込みのタイミングは UX に考慮して再検討
             await fetchPages()
         }
         .toolbar {
@@ -70,14 +73,14 @@ struct DatabaseCreationView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    guard let selectedPageID = selectedPage?.id else {
-                        fatalError("ERROR: selectedPage が nil でも OK ボタンが押せている")
+                    guard let selectedPageID = selectedParentPage?.id else {
+                        fatalError("ERROR: selectedParentPage が nil でも OK ボタンが押せている")
                     }
                     Task { await createDatabase(parentPageID: selectedPageID, title: title) }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
-                .disabled(title.isEmpty || isLoading || selectedPage == nil)
+                .disabled(title.isEmpty || isLoading || selectedParentPage == nil)
             }
         }
     }
@@ -85,14 +88,14 @@ struct DatabaseCreationView: View {
     private func fetchPages() async {
         isLoading = true
         do {
-            let selectedPageID = selectedPage?.id
+            let selectedPageID = selectedParentPage?.id
             
             pages = try await notionService.getPageList()
             
             if let selectedPageID = selectedPageID {
-                selectedPage = pages.first { $0.id == selectedPageID }
+                selectedParentPage = pages.first { $0.id == selectedPageID }
             } else {
-                selectedPage = nil
+                selectedParentPage = nil
             }
         } catch {
             debugPrint("ERROR: ページ一覧の取得に失敗") // TODO: ハンドリング
