@@ -14,8 +14,8 @@ struct DatabaseCreationView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isLoading = true
     @State private var title: String = ""
-    @State private var pages: [PageEntity] = [.placeholder]
-    @State private var selectedPage: PageEntity = .placeholder
+    @State private var pages: [PageEntity] = []
+    @State private var selectedPage: PageEntity?
     
     var body: some View {
         ZStack {
@@ -26,6 +26,7 @@ struct DatabaseCreationView: View {
                             ForEach(pages) { page in
                                 Text("\(page.title)").tag(page)
                             }
+                            Text(String(moduleLocalized: "page-unselected")).tag(PageEntity?.none)
                         }
                         .pickerStyle(NavigationLinkPickerStyle())
                     },
@@ -53,16 +54,10 @@ struct DatabaseCreationView: View {
             CommonLoadingView()
                 .hidden(!isLoading)
         }
-        .navigationTitle(String("database-creation-view-navigation-title"))
+        .navigationTitle(String(moduleLocalized: "database-creation-view-navigation-title"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            guard selectedPage == .placeholder else { return }
             await fetchPages()
-            guard let firstPage = pages.first else {
-                debugPrint("TODO: ページが無いときのハンドリング")
-                return
-            }
-            selectedPage = firstPage
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -75,11 +70,14 @@ struct DatabaseCreationView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    Task { await createDatabase(parentPageID: selectedPage.id, title: title) }
+                    guard let selectedPageID = selectedPage?.id else {
+                        fatalError("ERROR: selectedPage が nil でも OK ボタンが押せている")
+                    }
+                    Task { await createDatabase(parentPageID: selectedPageID, title: title) }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
-                .disabled(title.isEmpty || isLoading || selectedPage.id == PageEntity.placeholderID)
+                .disabled(title.isEmpty || isLoading || selectedPage == nil)
             }
         }
     }
@@ -87,9 +85,17 @@ struct DatabaseCreationView: View {
     private func fetchPages() async {
         isLoading = true
         do {
-            self.pages = try await notionService.getPageList()
+            let selectedPageID = selectedPage?.id
+            
+            pages = try await notionService.getPageList()
+            
+            if let selectedPageID = selectedPageID {
+                selectedPage = pages.first { $0.id == selectedPageID }
+            } else {
+                selectedPage = nil
+            }
         } catch {
-            debugPrint("ページ一覧の取得に失敗") // TODO: ハンドリング
+            debugPrint("ERROR: ページ一覧の取得に失敗") // TODO: ハンドリング
         }
         isLoading = false
     }
@@ -100,21 +106,15 @@ struct DatabaseCreationView: View {
             try await notionService.createDatabase(parentPageID: parentPageID, title: title)
             dismiss()
         } catch {
-            debugPrint("データベースの作成に失敗") // TODO: ハンドリング
+            debugPrint("ERROR: データベースの作成に失敗") // TODO: ハンドリング
         }
         isLoading = false
     }
 }
 
 #Preview {
-    DatabaseCreationView()
-        .environment(NotionService())
-}
-
-extension PageEntity {
-    public static let placeholderID: String = "Placeholder"
-    public static let placeholder: PageEntity = .init(
-        id: placeholderID,
-        title: String(moduleLocalized: "placeholder-page-title")
-    )
+    NavigationStack {
+        DatabaseCreationView()
+            .environment(NotionService())
+    }
 }

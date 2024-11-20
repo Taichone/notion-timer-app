@@ -27,6 +27,16 @@
         }
       }
     },
+    "database-creation-view-navigation-title" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規データベース"
+          }
+        }
+      }
+    },
     "database-selection-view-navigation-title" : {
       "localizations" : {
         "ja" : {
@@ -97,6 +107,16 @@
         }
       }
     },
+    "page-unselected" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ページ未選択"
+          }
+        }
+      }
+    },
     "parent-page" : {
       "localizations" : {
         "ja" : {
@@ -128,6 +148,7 @@
       }
     },
     "placeholder-page-title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
