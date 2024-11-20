@@ -81,7 +81,7 @@ extension DatabaseSelectionView {
     private func fetchDatabases() async {
         isLoading = true
         do {
-            self.databases = try await notionService.getDatabaseList()
+            self.databases = try await notionService.getCompatibleDatabaseList()
         } catch {
             debugPrint("データベース一覧の取得に失敗") // TODO: ハンドリング
         }

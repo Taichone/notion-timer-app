@@ -107,7 +107,7 @@ extension NotionService {
         }
     }
         
-    public func getDatabaseList() async throws -> [DatabaseEntity] {
+    public func getCompatibleDatabaseList() async throws -> [DatabaseEntity] {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
@@ -191,18 +191,18 @@ extension NotionService {
                     objects.results.compactMap({ object -> Database? in
                         if case .database(let db) = object {
                             let properties = db.properties
-                            guard let dateProperty = properties["Date"],
-                                  case .date = dateProperty.type,
-                                  let tagProperty = properties["Tag"],
-                                  case .multiSelect = tagProperty.type,
-                                  let timeProperty = properties["Time"],
-                                  case .number = timeProperty.type,
-                                  let descriptionProperty = properties["Description"],
-                                  case .richText = descriptionProperty.type
-                            else {
-                                return nil
+                            
+                            // 記録に用いるプロパティをすべて持つ DB に絞る
+                            if let dateProperty = properties["Date"],
+                               case .date = dateProperty.type,
+                               let tagProperty = properties["Tag"],
+                               case .multiSelect = tagProperty.type,
+                               let timeProperty = properties["Time"],
+                               case .number = timeProperty.type,
+                               let descriptionProperty = properties["Description"],
+                               case .richText = descriptionProperty.type {
+                                return db
                             }
-                            return db
                         }
                         return nil
                     })
