@@ -11,6 +11,7 @@ import Common
 
 struct DatabaseCreationView: View {
     @Environment(NotionService.self) private var notionService
+    @Environment(\.dismiss) private var dismiss
     @State private var isLoading = true
     @State private var title: String = ""
     @State private var pages: [PageEntity] = [.placeholder]
@@ -97,6 +98,7 @@ struct DatabaseCreationView: View {
         isLoading = true
         do {
             try await notionService.createDatabase(parentPageID: parentPageID, title: title)
+            dismiss()
         } catch {
             debugPrint("データベースの作成に失敗") // TODO: ハンドリング
         }
