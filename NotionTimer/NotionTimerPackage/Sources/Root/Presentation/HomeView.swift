@@ -18,7 +18,9 @@ struct HomeView: View {
             // TODO: Notion DB から記録を取得して表示
             RecordsPreviewCard(service: notionService)
             
-            List {
+            Spacer()
+            
+            VStack(spacing: 30) {
                 Button {
                     notionService.releaseSelectedDatabase()
                 } label: {
@@ -30,14 +32,12 @@ struct HomeView: View {
                 } label: {
                     Text("ログアウト")
                 }
-            }
-            
-            Spacer()
-            
-            NavigationLink {
-                TimerSettingView()
-            } label: {
-                Text("Timer")
+                
+                NavigationLink {
+                    TimerSettingView()
+                } label: {
+                    Text("Timer")
+                }
             }
         }
         .padding()
