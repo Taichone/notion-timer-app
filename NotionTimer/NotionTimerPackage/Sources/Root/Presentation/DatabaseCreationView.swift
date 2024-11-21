@@ -14,18 +14,21 @@ struct DatabaseCreationView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isLoading = true
     @State private var title: String = ""
-    @State private var pages: [PageEntity] = [.placeholder]
-    @State private var selectedPage: PageEntity = .placeholder
+    @State private var pages: [PageEntity] = []
+    @State private var selectedParentPage: PageEntity?
     
     var body: some View {
         ZStack {
             Form {
                 Section (
                     content: {
-                        Picker("", selection: $selectedPage) {
+                        Picker("", selection: $selectedParentPage) {
                             ForEach(pages) { page in
                                 Text("\(page.title)").tag(page)
                             }
+                            Text(String(moduleLocalized: "parent-page-unselected"))
+                                .tag(PageEntity?.none)
+                                .foregroundStyle(Color(.tertiaryLabel))
                         }
                         .pickerStyle(NavigationLinkPickerStyle())
                     },
@@ -53,16 +56,11 @@ struct DatabaseCreationView: View {
             CommonLoadingView()
                 .hidden(!isLoading)
         }
-        .navigationTitle(String("database-creation-view-navigation-title"))
+        .navigationTitle(String(moduleLocalized: "database-creation-view-navigation-title"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            guard selectedPage == .placeholder else { return }
+            // TODO: 初回読み込みのタイミングは UX に考慮して再検討
             await fetchPages()
-            guard let firstPage = pages.first else {
-                debugPrint("TODO: ページが無いときのハンドリング")
-                return
-            }
-            selectedPage = firstPage
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -75,11 +73,14 @@ struct DatabaseCreationView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    Task { await createDatabase(parentPageID: selectedPage.id, title: title) }
+                    guard let selectedPageID = selectedParentPage?.id else {
+                        fatalError("ERROR: selectedParentPage が nil でも OK ボタンが押せている")
+                    }
+                    Task { await createDatabase(parentPageID: selectedPageID, title: title) }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
-                .disabled(title.isEmpty || isLoading || selectedPage.id == PageEntity.placeholderID)
+                .disabled(title.isEmpty || isLoading || selectedParentPage == nil)
             }
         }
     }
@@ -87,9 +88,17 @@ struct DatabaseCreationView: View {
     private func fetchPages() async {
         isLoading = true
         do {
-            self.pages = try await notionService.getPageList()
+            let selectedPageID = selectedParentPage?.id
+            
+            pages = try await notionService.getPageList()
+            
+            if let selectedPageID = selectedPageID {
+                selectedParentPage = pages.first { $0.id == selectedPageID }
+            } else {
+                selectedParentPage = nil
+            }
         } catch {
-            debugPrint("ページ一覧の取得に失敗") // TODO: ハンドリング
+            debugPrint("ERROR: ページ一覧の取得に失敗") // TODO: ハンドリング
         }
         isLoading = false
     }
@@ -100,21 +109,15 @@ struct DatabaseCreationView: View {
             try await notionService.createDatabase(parentPageID: parentPageID, title: title)
             dismiss()
         } catch {
-            debugPrint("データベースの作成に失敗") // TODO: ハンドリング
+            debugPrint("ERROR: データベースの作成に失敗") // TODO: ハンドリング
         }
         isLoading = false
     }
 }
 
 #Preview {
-    DatabaseCreationView()
-        .environment(NotionService())
-}
-
-extension PageEntity {
-    public static let placeholderID: String = "Placeholder"
-    public static let placeholder: PageEntity = .init(
-        id: placeholderID,
-        title: String(moduleLocalized: "placeholder-page-title")
-    )
+    NavigationStack {
+        DatabaseCreationView()
+            .environment(NotionService())
+    }
 }

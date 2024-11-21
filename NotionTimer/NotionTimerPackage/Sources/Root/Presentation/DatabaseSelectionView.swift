@@ -13,7 +13,7 @@ struct DatabaseSelectionView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var isLoading = true
     @State private var databases: [DatabaseEntity] = []
-    @State private var selectedDatabase: DatabaseEntity = .placeholder
+    @State private var selectedDatabase: DatabaseEntity?
     
     var body: some View {
         ZStack {
@@ -28,8 +28,11 @@ struct DatabaseSelectionView: View {
                     content: {
                         Picker("", selection: $selectedDatabase) {
                             ForEach(databases) { database in
-                                Text("\(database.title)").tag(database)
+                                Text("\(database.title)").tag(DatabaseEntity?.some(database))
                             }
+                            Text(String(moduleLocalized: "database-unselected"))
+                                .tag(DatabaseEntity?.none)
+                                .foregroundStyle(Color(.tertiaryLabel))
                         }
                         .pickerStyle(NavigationLinkPickerStyle())
                     },
@@ -48,13 +51,8 @@ struct DatabaseSelectionView: View {
         .navigationTitle(String(moduleLocalized: "database-selection-view-navigation-title"))
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            guard selectedDatabase == .placeholder else { return }
+            // TODO: 初回読み込みのタイミングは UX に考慮して再検討
             await fetchDatabases()
-            guard let firstDatabase = databases.first else {
-                debugPrint("TODO: データベースが無いときのハンドリング")
-                return
-            }
-            selectedDatabase = firstDatabase
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -67,11 +65,21 @@ struct DatabaseSelectionView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    Task { await setExistingDatabase(id: selectedDatabase.id) }
+                    guard let selectedDatabaseID = selectedDatabase?.id else {
+                        fatalError("ERROR: selectedDatabase が nil でも OK ボタンが押せている")
+                    }
+                    
+                    Task {
+                        do {
+                            try notionService.registerDatabase(id: selectedDatabaseID)
+                        } catch {
+                            debugPrint(error.localizedDescription) // TODO: ハンドリング
+                        }
+                    }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
-                .disabled(isLoading || selectedDatabase == .placeholder)
+                .disabled(isLoading || selectedDatabase == nil)
             }
         }
     }
@@ -81,19 +89,18 @@ extension DatabaseSelectionView {
     private func fetchDatabases() async {
         isLoading = true
         do {
-            self.databases = try await notionService.getDatabaseList()
+            let selectedDatabaseID = selectedDatabase?.id
+            
+            databases = try await notionService.getCompatibleDatabaseList()
+            
+            if let selectedDatabaseID = selectedDatabaseID {
+                selectedDatabase = databases.first { $0.id == selectedDatabaseID }
+            } else {
+                selectedDatabase = nil
+            }
         } catch {
-            debugPrint("データベース一覧の取得に失敗") // TODO: ハンドリング
+            debugPrint("ERROR: ページ一覧の取得に失敗") // TODO: ハンドリング
         }
-        isLoading = false
-    }
-    
-    private func setExistingDatabase(id: String) async {
-        isLoading = true
-        
-        // TODO: 既存データベースの設定
-        // notionService.setExistingDatabase(id: database.id)
-        print("selectedDatabaseID: \(id)")
         isLoading = false
     }
 }
@@ -103,13 +110,4 @@ extension DatabaseSelectionView {
         DatabaseSelectionView()
             .environment(NotionService())
     }
-}
-
-
-extension DatabaseEntity {
-    public static let placeholderID: String = "Placeholder"
-    public static let placeholder: DatabaseEntity = .init(
-        id: placeholderID,
-        title: String(moduleLocalized: "placeholder-database-title")
-    )
 }

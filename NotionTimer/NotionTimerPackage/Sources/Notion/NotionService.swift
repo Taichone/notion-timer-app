@@ -94,8 +94,6 @@ public enum NotionServiceError: Error {
     }
 }
 
-// MARK: NotionSwift
-
 extension NotionService {
     public func getPageList() async throws -> [PageEntity] {
         guard let notionClient = notionClient else {
@@ -109,13 +107,13 @@ extension NotionService {
         }
     }
         
-    public func getDatabaseList() async throws -> [DatabaseEntity] {
+    public func getCompatibleDatabaseList() async throws -> [DatabaseEntity] {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
         
         do {
-            return try await getDatabaseList(client: notionClient)
+            return try await getCompatibleDatabaseList(client: notionClient)
         } catch {
             throw NotionServiceError.failedToGetDatabaseList(error: error)
         }
@@ -133,16 +131,21 @@ extension NotionService {
                 client: notionClient
             )
             
-            // Keychain にデータベースIDを保存し、認証状態を更新
-            guard KeychainManager.saveToken(token: databaseID, type: .notionDatabaseID) else {
-                throw NotionServiceError.failedToSaveToKeychain
-            }
-            authStatus = .complete
+            try registerDatabase(id: databaseID)
         } catch {
             throw NotionServiceError.failedToCreateDatabase(error: error)
         }
     }
+    
+    public func registerDatabase(id: String) throws {
+        guard KeychainManager.saveToken(token: id, type: .notionDatabaseID) else {
+            throw NotionServiceError.failedToSaveToKeychain
+        }
+        authStatus = .complete
+    }
 }
+
+// MARK: - NotionSwift
 
 extension NotionService {
     private func createDatabaseAndGetDatabaseID(
@@ -180,13 +183,25 @@ extension NotionService {
         }
     }
     
-    private func getDatabaseList(client: NotionClient) async throws -> [DatabaseEntity] {
+    private func getCompatibleDatabaseList(client: NotionClient) async throws -> [DatabaseEntity] {
         return try await withCheckedThrowingContinuation { continuation in
             client.search(request: .init(filter: .database)) { result in
                 let resultDatabases = result.map { objects in
                     objects.results.compactMap({ object -> Database? in
                         if case .database(let db) = object {
-                            return db
+                            let properties = db.properties
+                            
+                            // 記録に用いるプロパティをすべて持つ DB に絞る
+                            if let dateProperty = properties["Date"],
+                               case .date = dateProperty.type,
+                               let tagProperty = properties["Tag"],
+                               case .multiSelect = tagProperty.type,
+                               let timeProperty = properties["Time"],
+                               case .number = timeProperty.type,
+                               let descriptionProperty = properties["Description"],
+                               case .richText = descriptionProperty.type {
+                                return db
+                            }
                         }
                         return nil
                     })
@@ -208,6 +223,7 @@ extension NotionService {
                 let resultPages = result.map { objects in
                     objects.results.compactMap({ object -> Page? in
                         if case .page(let page) = object {
+                            // TODO: DB 内の Page は除外したい
                             return page
                         }
                         return nil
