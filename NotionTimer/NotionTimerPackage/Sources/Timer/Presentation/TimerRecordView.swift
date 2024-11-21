@@ -83,7 +83,10 @@ public struct TimerRecordView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    Task { await record(tagID: selectedTag?.id, description: description) }
+                    Task {
+                        await record(tagID: selectedTag?.id, description: description)
+                        // TODO: HomeView に戻る（router で書き直すか）
+                    }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
@@ -92,6 +95,7 @@ public struct TimerRecordView: View {
         }
     }
     
+    // TODO: tag を複数選択可能に
     private func record(tagID: String?, description: String) async {
         isLoading = true
         do {

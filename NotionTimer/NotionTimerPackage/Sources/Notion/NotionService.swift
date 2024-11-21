@@ -146,8 +146,20 @@ extension NotionService {
     }
     
     public func record(time: Int, tagID: String?, description: String) async throws {
-        let date = Date()
-        // TODO: NotionSwift とのインターフェースメソッド
+        guard let notionClient = notionClient else {
+            throw NotionServiceError.invalidClient
+        }
+        guard let databaseID = databaseID else {
+            throw NotionServiceError.invalidDatabase
+        }
+        try await record(
+            date: Date(),
+            time: time,
+            tagID: tagID,
+            description: description,
+            databaseID: databaseID,
+            client: notionClient
+        )
     }
     
     public func getDatabaseTags() async throws -> [TagEntity] {
@@ -165,6 +177,59 @@ extension NotionService {
 // MARK: - NotionSwift
 
 extension NotionService {
+    private func record(
+        date: Date,
+        time: Int,
+        tagID: String?,
+        description: String,
+        databaseID: String,
+        client: NotionClient
+    ) async throws {
+        let multiSelectList: [PagePropertyType.MultiSelectPropertyValue] = {
+            if let tagID = tagID {
+                return [.init(id: .init(tagID), name: nil, color: nil)]
+            }
+            return []
+        }()
+        
+        let request = PageCreateRequest(
+            parent: .database(.init(databaseID)),
+            properties: [
+                "title": .init(
+                    type: .title([
+                        .init(string: "")
+                    ])
+                ),
+                "Tag": .init(
+                    type: .multiSelect(multiSelectList)
+                ),
+                "Time": .init(
+                    type: .number(.init(time))
+                ),
+                "Description": .init(
+                    type: .richText([
+                        .init(string: description)
+                    ])
+                ),
+                "Date": .init(
+                    type: .date(.init(start: .dateAndTime(date), end: nil))
+                )
+            ]
+        )
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            client.pageCreate(request: request) { result in
+                switch result {
+                case .success:
+                    continuation.resume(with: .success(()))
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                    debugPrint(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     private func getDatabaseTags(
         databaseID: String,
         client: NotionClient
