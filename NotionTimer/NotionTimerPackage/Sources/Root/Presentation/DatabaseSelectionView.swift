@@ -73,8 +73,7 @@ struct DatabaseSelectionView: View {
                         do {
                             try notionService.registerDatabase(id: selectedDatabaseID)
                         } catch {
-                            // TODO: ハンドリング
-                            debugPrint(error.localizedDescription)
+                            debugPrint(error.localizedDescription) // TODO: ハンドリング
                         }
                     }
                 } label: {
