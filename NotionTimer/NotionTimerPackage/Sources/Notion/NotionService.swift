@@ -21,6 +21,7 @@ public enum NotionServiceError: Error {
     case failedToFetchAccessToken
     case accessTokenNotFound
     case invalidClient
+    case invalidDatabase
     case failedToGetPageList(error: Error)
     case failedToGetDatabaseList(error: Error)
     case failedToCreateDatabase(error: Error)
@@ -146,17 +147,53 @@ extension NotionService {
     
     public func record(time: Int, tagID: String?, description: String) async throws {
         let date = Date()
-        // NotionSwift とのインターフェースメソッド
+        // TODO: NotionSwift とのインターフェースメソッド
     }
     
-    public func fetchDatabaseInfo() async throws {
+    public func getDatabaseTags() async throws -> [TagEntity] {
+        guard let notionClient = notionClient else {
+            throw NotionServiceError.invalidClient
+        }
+        guard let databaseID = databaseID else {
+            throw NotionServiceError.invalidDatabase
+        }
         
+        return try await getDatabaseTags(databaseID: databaseID, client: notionClient)
     }
 }
 
 // MARK: - NotionSwift
 
 extension NotionService {
+    private func getDatabaseTags(
+        databaseID: String,
+        client: NotionClient
+    ) async throws -> [TagEntity] {
+        return try await withCheckedThrowingContinuation { continuation in
+            client.database(databaseId: .init(databaseID)) { result in
+                do {
+                    let resultDatabase = try result.get()
+                    guard let tagProperty = resultDatabase.properties["Tag"],
+                          case .multiSelect(let selectOptions) = tagProperty.type
+                    else {
+                        throw NotionServiceError.invalidDatabase
+                    }
+                    
+                    let tags: [TagEntity] = selectOptions.compactMap { selectOption in
+                        guard let color = TagEntity.Color(rawValue: selectOption.color) else {
+                            fatalError("ERROR: 無効な color 名のタグがある")
+                        }
+                        return .init(id: selectOption.id.rawValue, name: selectOption.name, color: color)
+                    }
+                    
+                    continuation.resume(returning: tags)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
     private func createDatabaseAndGetDatabaseID(
         parentPageID: String,
         title: String,

@@ -9,40 +9,6 @@ import SwiftUI
 import Notion
 import Common
 
-struct TagEntity: Identifiable, Hashable {
-    let id: String
-    let name: String
-    let color: Color
-    
-    enum Color: String {
-        case blue
-        case brown
-        case `default`
-        case gray
-        case green
-        case orange
-        case pink
-        case purple
-        case red
-        case yellow
-        
-        var color: SwiftUI.Color {
-            switch self {
-            case .blue: .blue
-            case .brown: .brown
-            case .default: .gray
-            case .gray: .gray
-            case .green: .green
-            case .orange: .orange
-            case .pink: .pink
-            case .purple: .purple
-            case .red: .red
-            case .yellow: .yellow
-            }
-        }
-    }
-}
-
 public struct TimerRecordView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var description: String = ""
@@ -63,10 +29,12 @@ public struct TimerRecordView: View {
                         Picker("", selection: $selectedTag) {
                             ForEach(tags) { tag in
                                 Text("\(tag.name)").tag(tag)
+                                    .padding(5)
                                     .background {
                                         RoundedRectangle(cornerRadius: 5)
                                             .foregroundStyle(tag.color.color)
                                     }
+                                    .tag(tag)
                             }
                             Text(String(moduleLocalized: "tag-unselected"))
                                 .tag(TagEntity?.none)
@@ -102,12 +70,12 @@ public struct TimerRecordView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task {
             // TODO: 初回読み込みのタイミングは UX に考慮して再検討
-            print("TODO: fetchDatabaseTags()")
+            await fetchDatabaseTags()
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    print("TODO: fetchDatabaseTags()")
+                    Task { await fetchDatabaseTags() }
                 } label: {
                     Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
                 }
@@ -125,6 +93,7 @@ public struct TimerRecordView: View {
     }
     
     private func record(tagID: String?, description: String) async {
+        isLoading = true
         do {
             try await notionService.record(
                 time: resultFocusTimeSec,
@@ -134,9 +103,37 @@ public struct TimerRecordView: View {
         } catch {
             debugPrint(error.localizedDescription) // TODO: ハンドリング
         }
+        isLoading = false
+    }
+    
+    private func fetchDatabaseTags() async {
+        isLoading = true
+        do {
+            tags = try await notionService.getDatabaseTags()
+        } catch {
+            debugPrint(error.localizedDescription) // TODO: ハンドリング
+        }
+        isLoading = false
     }
 }
 
 #Preview {
     TimerRecordView(resultFocusTimeSec: 3661)
+}
+
+extension TagEntity.Color {
+    var color: SwiftUI.Color {
+        switch self {
+        case .blue: .blue
+        case .brown: .brown
+        case .default: .gray
+        case .gray: .gray
+        case .green: .green
+        case .orange: .orange
+        case .pink: .pink
+        case .purple: .purple
+        case .red: .red
+        case .yellow: .yellow
+        }
+    }
 }
