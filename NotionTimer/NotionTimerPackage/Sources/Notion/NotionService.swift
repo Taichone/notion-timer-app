@@ -143,6 +143,15 @@ extension NotionService {
         }
         authStatus = .complete
     }
+    
+    public func record(time: Int, tagID: String?, description: String) async throws {
+        let date = Date()
+        // NotionSwift とのインターフェースメソッド
+    }
+    
+    public func fetchDatabaseInfo() async throws {
+        
+    }
 }
 
 // MARK: - NotionSwift
