@@ -145,7 +145,7 @@ extension NotionService {
         authStatus = .complete
     }
     
-    public func record(time: Int, tagID: String?, description: String) async throws {
+    public func record(time: Int, tags: [TagEntity], description: String) async throws {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
@@ -155,7 +155,7 @@ extension NotionService {
         try await record(
             date: Date(),
             time: time,
-            tagID: tagID,
+            tags: tags,
             description: description,
             databaseID: databaseID,
             client: notionClient
@@ -180,17 +180,14 @@ extension NotionService {
     private func record(
         date: Date,
         time: Int,
-        tagID: String?,
+        tags: [TagEntity],
         description: String,
         databaseID: String,
         client: NotionClient
     ) async throws {
-        let multiSelectList: [PagePropertyType.MultiSelectPropertyValue] = {
-            if let tagID = tagID {
-                return [.init(id: .init(tagID), name: nil, color: nil)]
-            }
-            return []
-        }()
+        let multiSelectList: [PagePropertyType.MultiSelectPropertyValue] = tags.compactMap {
+            .init(id: .init($0.id), name: nil, color: nil)
+        }
         
         let request = PageCreateRequest(
             parent: .database(.init(databaseID)),

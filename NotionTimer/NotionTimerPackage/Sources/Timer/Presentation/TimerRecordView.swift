@@ -13,9 +13,9 @@ public struct TimerRecordView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var description: String = ""
     @State private var tags: [TagEntity] = []
-    @State private var selectedTag: TagEntity?
+    @State private var selectedTags: Set<TagEntity> = []
     @State private var isLoading: Bool = true
-    public let resultFocusTimeSec: Int
+    private let resultFocusTimeSec: Int
     
     public init(resultFocusTimeSec: Int) {
         self.resultFocusTimeSec = resultFocusTimeSec
@@ -23,24 +23,32 @@ public struct TimerRecordView: View {
     
     public var body: some View {
         ZStack {
-            Form {
+            List(selection: $selectedTags) {
+                Group {
+                    Section (
+                        content: {
+                            TextField(String(moduleLocalized: "record-description-text-field-spaceholder"), text: $description)
+                        },
+                        header: {
+                            Text(String(moduleLocalized: "record-description"))
+                        },
+                        footer: {
+                            Text(String(moduleLocalized: "record-description-description"))
+                        }
+                    )
+                }
+                
                 Section (
                     content: {
-                        Picker("", selection: $selectedTag) {
-                            ForEach(tags) { tag in
-                                Text("\(tag.name)").tag(tag)
-                                    .padding(5)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .foregroundStyle(tag.color.color)
-                                    }
-                                    .tag(tag)
-                            }
-                            Text(String(moduleLocalized: "tag-unselected"))
-                                .tag(TagEntity?.none)
-                                .foregroundStyle(Color(.tertiaryLabel))
+                        ForEach(tags) { tag in
+                            Text(tag.name)
+                                .tag(tag)
+                                .padding(5)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .foregroundStyle(tag.color.color)
+                                }
                         }
-                        .pickerStyle(NavigationLinkPickerStyle())
                     },
                     header: {
                         Text(String(moduleLocalized: "tag"))
@@ -49,19 +57,8 @@ public struct TimerRecordView: View {
                         Text(String(moduleLocalized: "tag-description"))
                     }
                 )
-                
-                Section (
-                    content: {
-                        TextField(String(moduleLocalized: "record-description-text-field-spaceholder"), text: $description)
-                    },
-                    header: {
-                        Text(String(moduleLocalized: "record-description"))
-                    },
-                    footer: {
-                        Text(String(moduleLocalized: "record-description-description"))
-                    }
-                )
             }
+            .environment(\.editMode, .constant(.active))
             
             CommonLoadingView()
                 .hidden(!isLoading)
@@ -84,7 +81,7 @@ public struct TimerRecordView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     Task {
-                        await record(tagID: selectedTag?.id, description: description)
+                        await record(tags: Array(selectedTags), description: description)
                         // TODO: HomeView に戻る（router で書き直すか）
                     }
                 } label: {
@@ -95,13 +92,19 @@ public struct TimerRecordView: View {
         }
     }
     
+    /*
+    private func addNewTag(name: String, color: TagEntity.Color) {
+        // name, color と、success で返ってくる？タグの ID で、tagItems に追加（）
+    }
+     */
+    
     // TODO: tag を複数選択可能に
-    private func record(tagID: String?, description: String) async {
+    private func record(tags: [TagEntity], description: String) async {
         isLoading = true
         do {
             try await notionService.record(
                 time: resultFocusTimeSec,
-                tagID: tagID,
+                tags: tags,
                 description: description
             )
         } catch {
