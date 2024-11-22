@@ -13,6 +13,9 @@
     "%lld" : {
 
     },
+    "add-new-tag" : {
+
+    },
     "additional-focus-mode" : {
       "localizations" : {
         "en" : {
@@ -241,9 +244,6 @@
 
     },
     "record-description-description" : {
-
-    },
-    "record-description-text-field-spaceholder" : {
 
     },
     "remaining-time" : {

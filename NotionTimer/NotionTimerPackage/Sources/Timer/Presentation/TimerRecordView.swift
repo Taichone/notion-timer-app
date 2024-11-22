@@ -27,7 +27,8 @@ public struct TimerRecordView: View {
                 Group {
                     Section (
                         content: {
-                            TextField(String(moduleLocalized: "record-description-text-field-spaceholder"), text: $description)
+                            TextEditor(text: $description)
+                                .frame(height: 100)
                         },
                         header: {
                             Text(String(moduleLocalized: "record-description"))
@@ -48,6 +49,11 @@ public struct TimerRecordView: View {
                                     RoundedRectangle(cornerRadius: 5)
                                         .foregroundStyle(tag.color.color)
                                 }
+                        }
+                        Button {
+                            print("TODO: 新規タグ作成")
+                        } label: {
+                            Text(String(moduleLocalized: "add-new-tag"))
                         }
                     },
                     header: {
