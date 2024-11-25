@@ -47,7 +47,7 @@ let package = Package(
         ),
         .target(
             name: "Timer",
-            dependencies: ["ScreenTime", "Common"],
+            dependencies: ["ScreenTime", "Common", "Notion"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]

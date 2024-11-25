@@ -1,10 +1,19 @@
 {
   "sourceLanguage" : "ja",
   "strings" : {
+    "" : {
+
+    },
     ":" : {
 
     },
+    "%@" : {
+
+    },
     "%lld" : {
+
+    },
+    "add-new-tag" : {
 
     },
     "additional-focus-mode" : {
@@ -215,9 +224,6 @@
         }
       }
     },
-    "Notion DB に記録 (仮)" : {
-
-    },
     "ok" : {
       "localizations" : {
         "en" : {
@@ -233,6 +239,12 @@
           }
         }
       }
+    },
+    "record-description" : {
+
+    },
+    "record-description-description" : {
+
     },
     "remaining-time" : {
       "localizations" : {
@@ -314,6 +326,12 @@
         }
       }
     },
+    "tag" : {
+
+    },
+    "tag-description" : {
+
+    },
     "timer" : {
       "localizations" : {
         "en" : {
@@ -329,6 +347,9 @@
           }
         }
       }
+    },
+    "timer-record-view-navigation-title" : {
+
     },
     "timer-setting" : {
       "localizations" : {
