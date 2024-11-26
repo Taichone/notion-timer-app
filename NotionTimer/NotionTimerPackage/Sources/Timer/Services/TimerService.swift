@@ -4,8 +4,7 @@
 //
 //  Created by Taichi on 2024/08/16
 
-import SwiftUI
-import Combine
+import Foundation
 import ManagedSettings // TODO: これも ScreenTime に隠蔽したい（Set<ApplicationToken>? を ScreenTime.Xxx? のように）
 import ScreenTime
 
