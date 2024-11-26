@@ -46,11 +46,6 @@ public struct TimerRecordView: View {
                                 .tag(tag)
                                 .listRowBackground(tag.color.color)
                         }
-                        Button {
-                            print("TODO: 新規タグ作成")
-                        } label: {
-                            Text(String(moduleLocalized: "add-new-tag"))
-                        }
                     },
                     header: {
                         Text(String(moduleLocalized: "tag"))
@@ -93,12 +88,6 @@ public struct TimerRecordView: View {
             }
         }
     }
-    
-    /*
-    private func addNewTag(name: String, color: TagEntity.Color) {
-        // name, color と、success で返ってくる？タグの ID で、tagItems に追加（）
-    }
-     */
     
     // TODO: tag を複数選択可能に
     private func record(tags: [TagEntity], description: String) async {
