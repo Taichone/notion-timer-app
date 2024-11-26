@@ -44,11 +44,7 @@ public struct TimerRecordView: View {
                         ForEach(tags) { tag in
                             Text(tag.name)
                                 .tag(tag)
-                                .padding(5)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .foregroundStyle(tag.color.color)
-                                }
+                                .listRowBackground(tag.color.color)
                         }
                         Button {
                             print("TODO: 新規タグ作成")
@@ -137,16 +133,16 @@ public struct TimerRecordView: View {
 extension TagEntity.Color {
     var color: SwiftUI.Color {
         switch self {
-        case .blue: .blue
-        case .brown: .brown
-        case .default: .gray
-        case .gray: .gray
-        case .green: .green
-        case .orange: .orange
-        case .pink: .pink
-        case .purple: .purple
-        case .red: .red
-        case .yellow: .yellow
+        case .blue: Color("NotionBlue", bundle: .module)
+        case .brown: Color("NotionBrown", bundle: .module)
+        case .default: Color("NotionDefault", bundle: .module)
+        case .gray: Color("NotionGray", bundle: .module)
+        case .green: Color("NotionGreen", bundle: .module)
+        case .orange: Color("NotionOrange", bundle: .module)
+        case .pink: Color("NotionPink", bundle: .module)
+        case .purple: Color("NotionPurple", bundle: .module)
+        case .red: Color("NotionRed", bundle: .module)
+        case .yellow: Color("NotionYellow", bundle: .module)
         }
     }
 }
