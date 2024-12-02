@@ -205,6 +205,26 @@
         }
       }
     },
+    "home-view-navigation-title" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホーム"
+          }
+        }
+      }
+    },
+    "logout" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログアウト"
+          }
+        }
+      }
+    },
     "min" : {
       "localizations" : {
         "en" : {
@@ -238,10 +258,24 @@
       }
     },
     "record-description" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録の詳細"
+          }
+        }
+      }
     },
     "record-description-description" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録について自由に記述できます。記述した内容は、Descriptionプロパティに記録されます。"
+          }
+        }
+      }
     },
     "remaining-time" : {
       "localizations" : {
@@ -255,6 +289,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "残り時間"
+          }
+        }
+      }
+    },
+    "reselect-database" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データベースを再選択"
           }
         }
       }
@@ -287,6 +331,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "制限するアプリを選択"
+          }
+        }
+      }
+    },
+    "setting-view-navigation-title" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
           }
         }
       }
@@ -324,10 +378,24 @@
       }
     },
     "tag" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タグ"
+          }
+        }
+      }
     },
     "tag-description" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "何に集中したのかが一目でわかるよう、タグを複数選択できます。選択したタグは、Tagプロパティに記録されます。"
+          }
+        }
+      }
     },
     "timer" : {
       "localizations" : {
@@ -345,11 +413,15 @@
         }
       }
     },
-    "Timer" : {
-
-    },
     "timer-record-view-navigation-title" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notionに記録"
+          }
+        }
+      }
     },
     "timer-setting" : {
       "localizations" : {
@@ -382,12 +454,6 @@
           }
         }
       }
-    },
-    "データベースの再選択" : {
-
-    },
-    "ログアウト" : {
-
     }
   },
   "version" : "1.0"
