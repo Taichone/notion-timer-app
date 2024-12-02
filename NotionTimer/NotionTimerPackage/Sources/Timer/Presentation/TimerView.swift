@@ -10,15 +10,15 @@ import ManagedSettings
 import ScreenTime
 import Common
 
-public struct TimerView: View {
+struct TimerView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var router: NavigationRouter
     @StateObject private var timerService: TimerService
-    @State private var resultFocusTimeSec: Int?
     
     private let focusColor: Color
     private let breakColor: Color
     
-    public init(dependency: Dependency) {
+    init(dependency: Dependency) {
         self.focusColor = dependency.focusColor
         self.breakColor = dependency.breakColor
         
@@ -31,7 +31,7 @@ public struct TimerView: View {
         ))
     }
     
-    public var body: some View {
+    var body: some View {
         VStack {
             VStack(alignment: .leading) {
                 HStack {
@@ -116,7 +116,11 @@ public struct TimerView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     // TODO: 確認アラートを挟む
-                    resultFocusTimeSec = timerService.totalFocusTimeSec
+//                    resultFocusTimeSec = timerService.totalFocusTimeSec
+                    router.items.append(.timerRecord(dependency: .init(
+                        resultFocusTimeSec: timerService.totalFocusTimeSec
+                    )))
+                    
                     timerService.terminate()
                     
                 } label: {
@@ -124,9 +128,9 @@ public struct TimerView: View {
                 }
             }
         }
-        .navigationDestination(item: $resultFocusTimeSec) {
-            TimerRecordView(resultFocusTimeSec: $0)
-        }
+//        .navigationDestination(item: $resultFocusTimeSec) {
+//            TimerRecordView(dependency: .init(resultFocusTimeSec: $0))
+//        }
         .onAppear {
             self.timerService.onAppear()
         }
@@ -177,7 +181,7 @@ extension TimerView {
 }
 
 extension TimerView {
-    public struct Dependency {
+    struct Dependency: Hashable {
         let isBreakEndSoundEnabled: Bool
         let isManualBreakStartEnabled: Bool
         let focusTimeSec: Int
@@ -185,24 +189,6 @@ extension TimerView {
         let focusColor: Color
         let breakColor: Color
         let restrictedApps: Set<ApplicationToken>?
-        
-        public init(
-            isBreakEndSoundEnabled: Bool,
-            isManualBreakStartEnabled: Bool,
-            focusTimeSec: Int,
-            breakTimeSec: Int,
-            focusColor: Color,
-            breakColor: Color,
-            restrictedApps: Set<ApplicationToken>?
-        ) {
-            self.isBreakEndSoundEnabled = isBreakEndSoundEnabled
-            self.isManualBreakStartEnabled = isManualBreakStartEnabled
-            self.focusTimeSec = focusTimeSec
-            self.breakTimeSec = breakTimeSec
-            self.focusColor = focusColor
-            self.breakColor = breakColor
-            self.restrictedApps = restrictedApps
-        }
     }
 }
 

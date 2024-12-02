@@ -24,7 +24,10 @@ enum TimerSettingSheetType: String, Identifiable {
     }
 }
 
-public struct TimerSettingView: View {
+struct TimerSettingView: View {
+    // Router
+    @EnvironmentObject var router: NavigationRouter
+    
     // Timer
     @AppStorage(wrappedValue: 1500, "focusTimeSec") private var focusTimeSec
     @AppStorage(wrappedValue: 300, "breakTimeSec") private var breakTimeSec
@@ -41,9 +44,9 @@ public struct TimerSettingView: View {
     @State private var restrictedApps = ScreenTime.appSelection()
     private let screenTimeAPI = ScreenTimeAPIClient.shared
     
-    public init() {}
+    init() {}
     
-    public var body: some View {
+    var body: some View {
         Form {
             Section {
                 HStack {
@@ -88,15 +91,17 @@ public struct TimerSettingView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(destination: TimerView(dependency: .init(
-                    isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
-                    isManualBreakStartEnabled: self.isManualBreakStartEnabled,
-                    focusTimeSec: self.focusTimeSec,
-                    breakTimeSec: self.breakTimeSec,
-                    focusColor: self.focusColor,
-                    breakColor: self.breakColor,
-                    restrictedApps: self.restrictedApps.applicationTokens
-                ))) {
+                Button {
+                    router.items.append(.timer(dependency: .init(
+                        isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
+                        isManualBreakStartEnabled: self.isManualBreakStartEnabled,
+                        focusTimeSec: self.focusTimeSec,
+                        breakTimeSec: self.breakTimeSec,
+                        focusColor: self.focusColor,
+                        breakColor: self.breakColor,
+                        restrictedApps: self.restrictedApps.applicationTokens
+                    )))
+                } label: {
                     Text(String(moduleLocalized: "ok"))
                 }
             }

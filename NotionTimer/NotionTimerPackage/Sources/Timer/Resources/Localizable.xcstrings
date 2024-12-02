@@ -13,9 +13,6 @@
     "%lld" : {
 
     },
-    "add-new-tag" : {
-
-    },
     "additional-focus-mode" : {
       "localizations" : {
         "en" : {
@@ -348,6 +345,9 @@
         }
       }
     },
+    "Timer" : {
+
+    },
     "timer-record-view-navigation-title" : {
 
     },
@@ -382,6 +382,12 @@
           }
         }
       }
+    },
+    "データベースの再選択" : {
+
+    },
+    "ログアウト" : {
+
     }
   },
   "version" : "1.0"

@@ -148,6 +148,7 @@
       }
     },
     "Timer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -156,12 +157,6 @@
           }
         }
       }
-    },
-    "データベースの再選択" : {
-
-    },
-    "ログアウト" : {
-
     }
   },
   "version" : "1.0"

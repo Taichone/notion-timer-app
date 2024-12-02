@@ -9,19 +9,20 @@ import SwiftUI
 import Notion
 import Common
 
-public struct TimerRecordView: View {
+struct TimerRecordView: View {
     @Environment(NotionService.self) private var notionService: NotionService
+    @EnvironmentObject private var router: NavigationRouter
     @State private var description: String = ""
     @State private var tags: [TagEntity] = []
     @State private var selectedTags: Set<TagEntity> = []
     @State private var isLoading: Bool = true
     private let resultFocusTimeSec: Int
     
-    public init(resultFocusTimeSec: Int) {
-        self.resultFocusTimeSec = resultFocusTimeSec
+    init(dependency: Dependency) {
+        self.resultFocusTimeSec = dependency.resultFocusTimeSec
     }
     
-    public var body: some View {
+    var body: some View {
         ZStack {
             List(selection: $selectedTags) {
                 Group {
@@ -44,16 +45,7 @@ public struct TimerRecordView: View {
                         ForEach(tags) { tag in
                             Text(tag.name)
                                 .tag(tag)
-                                .padding(5)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .foregroundStyle(tag.color.color)
-                                }
-                        }
-                        Button {
-                            print("TODO: 新規タグ作成")
-                        } label: {
-                            Text(String(moduleLocalized: "add-new-tag"))
+                                .listRowBackground(tag.color.color)
                         }
                     },
                     header: {
@@ -88,7 +80,6 @@ public struct TimerRecordView: View {
                 Button {
                     Task {
                         await record(tags: Array(selectedTags), description: description)
-                        // TODO: HomeView に戻る（router で書き直すか）
                     }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
@@ -98,13 +89,6 @@ public struct TimerRecordView: View {
         }
     }
     
-    /*
-    private func addNewTag(name: String, color: TagEntity.Color) {
-        // name, color と、success で返ってくる？タグの ID で、tagItems に追加（）
-    }
-     */
-    
-    // TODO: tag を複数選択可能に
     private func record(tags: [TagEntity], description: String) async {
         isLoading = true
         do {
@@ -113,6 +97,7 @@ public struct TimerRecordView: View {
                 tags: tags,
                 description: description
             )
+            router.items.removeAll() // HomeView に戻る
         } catch {
             debugPrint(error.localizedDescription) // TODO: ハンドリング
         }
@@ -130,23 +115,29 @@ public struct TimerRecordView: View {
     }
 }
 
+extension TimerRecordView {
+    struct Dependency: Hashable {
+        let resultFocusTimeSec: Int
+    }
+}
+
 #Preview {
-    TimerRecordView(resultFocusTimeSec: 3661)
+    TimerRecordView(dependency: .init(resultFocusTimeSec: 3661))
 }
 
 extension TagEntity.Color {
     var color: SwiftUI.Color {
         switch self {
-        case .blue: .blue
-        case .brown: .brown
-        case .default: .gray
-        case .gray: .gray
-        case .green: .green
-        case .orange: .orange
-        case .pink: .pink
-        case .purple: .purple
-        case .red: .red
-        case .yellow: .yellow
+        case .blue: Color("NotionBlue", bundle: .module)
+        case .brown: Color("NotionBrown", bundle: .module)
+        case .default: Color("NotionDefault", bundle: .module)
+        case .gray: Color("NotionGray", bundle: .module)
+        case .green: Color("NotionGreen", bundle: .module)
+        case .orange: Color("NotionOrange", bundle: .module)
+        case .pink: Color("NotionPink", bundle: .module)
+        case .purple: Color("NotionPurple", bundle: .module)
+        case .red: Color("NotionRed", bundle: .module)
+        case .yellow: Color("NotionYellow", bundle: .module)
         }
     }
 }

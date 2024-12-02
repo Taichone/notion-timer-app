@@ -4,8 +4,7 @@
 //
 //  Created by Taichi on 2024/08/16
 
-import SwiftUI
-import Combine
+import Foundation
 import ManagedSettings // TODO: これも ScreenTime に隠蔽したい（Set<ApplicationToken>? を ScreenTime.Xxx? のように）
 import ScreenTime
 
@@ -62,7 +61,6 @@ extension TimerService {
         changeToFocusMode()
     }
     
-    // TODO: 合計集中時間を Notion 記録ビューへ渡して遷移
     func tapFinish() {
         terminate()
     }
@@ -126,7 +124,6 @@ extension TimerService {
         remainingTimeSec = breakTimeSec
     }
     
-    // TODO: Timer は AsyncStream でよくない？
     func startTimer() {
         isRunning = true
         
