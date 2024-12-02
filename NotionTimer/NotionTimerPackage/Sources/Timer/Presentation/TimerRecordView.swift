@@ -9,19 +9,20 @@ import SwiftUI
 import Notion
 import Common
 
-public struct TimerRecordView: View {
+struct TimerRecordView: View {
     @Environment(NotionService.self) private var notionService: NotionService
+    @EnvironmentObject private var router: NavigationRouter
     @State private var description: String = ""
     @State private var tags: [TagEntity] = []
     @State private var selectedTags: Set<TagEntity> = []
     @State private var isLoading: Bool = true
     private let resultFocusTimeSec: Int
     
-    public init(resultFocusTimeSec: Int) {
-        self.resultFocusTimeSec = resultFocusTimeSec
+    init(dependency: Dependency) {
+        self.resultFocusTimeSec = dependency.resultFocusTimeSec
     }
     
-    public var body: some View {
+    var body: some View {
         ZStack {
             List(selection: $selectedTags) {
                 Group {
@@ -79,7 +80,6 @@ public struct TimerRecordView: View {
                 Button {
                     Task {
                         await record(tags: Array(selectedTags), description: description)
-                        // TODO: HomeView に戻る（router で書き直すか）
                     }
                 } label: {
                     Text(String(moduleLocalized: "ok"))
@@ -89,7 +89,6 @@ public struct TimerRecordView: View {
         }
     }
     
-    // TODO: tag を複数選択可能に
     private func record(tags: [TagEntity], description: String) async {
         isLoading = true
         do {
@@ -98,6 +97,7 @@ public struct TimerRecordView: View {
                 tags: tags,
                 description: description
             )
+            router.items.removeAll() // HomeView に戻る
         } catch {
             debugPrint(error.localizedDescription) // TODO: ハンドリング
         }
@@ -115,8 +115,14 @@ public struct TimerRecordView: View {
     }
 }
 
+extension TimerRecordView {
+    struct Dependency: Hashable {
+        let resultFocusTimeSec: Int
+    }
+}
+
 #Preview {
-    TimerRecordView(resultFocusTimeSec: 3661)
+    TimerRecordView(dependency: .init(resultFocusTimeSec: 3661))
 }
 
 extension TagEntity.Color {

@@ -61,7 +61,6 @@ extension TimerService {
         changeToFocusMode()
     }
     
-    // TODO: 合計集中時間を Notion 記録ビューへ渡して遷移
     func tapFinish() {
         terminate()
     }
@@ -125,7 +124,6 @@ extension TimerService {
         remainingTimeSec = breakTimeSec
     }
     
-    // TODO: Timer は AsyncStream でよくない？
     func startTimer() {
         isRunning = true
         
