@@ -109,6 +109,9 @@
         }
       }
     },
+    "Date" : {
+
+    },
     "done" : {
       "localizations" : {
         "en" : {
@@ -396,6 +399,9 @@
           }
         }
       }
+    },
+    "Time" : {
+
     },
     "timer" : {
       "localizations" : {
