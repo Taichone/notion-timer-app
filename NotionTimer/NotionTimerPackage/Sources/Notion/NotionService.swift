@@ -23,6 +23,7 @@ public enum NotionServiceError: Error {
     case invalidClient
     case invalidDatabase
     case failedToGetPageList(error: Error)
+    case failedToGetRecordList(error: Error)
     case failedToGetDatabaseList(error: Error)
     case failedToCreateDatabase(error: Error)
 }
@@ -172,11 +173,46 @@ extension NotionService {
         
         return try await getDatabaseTags(databaseID: databaseID, client: notionClient)
     }
+    
+    public func getAllRecords() async throws -> [RecordEntity] {
+        guard let notionClient = notionClient else {
+            throw NotionServiceError.invalidClient
+        }
+        guard let databaseID = databaseID else {
+            throw NotionServiceError.invalidDatabase
+        }
+        
+        return try await getAllRecords(databaseID: databaseID, client: notionClient)
+    }
 }
 
 // MARK: - NotionSwift
 
 extension NotionService {
+    private func getAllRecords(
+        databaseID: String,
+        client: NotionClient
+    ) async throws -> [RecordEntity] {
+        return try await withCheckedThrowingContinuation { continuation in
+            client.databaseQuery(databaseId: .init(databaseID)) {
+                do {
+                    var records = [RecordEntity]()
+                    let pages = try $0.get()
+                    pages.results.forEach { page in
+                        if let record = page.asRecordEntity {
+                            records.append(record)
+                        }
+                    }
+                    continuation.resume(returning: records)
+                } catch {
+                    continuation.resume(
+                        throwing: NotionServiceError.failedToGetRecordList(error: error)
+                    )
+                }
+            }
+        }
+    }
+    
     private func record(
         date: Date,
         time: Int,
@@ -367,4 +403,58 @@ extension Page {
         }
         return .init(id: self.id.rawValue, title: richTextType.content)
     }
+    
+    var asRecordEntity: RecordEntity? {
+        guard case .richText(let richTexts) = self.properties["Description"]?.type,
+              case .text(let textValue) = richTexts.first?.type,
+              case .date(let dateRange) = self.properties["Date"]?.type,
+              case .dateAndTime(let date) = dateRange?.start,
+              case .multiSelect(let multiSelectValue) = self.properties["Tag"]?.type,
+              case .number(let decimalTime) = self.properties["Time"]?.type,
+              let decimalTime = decimalTime else {
+            return nil
+        }
+        
+        let description = textValue.content
+        let time = NSDecimalNumber(decimal: decimalTime).intValue
+        let tags: [TagEntity] = multiSelectValue.map {
+            .init(
+                id: $0.id?.rawValue ?? UUID().uuidString, // ForEach で表示するために補填
+                name: $0.name ?? "",
+                color: .init(rawValue: $0.color ?? "default") ?? .default
+            )
+        }
+        
+        return .init(
+            id: self.id.rawValue,
+            date: date,
+            description: description,
+            tags: tags,
+            time: time
+        )
+    }
 }
+
+/*
+ properties: [
+     "title": .init(
+         type: .title([
+             .init(string: "")
+         ])
+     ),
+     "Tag": .init(
+         type: .multiSelect(multiSelectList)
+     ),
+     "Time": .init(
+         type: .number(.init(time))
+     ),
+     "Description": .init(
+         type: .richText([
+             .init(string: description)
+         ])
+     ),
+     "Date": .init(
+         type: .date(.init(start: .dateAndTime(date), end: nil))
+     )
+ ]
+ */

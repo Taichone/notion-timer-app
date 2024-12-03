@@ -15,6 +15,7 @@ final class NavigationRouter: ObservableObject {
     init() {}
 
     enum Item: Hashable {
+        case setting
         case timerSetting
         case timer(dependency: TimerView.Dependency)
         case timerRecord(dependency: TimerRecordView.Dependency)
@@ -22,7 +23,6 @@ final class NavigationRouter: ObservableObject {
 }
 
 public struct HomeView: View {
-    @Environment(NotionService.self) private var notionService
     @StateObject private var router: NavigationRouter = .init()
     
     public init() {}
@@ -30,32 +30,22 @@ public struct HomeView: View {
     public var body: some View {
         NavigationStack(path: $router.items) {
             VStack {
-                // TODO: Notion DB から記録を取得して表示
+                RecordDisplayView()
+                
                 Spacer()
                 
-                VStack(spacing: 30) {
-                    Button {
-                        notionService.releaseSelectedDatabase()
-                    } label: {
-                        Text("データベースの再選択")
-                    }
-                    
-                    Button {
-                        notionService.releaseAccessToken()
-                    } label: {
-                        Text("ログアウト")
-                    }
-                    
-                    Button {
-                        router.items.append(.timerSetting)
-                    } label: {
-                        Text("Timer")
-                    }
+                Button {
+                    router.items.append(.timerSetting)
+                } label: {
+                    Text(String(moduleLocalized: "timer"))
                 }
             }
             .padding()
             .navigationDestination(for: NavigationRouter.Item.self) { item in
                 switch item {
+                case .setting:
+                    SettingView()
+                        .environmentObject(router)
                 case .timerSetting:
                     TimerSettingView()
                         .environmentObject(router)
@@ -65,6 +55,17 @@ public struct HomeView: View {
                 case .timerRecord(let dependency):
                     TimerRecordView(dependency: dependency)
                         .environmentObject(router)
+                }
+            }
+            .navigationTitle(String(moduleLocalized: "home-view-navigation-title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        router.items.append(.setting)
+                    } label: {
+                        Image(systemName: "line.3.horizontal")
+                    }
                 }
             }
         }
