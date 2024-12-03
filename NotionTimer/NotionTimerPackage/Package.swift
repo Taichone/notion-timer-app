@@ -9,14 +9,37 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "TimerSetting",
-            targets: ["TimerSetting"]
+            name: "NotionTimerPackage",
+            targets: ["Root"]
         ),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.10.0")),
+        .package(url: "https://github.com/chojnac/NotionSwift.git", .upToNextMajor(from: "0.9.0")),
     ],
     targets: [
         .target(
-            name: "Notion",
+            name: "Common",
             dependencies: []
+        ),
+        .target(
+            name: "LocalRepository",
+            dependencies: []
+        ),
+        .target(
+            name: "Notion",
+            dependencies: [
+                "LocalRepository",
+                .product(name: "Alamofire", package: "Alamofire"),
+                .product(name: "NotionSwift", package: "NotionSwift")
+            ]
+        ),
+        .target(
+            name: "Root",
+            dependencies: ["LocalRepository", "Notion", "Timer", "Common"],
+            resources: [
+                .process("Resources/Localizable.xcstrings")
+            ]
         ),
         .target(
             name: "ScreenTime",
@@ -24,22 +47,7 @@ let package = Package(
         ),
         .target(
             name: "Timer",
-            dependencies: ["ScreenTime", "TimerRecord", "ViewCommon"],
-            resources: [
-                .process("Resources/Localizable.xcstrings")
-            ]
-        ),
-        .target(
-            name: "TimerRecord",
-            dependencies: []
-        ),
-        .target(
-            name: "ViewCommon",
-            dependencies: []
-        ),
-        .target(
-            name: "TimerSetting",
-            dependencies: ["ScreenTime", "Timer"],
+            dependencies: ["ScreenTime", "Common", "Notion"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
@@ -47,6 +55,10 @@ let package = Package(
         .testTarget(
             name: "TimerTests",
             dependencies: ["Timer"]
+        ),
+        .testTarget(
+            name: "NotionTests",
+            dependencies: ["Notion"]
         ),
     ]
 )

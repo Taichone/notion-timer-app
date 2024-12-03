@@ -23,7 +23,6 @@ struct TimerServiceTests {
         let service = service(isManualBreakStartEnabled: false)
         service.remainingTimeSec = 0
         service.tickInFocusMode()
-        
         #expect(service.timerMode == .breakMode)
     }
     
