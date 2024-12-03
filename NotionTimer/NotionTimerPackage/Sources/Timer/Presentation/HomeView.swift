@@ -23,7 +23,6 @@ final class NavigationRouter: ObservableObject {
 }
 
 public struct HomeView: View {
-    @Environment(NotionService.self) private var notionService
     @StateObject private var router: NavigationRouter = .init()
     
     public init() {}
@@ -31,7 +30,8 @@ public struct HomeView: View {
     public var body: some View {
         NavigationStack(path: $router.items) {
             VStack {
-                // TODO: Notion DB から記録を取得して表示
+                RecordDisplayView()
+                
                 Spacer()
                 
                 Button {
