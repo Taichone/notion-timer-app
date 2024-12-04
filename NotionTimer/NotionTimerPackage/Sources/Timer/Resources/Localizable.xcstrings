@@ -434,7 +434,17 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "集中する"
+            "value" : "タイマー"
+          }
+        }
+      }
+    },
+    "timer-navigation-phrase" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作業を開始する"
           }
         }
       }

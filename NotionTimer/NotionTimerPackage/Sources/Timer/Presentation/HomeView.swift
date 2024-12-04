@@ -38,7 +38,8 @@ public struct HomeView: View {
                     Button {
                         router.items.append(.timerSetting)
                     } label: {
-                        Text(String(moduleLocalized: "timer"))
+                        Text(String(moduleLocalized: "timer-navigation-phrase"))
+                            .bold()
                     }
                 }
             }
