@@ -228,6 +228,16 @@
         }
       }
     },
+    "logout-description" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクセス可能なページの変更や、記録に用いるNotionアカウントの変更を行います。"
+          }
+        }
+      }
+    },
     "min" : {
       "localizations" : {
         "en" : {
@@ -311,7 +321,17 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "データベースを再選択"
+            "value" : "データベースの変更"
+          }
+        }
+      }
+    },
+    "reselect-database-description" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録に用いるデータベースを変更または作成します。"
           }
         }
       }
