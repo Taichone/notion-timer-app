@@ -8,76 +8,67 @@
 import SwiftUI
 import Charts
 import Notion
+import Common
 
 struct RecordDisplayView: View {
     @Environment(NotionService.self) private var notionService
     @State private var records: [RecordEntity] = []
+    @State private var isLoading = true
+    private let chartViewID = UUID()
     
     var body: some View {
-        ScrollViewReader { proxy in
-            ScrollView(.horizontal) {
-                Chart {
-                    ForEach(records) { record in
-                        ForEach(record.tags, id: \.id) { tag in
+        ZStack {
+            ScrollViewReader { proxy in
+                ScrollView(.horizontal) {
+                    Chart {
+                        ForEach(records) { record in
                             BarMark(
                                 x: .value("Date", record.date, unit: .day),
                                 y: .value("Time", record.time)
                             )
-                            .foregroundStyle(tag.color.color)
-                            .annotation(position: .overlay) {
-                                Text("\(record.time)")
-                                    .font(.caption)
-                                    .foregroundColor(.white) // 読みやすさのための色調整
-                            }
+                            .foregroundStyle(LinearGradient(
+                                gradient: Gradient(
+                                    colors: record.tags.map { $0.color.color }
+                                ),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            ))
                         }
                     }
+                    .chartXAxis {
+                        AxisMarks(values: .stride(by: .day))
+                    }
+                    .frame(height: 200)
+                    .padding()
+                    .frame(width: chartViewWidth)
+                    .id(chartViewID)
                 }
-                .chartXScale(domain: xScaleDomain)
-                .chartYScale(domain: 0...yScaleUpperBound)
-                .chartXAxis {
-                    AxisMarks(values: .stride(by: .day)) // 日単位の目盛り
-                }
-                .chartYAxis {
-                    AxisMarks() // デフォルトの目盛り
-                }
-                .frame(height: 300)
-                .padding()
-                .frame(minWidth: scrollViewMinWidth) // スクロール可能な最小幅
-            }
-            .onAppear {
-                // 表示時に今日の日付にスクロール
-                if let today = records.map({ $0.date }).max() {
-                    proxy.scrollTo(today, anchor: .trailing)
+                .task {
+                    await fetchAllRecords()
+                    proxy.scrollTo(chartViewID, anchor: .trailing) // 右端へスクロール
                 }
             }
-            .task {
-                do {
-                    records = try await notionService.getAllRecords()
-                } catch {
-                    debugPrint("ERROR: 記録の取得に失敗") // TODO: ハンドリング
-                }
-            }
+            
+            CommonLoadingView()
+                .hidden(!isLoading)
         }
     }
     
-    // スクロール可能な幅を設定
-    private var scrollViewMinWidth: CGFloat {
-        CGFloat(records.count * 120)
+    private var chartViewWidth: CGFloat {
+        let uniqueDates = Set(records.map { record in
+            Calendar.current.startOfDay(for: record.date)
+        })
+        
+        return CGFloat(uniqueDates.count * 100)
     }
     
-    // x軸のスケールドメインを動的に計算
-    private var xScaleDomain: ClosedRange<Date> {
-        guard let minDate = records.map({ $0.date }).min(),
-              let maxDate = records.map({ $0.date }).max() else {
-            let now = Date()
-            return now...now
+    private func fetchAllRecords() async {
+        do {
+            isLoading = true
+            records = try await notionService.getAllRecords()
+            isLoading = false
+        } catch {
+            debugPrint("ERROR: 記録の取得に失敗") // TODO: ハンドリング
         }
-        return Calendar.current.date(byAdding: .day, value: -1, to: minDate)!...Calendar.current.date(byAdding: .day, value: 1, to: maxDate)!
-    }
-    
-    // y軸の上限を計算
-    private var yScaleUpperBound: Double {
-        let maxTime = records.map({ $0.time }).max() ?? 0
-        return Double(maxTime) * 1.1 // 上限をデータの最大値 + 10% に設定
     }
 }

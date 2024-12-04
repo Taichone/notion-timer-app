@@ -29,10 +29,8 @@ public struct HomeView: View {
     
     public var body: some View {
         NavigationStack(path: $router.items) {
-            VStack {
+            List {
                 RecordDisplayView()
-                
-                Spacer()
                 
                 Button {
                     router.items.append(.timerSetting)
@@ -40,7 +38,6 @@ public struct HomeView: View {
                     Text(String(moduleLocalized: "timer"))
                 }
             }
-            .padding()
             .navigationDestination(for: NavigationRouter.Item.self) { item in
                 switch item {
                 case .setting:
