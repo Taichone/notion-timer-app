@@ -280,6 +280,16 @@
         }
       }
     },
+    "record-display-header" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集中記録"
+          }
+        }
+      }
+    },
     "remaining-time" : {
       "localizations" : {
         "en" : {
@@ -415,6 +425,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "タイマー"
+          }
+        }
+      }
+    },
+    "timer-button-header" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集中する"
           }
         }
       }
