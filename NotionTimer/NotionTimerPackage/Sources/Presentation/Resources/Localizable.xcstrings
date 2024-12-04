@@ -29,6 +29,16 @@
         }
       }
     },
+    "authorize-notion" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notionにログインする"
+          }
+        }
+      }
+    },
     "break-mode" : {
       "localizations" : {
         "en" : {
@@ -109,6 +119,46 @@
         }
       }
     },
+    "create-database-view-navigation-link" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しいデータベースを作成する"
+          }
+        }
+      }
+    },
+    "database-creation-view-navigation-title" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規データベース"
+          }
+        }
+      }
+    },
+    "database-selection-view-navigation-title" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データベース選択"
+          }
+        }
+      }
+    },
+    "database-unselected" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データベース未選択"
+          }
+        }
+      }
+    },
     "Date" : {
 
     },
@@ -140,6 +190,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "休憩終了時に通知"
+          }
+        }
+      }
+    },
+    "existing-database" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "既存のデータベース"
+          }
+        }
+      }
+    },
+    "existing-database-description" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集中時間の記録に用いるデータベースを選択してください。記録に用いるプロパティを全て持つデータベースがあればここに表示されます。記録に用いるプロパティは、Dateの「Date」、Multi-selectの「Tag」、Textの「Description」、Numberの「Time」の4つです。"
           }
         }
       }
@@ -208,6 +278,9 @@
         }
       }
     },
+    "Glassmorphism" : {
+
+    },
     "home-view-navigation-title" : {
       "localizations" : {
         "ja" : {
@@ -254,6 +327,36 @@
         }
       }
     },
+    "new-database-title" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規データベース名"
+          }
+        }
+      }
+    },
+    "new-database-title-description" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この名前のデータベースを作成します。作成されるデータベースには、「Title」、「Date」、「Tag」「Description」、「Time」というプロパティが付与されます。"
+          }
+        }
+      }
+    },
+    "new-database-title-text-field-spaceholder" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作成するデータベースの名前"
+          }
+        }
+      }
+    },
     "ok" : {
       "localizations" : {
         "en" : {
@@ -266,6 +369,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "parent-page" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "親ページ"
+          }
+        }
+      }
+    },
+    "parent-page-description" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択されたページに、新しいデータベースを作成します。"
+          }
+        }
+      }
+    },
+    "parent-page-unselected" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "親ページ未選択"
           }
         }
       }
@@ -429,6 +562,9 @@
           }
         }
       }
+    },
+    "Tap!" : {
+
     },
     "Time" : {
 
