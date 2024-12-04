@@ -97,7 +97,7 @@ public enum NotionServiceError: Error {
 }
 
 extension NotionService {
-    public func getPageList() async throws -> [PageEntity] {
+    public func getPageList() async throws -> [NotionPage] {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
@@ -109,7 +109,7 @@ extension NotionService {
         }
     }
         
-    public func getCompatibleDatabaseList() async throws -> [DatabaseEntity] {
+    public func getCompatibleDatabaseList() async throws -> [NotionDatabase] {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
@@ -146,7 +146,7 @@ extension NotionService {
         authStatus = .complete
     }
     
-    public func record(time: Int, tags: [TagEntity], description: String) async throws {
+    public func record(time: Int, tags: [NotionTag], description: String) async throws {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
@@ -163,7 +163,7 @@ extension NotionService {
         )
     }
     
-    public func getDatabaseTags() async throws -> [TagEntity] {
+    public func getDatabaseTags() async throws -> [NotionTag] {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
@@ -174,7 +174,7 @@ extension NotionService {
         return try await getDatabaseTags(databaseID: databaseID, client: notionClient)
     }
     
-    public func getAllRecords() async throws -> [RecordEntity] {
+    public func getAllRecords() async throws -> [Record] {
         guard let notionClient = notionClient else {
             throw NotionServiceError.invalidClient
         }
@@ -192,11 +192,11 @@ extension NotionService {
     private func getAllRecords(
         databaseID: String,
         client: NotionClient
-    ) async throws -> [RecordEntity] {
+    ) async throws -> [Record] {
         return try await withCheckedThrowingContinuation { continuation in
             client.databaseQuery(databaseId: .init(databaseID)) {
                 do {
-                    var records = [RecordEntity]()
+                    var records = [Record]()
                     let pages = try $0.get()
                     pages.results.forEach { page in
                         if let record = page.asRecordEntity {
@@ -216,7 +216,7 @@ extension NotionService {
     private func record(
         date: Date,
         time: Int,
-        tags: [TagEntity],
+        tags: [NotionTag],
         description: String,
         databaseID: String,
         client: NotionClient
@@ -266,7 +266,7 @@ extension NotionService {
     private func getDatabaseTags(
         databaseID: String,
         client: NotionClient
-    ) async throws -> [TagEntity] {
+    ) async throws -> [NotionTag] {
         return try await withCheckedThrowingContinuation { continuation in
             client.database(databaseId: .init(databaseID)) { result in
                 do {
@@ -277,8 +277,8 @@ extension NotionService {
                         throw NotionServiceError.invalidDatabase
                     }
                     
-                    let tags: [TagEntity] = selectOptions.compactMap { selectOption in
-                        guard let color = TagEntity.Color(rawValue: selectOption.color) else {
+                    let tags: [NotionTag] = selectOptions.compactMap { selectOption in
+                        guard let color = NotionTag.Color(rawValue: selectOption.color) else {
                             fatalError("ERROR: 無効な color 名のタグがある")
                         }
                         return .init(id: selectOption.id.rawValue, name: selectOption.name, color: color)
@@ -327,7 +327,7 @@ extension NotionService {
         }
     }
     
-    private func getCompatibleDatabaseList(client: NotionClient) async throws -> [DatabaseEntity] {
+    private func getCompatibleDatabaseList(client: NotionClient) async throws -> [NotionDatabase] {
         return try await withCheckedThrowingContinuation { continuation in
             client.search(request: .init(filter: .database)) { result in
                 let resultDatabases = result.map { objects in
@@ -361,7 +361,7 @@ extension NotionService {
         }
     }
     
-    private func getPageList(client: NotionClient) async throws -> [PageEntity] {
+    private func getPageList(client: NotionClient) async throws -> [NotionPage] {
         return try await withCheckedThrowingContinuation { continuation in
             client.search(request: .init(filter: .page)) { result in
                 let resultPages = result.map { objects in
@@ -386,7 +386,7 @@ extension NotionService {
 }
 
 extension Database {
-    var asDatabaseEntity: DatabaseEntity? {
+    var asDatabaseEntity: NotionDatabase? {
         guard let title = self.title.first,
               case .text(let richTextType) = title.type else {
             return nil
@@ -396,7 +396,7 @@ extension Database {
 }
 
 extension Page {
-    var asPageEntity: PageEntity? {
+    var asPageEntity: NotionPage? {
         guard let title = self.getTitle()?.first,
               case .text(let richTextType) = title.type else {
             return nil
@@ -404,7 +404,7 @@ extension Page {
         return .init(id: self.id.rawValue, title: richTextType.content)
     }
     
-    var asRecordEntity: RecordEntity? {
+    var asRecordEntity: Record? {
         guard case .richText(let richTexts) = self.properties["Description"]?.type,
               case .text(let textValue) = richTexts.first?.type,
               case .date(let dateRange) = self.properties["Date"]?.type,
@@ -417,7 +417,7 @@ extension Page {
         
         let description = textValue.content
         let time = NSDecimalNumber(decimal: decimalTime).intValue
-        let tags: [TagEntity] = multiSelectValue.map {
+        let tags: [NotionTag] = multiSelectValue.map {
             .init(
                 id: $0.id?.rawValue ?? UUID().uuidString, // ForEach で表示するために補填
                 name: $0.name ?? "",

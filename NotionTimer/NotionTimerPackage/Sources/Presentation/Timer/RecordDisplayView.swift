@@ -11,7 +11,7 @@ import Notion
 
 struct RecordDisplayView: View {
     @Environment(NotionService.self) private var notionService
-    @State private var records: [RecordEntity] = []
+    @State private var records: [Record] = []
     @State private var isLoading = true
     private let chartViewID = UUID()
     
@@ -59,10 +59,10 @@ struct RecordDisplayView: View {
         return CGFloat(uniqueDates.count * 100)
     }
     
-    private func tagColors(from record: RecordEntity) -> [Color] {
+    private func tagColors(from record: Record) -> [Color] {
         var colors = record.tags.map { $0.color.color }
         if colors.isEmpty {
-            colors.append(TagEntity.Color.default.color)
+            colors.append(NotionTag.Color.default.color)
         }
         return colors
     }

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Root
+import Presentation
 
 @main
 struct NotionTimerApp: App {

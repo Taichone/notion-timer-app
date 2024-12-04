@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Notion
-import Presentation
 
 public struct RootView: View {
     @State private var notionService = NotionService()

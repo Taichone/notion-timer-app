@@ -1,5 +1,5 @@
 //
-//  TagEntity+Color.swift
+//  NotionTag+Color.swift
 //  NotionTimerPackage
 //
 //  Created by Taichi on 2024/12/03.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Notion
 
-extension TagEntity.Color {
+extension NotionTag.Color {
     var color: SwiftUI.Color {
         switch self {
         case .blue: Color("NotionBlue", bundle: .module)

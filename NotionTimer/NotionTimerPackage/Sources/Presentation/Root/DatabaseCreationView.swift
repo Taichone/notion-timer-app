@@ -7,15 +7,14 @@
 
 import SwiftUI
 import Notion
-import Presentation
 
 struct DatabaseCreationView: View {
     @Environment(NotionService.self) private var notionService
     @Environment(\.dismiss) private var dismiss
     @State private var isLoading = true
     @State private var title: String = ""
-    @State private var pages: [PageEntity] = []
-    @State private var selectedParentPage: PageEntity?
+    @State private var pages: [NotionPage] = []
+    @State private var selectedParentPage: NotionPage?
     
     var body: some View {
         ZStack {
@@ -27,7 +26,7 @@ struct DatabaseCreationView: View {
                                 Text("\(page.title)").tag(page)
                             }
                             Text(String(moduleLocalized: "parent-page-unselected"))
-                                .tag(PageEntity?.none)
+                                .tag(NotionPage?.none)
                                 .foregroundStyle(Color(.tertiaryLabel))
                         }
                         .pickerStyle(NavigationLinkPickerStyle())

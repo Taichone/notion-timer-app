@@ -12,8 +12,8 @@ struct TimerRecordView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @EnvironmentObject private var router: NavigationRouter
     @State private var description: String = ""
-    @State private var tags: [TagEntity] = []
-    @State private var selectedTags: Set<TagEntity> = []
+    @State private var tags: [NotionTag] = []
+    @State private var selectedTags: Set<NotionTag> = []
     @State private var isLoading: Bool = true
     private let resultFocusTimeSec: Int
     
@@ -97,7 +97,7 @@ struct TimerRecordView: View {
         }
     }
     
-    private func record(tags: [TagEntity], description: String) async {
+    private func record(tags: [NotionTag], description: String) async {
         isLoading = true
         do {
             try await notionService.record(

@@ -1,5 +1,5 @@
 //
-//  PageEntity.swift
+//  NotionDatabase.swift
 //  NotionTimerPackage
 //
 //  Created by Taichi on 2024/11/18.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PageEntity: Sendable, Identifiable, Hashable {
+public struct NotionDatabase: Sendable, Identifiable, Hashable {
     public let id: String
     public let title: String
     

@@ -7,13 +7,12 @@
 
 import SwiftUI
 import Notion
-import Presentation
 
 struct DatabaseSelectionView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @State private var isLoading = true
-    @State private var databases: [DatabaseEntity] = []
-    @State private var selectedDatabase: DatabaseEntity?
+    @State private var databases: [NotionDatabase] = []
+    @State private var selectedDatabase: NotionDatabase?
     
     var body: some View {
         ZStack {
@@ -28,10 +27,10 @@ struct DatabaseSelectionView: View {
                     content: {
                         Picker("", selection: $selectedDatabase) {
                             ForEach(databases) { database in
-                                Text("\(database.title)").tag(DatabaseEntity?.some(database))
+                                Text("\(database.title)").tag(NotionDatabase?.some(database))
                             }
                             Text(String(moduleLocalized: "database-unselected"))
-                                .tag(DatabaseEntity?.none)
+                                .tag(NotionDatabase?.none)
                                 .foregroundStyle(Color(.tertiaryLabel))
                         }
                         .pickerStyle(NavigationLinkPickerStyle())
