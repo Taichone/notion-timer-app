@@ -53,7 +53,6 @@ struct TimerView: View {
                     Spacer()
                     Text(totalFocusTimeString)
                 }
-                .foregroundStyle(totalFocusTimeDisplayColor)
             }
             .padding()
             .background {
@@ -63,7 +62,7 @@ struct TimerView: View {
             Spacer()
             
             ZStack {
-                TimerCircle(color: Color(.gray).opacity(0.1))
+                TimerCircle(color: Color(.secondarySystemBackground))
                 TimerCircle(
                     color: modeColor,
                     trimFrom: trimFrom,
@@ -116,7 +115,6 @@ struct TimerView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     // TODO: 確認アラートを挟む
-//                    resultFocusTimeSec = timerService.totalFocusTimeSec
                     router.items.append(.timerRecord(dependency: .init(
                         resultFocusTimeSec: timerService.totalFocusTimeSec
                     )))
@@ -128,9 +126,6 @@ struct TimerView: View {
                 }
             }
         }
-//        .navigationDestination(item: $resultFocusTimeSec) {
-//            TimerRecordView(dependency: .init(resultFocusTimeSec: $0))
-//        }
         .onAppear {
             self.timerService.onAppear()
         }

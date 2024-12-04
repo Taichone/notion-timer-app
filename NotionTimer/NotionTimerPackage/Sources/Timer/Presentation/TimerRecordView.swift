@@ -45,7 +45,16 @@ struct TimerRecordView: View {
                         ForEach(tags) { tag in
                             Text(tag.name)
                                 .tag(tag)
-                                .listRowBackground(tag.color.color)
+                                .listRowBackground(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            .listRowBackground,
+                                            .listRowBackground,
+                                            tag.color.color
+                                        ]),
+                                        startPoint: .leading, endPoint: .trailing
+                                    )
+                                )
                         }
                     },
                     header: {

@@ -14,18 +14,33 @@ struct SettingView: View {
     
     var body: some View {
         List {
-            Button {
-                notionService.releaseSelectedDatabase()
-                router.items.removeAll()
-            } label: {
-                Text(String(moduleLocalized: "reselect-database"))
-            }
-            Button {
-                notionService.releaseAccessToken()
-                router.items.removeAll()
-            } label: {
-                Text(String(moduleLocalized: "logout"))
-            }
+            Section (
+                content: {
+                    Button {
+                        notionService.releaseSelectedDatabase()
+                        router.items.removeAll()
+                    } label: {
+                        Text(String(moduleLocalized: "reselect-database"))
+                    }
+                },
+                footer: {
+                    Text(String(moduleLocalized: "reselect-database-description"))
+                }
+            )
+
+            Section (
+                content: {
+                    Button {
+                        notionService.releaseAccessToken()
+                        router.items.removeAll()
+                    } label: {
+                        Text(String(moduleLocalized: "logout"))
+                    }
+                },
+                footer: {
+                    Text(String(moduleLocalized: "logout-description"))
+                }
+            )
         }
         .navigationTitle(String(moduleLocalized: "setting-view-navigation-title"))
         .navigationBarTitleDisplayMode(.inline)
