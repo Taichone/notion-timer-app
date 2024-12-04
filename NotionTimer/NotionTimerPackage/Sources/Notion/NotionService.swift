@@ -434,27 +434,3 @@ extension Page {
         )
     }
 }
-
-/*
- properties: [
-     "title": .init(
-         type: .title([
-             .init(string: "")
-         ])
-     ),
-     "Tag": .init(
-         type: .multiSelect(multiSelectList)
-     ),
-     "Time": .init(
-         type: .number(.init(time))
-     ),
-     "Description": .init(
-         type: .richText([
-             .init(string: description)
-         ])
-     ),
-     "Date": .init(
-         type: .date(.init(start: .dateAndTime(date), end: nil))
-     )
- ]
- */
