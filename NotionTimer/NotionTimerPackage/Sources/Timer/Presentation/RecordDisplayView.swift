@@ -27,9 +27,7 @@ struct RecordDisplayView: View {
                                 y: .value("Time", record.time)
                             )
                             .foregroundStyle(LinearGradient(
-                                gradient: Gradient(
-                                    colors: record.tags.map { $0.color.color }
-                                ),
+                                gradient: Gradient(colors: tagColors(from: record)),
                                 startPoint: .top,
                                 endPoint: .bottom
                             ))
@@ -60,6 +58,14 @@ struct RecordDisplayView: View {
         })
         
         return CGFloat(uniqueDates.count * 100)
+    }
+    
+    private func tagColors(from record: RecordEntity) -> [Color] {
+        var colors = record.tags.map { $0.color.color }
+        if colors.isEmpty {
+            colors.append(TagEntity.Color.default.color)
+        }
+        return colors
     }
     
     private func fetchAllRecords() async {

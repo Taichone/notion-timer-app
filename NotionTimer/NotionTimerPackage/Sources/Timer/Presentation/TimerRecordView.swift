@@ -46,6 +46,7 @@ struct TimerRecordView: View {
                             Text(tag.name)
                                 .tag(tag)
                                 .listRowBackground(tag.color.color)
+                                .foregroundStyle(.black)
                         }
                     },
                     header: {
