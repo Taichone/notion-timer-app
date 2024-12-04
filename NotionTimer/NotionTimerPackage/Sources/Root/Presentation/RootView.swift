@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Common
-import Notion
+import NotionData
 import Timer
 
 public struct RootView: View {

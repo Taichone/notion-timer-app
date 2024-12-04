@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Notion
+import NotionData
 import Common
 
 struct TimerRecordView: View {

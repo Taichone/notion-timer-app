@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Charts
-import Notion
+import NotionData
 import Common
 
 struct RecordDisplayView: View {

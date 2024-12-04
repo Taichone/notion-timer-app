@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Notion
+import NotionData
 
 extension TagEntity.Color {
     var color: SwiftUI.Color {

@@ -23,20 +23,20 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "LocalRepository",
+            name: "LocalData",
             dependencies: []
         ),
         .target(
-            name: "Notion",
+            name: "NotionData",
             dependencies: [
-                "LocalRepository",
+                "LocalData",
                 .product(name: "Alamofire", package: "Alamofire"),
                 .product(name: "NotionSwift", package: "NotionSwift")
             ]
         ),
         .target(
             name: "Root",
-            dependencies: ["LocalRepository", "Notion", "Timer", "Common"],
+            dependencies: ["LocalData", "NotionData", "Timer", "Common"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
@@ -47,7 +47,7 @@ let package = Package(
         ),
         .target(
             name: "Timer",
-            dependencies: ["ScreenTime", "Common", "Notion"],
+            dependencies: ["ScreenTime", "Common", "NotionData"],
             resources: [
                 .process("Resources/Localizable.xcstrings")
             ]
@@ -58,7 +58,7 @@ let package = Package(
         ),
         .testTarget(
             name: "NotionTests",
-            dependencies: ["Notion"]
+            dependencies: ["NotionData"]
         ),
     ]
 )
