@@ -30,12 +30,17 @@ public struct HomeView: View {
     public var body: some View {
         NavigationStack(path: $router.items) {
             List {
-                RecordDisplayView()
+                Section(String(moduleLocalized: "record-display-header")) {
+                    RecordDisplayView()
+                }
                 
-                Button {
-                    router.items.append(.timerSetting)
-                } label: {
-                    Text(String(moduleLocalized: "timer"))
+                Section(String(moduleLocalized: "timer-button-header")) {
+                    Button {
+                        router.items.append(.timerSetting)
+                    } label: {
+                        Text(String(moduleLocalized: "timer-navigation-phrase"))
+                            .bold()
+                    }
                 }
             }
             .navigationDestination(for: NavigationRouter.Item.self) { item in
