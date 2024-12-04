@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import Common
-import NotionData
-import Timer
+import Notion
+import Presentation
 
 public struct RootView: View {
     @State private var notionService = NotionService()

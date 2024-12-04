@@ -8,7 +8,6 @@
 import SwiftUI
 import ManagedSettings
 import ScreenTime
-import Common
 
 struct TimerView: View {
     @Environment(\.dismiss) private var dismiss

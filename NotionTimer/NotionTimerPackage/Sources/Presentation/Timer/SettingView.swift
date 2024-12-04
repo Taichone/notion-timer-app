@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import NotionData
+import Notion
 
 struct SettingView: View {
     @Environment(NotionService.self) private var notionService

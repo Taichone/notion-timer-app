@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-import NotionData
-import Common
+import Notion
 
 struct TimerRecordView: View {
     @Environment(NotionService.self) private var notionService: NotionService

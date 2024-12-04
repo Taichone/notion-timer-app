@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import LocalData
+import Keychain
 import NotionSwift
 
 public enum NotionAuthStatus {

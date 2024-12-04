@@ -1,5 +1,5 @@
 import Testing
-@testable import Timer
+@testable import Presentation
 
 @MainActor
 struct TimerServiceTests {

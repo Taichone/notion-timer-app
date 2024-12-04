@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ScreenTime
-import Common
 
 enum TimerSettingSheetType: String, Identifiable {
     case focusTimePicker

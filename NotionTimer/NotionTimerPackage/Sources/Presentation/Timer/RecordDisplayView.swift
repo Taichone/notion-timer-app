@@ -7,8 +7,7 @@
 
 import SwiftUI
 import Charts
-import NotionData
-import Common
+import Notion
 
 struct RecordDisplayView: View {
     @Environment(NotionService.self) private var notionService

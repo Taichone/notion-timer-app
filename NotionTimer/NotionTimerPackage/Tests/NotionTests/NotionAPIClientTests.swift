@@ -1,5 +1,5 @@
 import Testing
-@testable import NotionData
+@testable import Notion
 
 import Foundation
 

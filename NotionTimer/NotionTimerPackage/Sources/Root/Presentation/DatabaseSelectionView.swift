@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import NotionData
-import Common
+import Notion
+import Presentation
 
 struct DatabaseSelectionView: View {
     @Environment(NotionService.self) private var notionService: NotionService
