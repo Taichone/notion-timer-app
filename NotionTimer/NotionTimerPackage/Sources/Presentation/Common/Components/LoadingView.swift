@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-public struct CommonLoadingView: View {
+struct CommonLoadingView: View {
     public let label: String?
     
-    public init(label: String? = nil) {
+    init(label: String? = nil) {
         self.label = label
     }
     
-    public var body: some View {
+    var body: some View {
         LoadingView(label: label, textColor: .white) {
             GlassmorphismRoundedRectangle()
         }

@@ -21,12 +21,12 @@ final class NavigationRouter: ObservableObject {
     }
 }
 
-public struct HomeView: View {
+struct HomeView: View {
     @StateObject private var router: NavigationRouter = .init()
     
-    public init() {}
+    init() {}
     
-    public var body: some View {
+    var body: some View {
         NavigationStack(path: $router.items) {
             List {
                 Section(String(moduleLocalized: "record-display-header")) {

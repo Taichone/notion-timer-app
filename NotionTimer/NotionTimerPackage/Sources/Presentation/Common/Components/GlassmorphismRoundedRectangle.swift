@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-public struct GlassmorphismRoundedRectangle: View {
+struct GlassmorphismRoundedRectangle: View {
     static let radius = CGFloat(15)
     
-    public init() {}
+    init() {}
 
-    public var body: some View {
+    var body: some View {
         RoundedRectangle(cornerRadius: Self.radius)
             .foregroundStyle(.ultraThinMaterial)
             .shadow(
