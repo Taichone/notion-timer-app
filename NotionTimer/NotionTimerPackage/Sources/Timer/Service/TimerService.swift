@@ -20,13 +20,13 @@ public final class TimerService: ObservableObject {
     
     // Timer status
     var timer: Timer?
-    @Published var timerMode: Mode
-    @Published var maxTimeSec: Int = 0
-    @Published var remainingTimeSec: Int = 0
-    @Published var isRunning = false
-    @Published var totalFocusTimeSec: Int = 0
+    @Published public var timerMode: Mode
+    @Published public var maxTimeSec: Int = 0
+    @Published public var remainingTimeSec: Int = 0
+    @Published public var isRunning = false
+    @Published public var totalFocusTimeSec: Int = 0
     
-    init(
+    public init(
         isManualBreakStartEnabled: Bool,
         focusTimeSec: Int,
         breakTimeSec: Int,
@@ -47,25 +47,25 @@ public final class TimerService: ObservableObject {
 }
 
 extension TimerService {
-    func tapPlayButton() {
+    public func tapPlayButton() {
         isRunning ? stopTimer() : startTimer()
     }
     
-    func tapBreakStartButton() {
+    public func tapBreakStartButton() {
         endAdditionalFocusAndStartBreak()
     }
     
-    func terminate() {
+    public func terminate() {
         screenTimeAPI.stopAppRestriction()
         stopTimer()
         changeToFocusMode()
     }
     
-    func tapFinish() {
+    public func tapFinish() {
         terminate()
     }
     
-    func onAppear() {
+    public func onAppear() {
         screenTimeAPI.startAppRestriction(apps: restrictedApps)
     }
 }
@@ -145,7 +145,7 @@ extension TimerService {
 }
 
 extension TimerService {
-    enum Mode {
+    public enum Mode {
         case focusMode
         case breakMode
         case additionalFocusMode

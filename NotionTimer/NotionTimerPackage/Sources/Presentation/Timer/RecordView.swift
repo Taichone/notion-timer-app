@@ -1,5 +1,5 @@
 //
-//  TimerRecordView.swift
+//  RecordView.swift
 //  NotionTimerPackage
 //
 //  Created by Taichi on 2024/09/29.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Notion
 
-struct TimerRecordView: View {
+struct RecordView: View {
     @Environment(NotionService.self) private var notionService: NotionService
     @EnvironmentObject private var router: NavigationRouter
     @State private var description: String = ""
@@ -123,12 +123,12 @@ struct TimerRecordView: View {
     }
 }
 
-extension TimerRecordView {
+extension RecordView {
     struct Dependency: Hashable {
         let resultFocusTimeSec: Int
     }
 }
 
 #Preview {
-    TimerRecordView(dependency: .init(resultFocusTimeSec: 3661))
+    RecordView(dependency: .init(resultFocusTimeSec: 3661))
 }

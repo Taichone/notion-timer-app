@@ -1,7 +1,7 @@
 import Foundation
 import Alamofire
 
-struct NotionAPIClient {
+struct NotionAuthClient {
     private struct GetAccessTokenRequestBody: Encodable {
         let code: String
     }

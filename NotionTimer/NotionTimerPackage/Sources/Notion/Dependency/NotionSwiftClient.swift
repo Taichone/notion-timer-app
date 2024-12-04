@@ -1,198 +1,23 @@
 //
-//  NotionService.swift
+//  NotionSwiftClient.swift
 //  NotionTimerPackage
 //
-//  Created by Taichi on 2024/11/03.
+//  Created by Taichi on 2024/12/04.
 //
 
 import Foundation
-import Keychain
-import NotionSwift
+@preconcurrency import NotionSwift
 
-public enum NotionAuthStatus {
-    case loading
-    case invalidToken
-    case invalidDatabase
-    case complete
-}
-
-public enum NotionServiceError: Error {
-    case failedToSaveToKeychain
-    case failedToFetchAccessToken
-    case accessTokenNotFound
-    case invalidClient
-    case invalidDatabase
-    case failedToGetPageList(error: Error)
-    case failedToGetRecordList(error: Error)
-    case failedToGetDatabaseList(error: Error)
-    case failedToCreateDatabase(error: Error)
-}
-
-@MainActor
-@Observable public final class NotionService {
-    private var accessToken: String? {
-        KeychainManager.retrieveToken(type: .notionAccessToken)
-    }
-    private var databaseID: String? {
-        KeychainManager.retrieveToken(type: .notionDatabaseID)
-    }
-    private var notionClient: NotionClient?
-    public var authStatus: NotionAuthStatus = .loading
+public actor NotionSwiftClient {
+    private let client: NotionClient
     
-    public init() {}
-    
-    // MARK: AccesToken
-    
-    public func fetchAccessToken(temporaryToken: String) async throws {
-        authStatus = .loading
-        
-        do {
-            let accessToken = try await NotionAPIClient.getAccessToken(temporaryToken: temporaryToken)
-            
-            guard KeychainManager.saveToken(token: accessToken, type: .notionAccessToken) else {
-                throw NotionServiceError.failedToSaveToKeychain
-            }
-            
-            fetchAuthStatus()
-        } catch {
-            authStatus = .invalidToken
-            throw error
-        }
-    }
-    
-    public func fetchAuthStatus() {
-        guard let accessToken = accessToken else {
-            authStatus = .invalidToken
-            notionClient = nil
-            return
-        }
-        
-        notionClient = NotionClient(accessKeyProvider: StringAccessKeyProvider(accessKey: accessToken))
-        
-        guard databaseID != nil else {
-            authStatus = .invalidDatabase
-            return
-        }
-        
-        // TODO: token, databaseID の有効チェック
-        authStatus = .complete
-    }
-    
-    public func releaseAccessToken() {
-        guard KeychainManager.deleteToken(type: .notionAccessToken),
-              KeychainManager.deleteToken(type: .notionDatabaseID) else {
-            fatalError("Keychain からトークンを削除できない")
-        }
-        
-        authStatus = .invalidToken
-    }
-    
-    public func releaseSelectedDatabase() {
-        guard KeychainManager.deleteToken(type: .notionDatabaseID) else {
-            fatalError("Keychain からトークンを削除できない")
-        }
-        
-        authStatus = .invalidDatabase
+    public init?(accessToken: String) {
+        self.client = .init(accessKeyProvider: StringAccessKeyProvider(accessKey: accessToken))
     }
 }
 
-extension NotionService {
-    public func getPageList() async throws -> [NotionPage] {
-        guard let notionClient = notionClient else {
-            throw NotionServiceError.invalidClient
-        }
-        
-        do {
-            return try await getPageList(client: notionClient)
-        } catch {
-            throw NotionServiceError.failedToGetPageList(error: error)
-        }
-    }
-        
-    public func getCompatibleDatabaseList() async throws -> [NotionDatabase] {
-        guard let notionClient = notionClient else {
-            throw NotionServiceError.invalidClient
-        }
-        
-        do {
-            return try await getCompatibleDatabaseList(client: notionClient)
-        } catch {
-            throw NotionServiceError.failedToGetDatabaseList(error: error)
-        }
-    }
-    
-    public func createDatabase(parentPageID: String, title: String) async throws {
-        guard let notionClient = notionClient else {
-            throw NotionServiceError.invalidClient
-        }
-        
-        do {
-            let databaseID = try await createDatabaseAndGetDatabaseID(
-                parentPageID: parentPageID,
-                title: title,
-                client: notionClient
-            )
-            
-            try registerDatabase(id: databaseID)
-        } catch {
-            throw NotionServiceError.failedToCreateDatabase(error: error)
-        }
-    }
-    
-    public func registerDatabase(id: String) throws {
-        guard KeychainManager.saveToken(token: id, type: .notionDatabaseID) else {
-            throw NotionServiceError.failedToSaveToKeychain
-        }
-        authStatus = .complete
-    }
-    
-    public func record(time: Int, tags: [NotionTag], description: String) async throws {
-        guard let notionClient = notionClient else {
-            throw NotionServiceError.invalidClient
-        }
-        guard let databaseID = databaseID else {
-            throw NotionServiceError.invalidDatabase
-        }
-        try await record(
-            date: Date(),
-            time: time,
-            tags: tags,
-            description: description,
-            databaseID: databaseID,
-            client: notionClient
-        )
-    }
-    
-    public func getDatabaseTags() async throws -> [NotionTag] {
-        guard let notionClient = notionClient else {
-            throw NotionServiceError.invalidClient
-        }
-        guard let databaseID = databaseID else {
-            throw NotionServiceError.invalidDatabase
-        }
-        
-        return try await getDatabaseTags(databaseID: databaseID, client: notionClient)
-    }
-    
-    public func getAllRecords() async throws -> [Record] {
-        guard let notionClient = notionClient else {
-            throw NotionServiceError.invalidClient
-        }
-        guard let databaseID = databaseID else {
-            throw NotionServiceError.invalidDatabase
-        }
-        
-        return try await getAllRecords(databaseID: databaseID, client: notionClient)
-    }
-}
-
-// MARK: - NotionSwift
-
-extension NotionService {
-    private func getAllRecords(
-        databaseID: String,
-        client: NotionClient
-    ) async throws -> [Record] {
+extension NotionSwiftClient: NotionClientProtocol {
+    public func getAllRecords(databaseID: String) async throws -> [Record] {
         return try await withCheckedThrowingContinuation { continuation in
             client.databaseQuery(databaseId: .init(databaseID)) {
                 do {
@@ -213,13 +38,12 @@ extension NotionService {
         }
     }
     
-    private func record(
+    public func record(
         date: Date,
         time: Int,
         tags: [NotionTag],
         description: String,
-        databaseID: String,
-        client: NotionClient
+        databaseID: String
     ) async throws {
         let multiSelectList: [PagePropertyType.MultiSelectPropertyValue] = tags.compactMap {
             .init(id: .init($0.id), name: nil, color: nil)
@@ -263,10 +87,7 @@ extension NotionService {
         }
     }
     
-    private func getDatabaseTags(
-        databaseID: String,
-        client: NotionClient
-    ) async throws -> [NotionTag] {
+    public func getDatabaseTags(databaseID: String) async throws -> [NotionTag] {
         return try await withCheckedThrowingContinuation { continuation in
             client.database(databaseId: .init(databaseID)) { result in
                 do {
@@ -292,10 +113,9 @@ extension NotionService {
         }
     }
     
-    private func createDatabaseAndGetDatabaseID(
+    public func createDatabaseAndGetDatabaseID(
         parentPageID: String,
-        title: String,
-        client: NotionClient
+        title: String
     ) async throws -> String {
         let request = DatabaseCreateRequest(
             parent: .pageId(.init(parentPageID)),
@@ -327,7 +147,7 @@ extension NotionService {
         }
     }
     
-    private func getCompatibleDatabaseList(client: NotionClient) async throws -> [NotionDatabase] {
+    public func getCompatibleDatabaseList() async throws -> [NotionDatabase] {
         return try await withCheckedThrowingContinuation { continuation in
             client.search(request: .init(filter: .database)) { result in
                 let resultDatabases = result.map { objects in
@@ -361,7 +181,7 @@ extension NotionService {
         }
     }
     
-    private func getPageList(client: NotionClient) async throws -> [NotionPage] {
+    public func getPageList() async throws -> [NotionPage] {
         return try await withCheckedThrowingContinuation { continuation in
             client.search(request: .init(filter: .page)) { result in
                 let resultPages = result.map { objects in

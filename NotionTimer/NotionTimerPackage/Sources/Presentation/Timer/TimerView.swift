@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ManagedSettings
+import Timer
 import ScreenTime
 
 struct TimerView: View {
@@ -77,7 +78,7 @@ struct TimerView: View {
             
             Button {
                 ExternalOutput.tapticFeedback()
-                self.timerService.tapBreakStartButton()
+                timerService.tapBreakStartButton()
             } label: {
                 Text(String(moduleLocalized: "start-break")).bold()
             }
@@ -85,7 +86,7 @@ struct TimerView: View {
             
             Button {
                 ExternalOutput.tapticFeedback()
-                self.timerService.tapPlayButton()
+                timerService.tapPlayButton()
             } label: {
                 Image(systemName: timerButtonSystemName)
                     .resizable()
@@ -102,8 +103,8 @@ struct TimerView: View {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     // TODO: 確認アラートを挟む
-                    self.timerService.terminate()
-                    self.dismiss()
+                    timerService.terminate()
+                    dismiss()
                 } label: {
                     HStack {
                         Image(systemName: "chevron.left")
@@ -126,7 +127,7 @@ struct TimerView: View {
             }
         }
         .onAppear {
-            self.timerService.onAppear()
+            timerService.onAppear()
         }
     }
 }

@@ -17,7 +17,7 @@ final class NavigationRouter: ObservableObject {
         case setting
         case timerSetting
         case timer(dependency: TimerView.Dependency)
-        case timerRecord(dependency: TimerRecordView.Dependency)
+        case timerRecord(dependency: RecordView.Dependency)
     }
 }
 
@@ -54,7 +54,7 @@ public struct HomeView: View {
                     TimerView(dependency: dependency)
                         .environmentObject(router)
                 case .timerRecord(let dependency):
-                    TimerRecordView(dependency: dependency)
+                    RecordView(dependency: dependency)
                         .environmentObject(router)
                 }
             }

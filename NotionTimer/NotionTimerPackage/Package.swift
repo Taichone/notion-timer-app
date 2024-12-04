@@ -31,15 +31,19 @@ let package = Package(
             ]
         ),
         .target(
+            name: "Presentation",
+            dependencies: ["ScreenTime", "Notion", "Keychain", "Timer"],
+            resources: [
+                .process("Resources/Localizable.xcstrings")
+            ]
+        ),
+        .target(
             name: "ScreenTime",
             dependencies: []
         ),
         .target(
-            name: "Presentation",
-            dependencies: ["ScreenTime", "Notion", "Keychain"],
-            resources: [
-                .process("Resources/Localizable.xcstrings")
-            ]
+            name: "Timer",
+            dependencies: ["ScreenTime"]
         ),
         .testTarget(
             name: "PresentationTests",
