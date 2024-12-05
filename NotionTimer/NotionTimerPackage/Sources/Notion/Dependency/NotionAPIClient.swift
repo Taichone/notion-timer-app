@@ -1,5 +1,5 @@
 //
-//  NotionSwiftClient.swift
+//  NotionAPIClient.swift
 //  NotionTimerPackage
 //
 //  Created by Taichi on 2024/12/04.
@@ -8,18 +8,49 @@
 import Foundation
 @preconcurrency import NotionSwift
 
-public actor NotionSwiftClient {
-    private let client: NotionClient
-    
-    public init?(accessToken: String) {
-        self.client = .init(accessKeyProvider: StringAccessKeyProvider(accessKey: accessToken))
-    }
+public protocol DependencyClient: Sendable {
+    static var liveValue: Self { get }
+    static var testValue: Self { get }
 }
 
-extension NotionSwiftClient: NotionClientProtocol {
-    public func getAllRecords(databaseID: String) async throws -> [Record] {
+public struct NotionAPIClient: DependencyClient {
+    public var getPageList: @Sendable (String) async throws -> [NotionPage]
+    public var getCompatibleDatabaseList: @Sendable (String) async throws -> [NotionDatabase]
+    public var createDatabaseAndGetDatabaseID: @Sendable (String, String, String) async throws -> String
+    public var record: @Sendable (String, Date, Int, [NotionTag], String, String) async throws -> Void
+    public var getDatabaseTags: @Sendable (String, String) async throws -> [NotionTag]
+    public var getAllRecords: @Sendable (String, String) async throws -> [Record]
+    
+    public static let liveValue = Self(
+        getPageList: { try await getPageList(token: $0) },
+        getCompatibleDatabaseList: { try await getCompatibleDatabaseList(token: $0) },
+        createDatabaseAndGetDatabaseID: { try await createDatabaseAndGetDatabaseID(token: $0, parentPageID: $1, title: $2) },
+        record: { try await record(token: $0, date: $1, time: $2, tags: $3, description: $4, databaseID: $5) },
+        getDatabaseTags: { try await getDatabaseTags(token: $0, databaseID: $1) },
+        getAllRecords: { try await getAllRecords(token: $0, databaseID: $1) }
+    )
+    
+    public static let testValue = Self(
+        getPageList: { _ in [] },
+        getCompatibleDatabaseList: { _ in [] },
+        createDatabaseAndGetDatabaseID: { _, _, _ in "" },
+        record: { _, _, _, _, _, _ in },
+        getDatabaseTags: { _, _ in [] },
+        getAllRecords: { _, _ in [] }
+    )
+}
+
+extension NotionAPIClient {
+    private static func client(token: String) -> NotionClient {
+        NotionClient(accessKeyProvider: StringAccessKeyProvider(accessKey: token))
+    }
+    
+    public static func getAllRecords(
+        token: String,
+        databaseID: String
+    ) async throws -> [Record] {
         return try await withCheckedThrowingContinuation { continuation in
-            client.databaseQuery(databaseId: .init(databaseID)) {
+            client(token: token).databaseQuery(databaseId: .init(databaseID)) {
                 do {
                     var records = [Record]()
                     let pages = try $0.get()
@@ -38,13 +69,16 @@ extension NotionSwiftClient: NotionClientProtocol {
         }
     }
     
-    public func record(
+    public static func record(
+        token: String,
         date: Date,
         time: Int,
         tags: [NotionTag],
         description: String,
         databaseID: String
     ) async throws {
+        let client = client(token: token)
+        
         let multiSelectList: [PagePropertyType.MultiSelectPropertyValue] = tags.compactMap {
             .init(id: .init($0.id), name: nil, color: nil)
         }
@@ -87,9 +121,12 @@ extension NotionSwiftClient: NotionClientProtocol {
         }
     }
     
-    public func getDatabaseTags(databaseID: String) async throws -> [NotionTag] {
+    public static func getDatabaseTags(
+        token: String,
+        databaseID: String
+    ) async throws -> [NotionTag] {
         return try await withCheckedThrowingContinuation { continuation in
-            client.database(databaseId: .init(databaseID)) { result in
+            client(token: token).database(databaseId: .init(databaseID)) { result in
                 do {
                     let resultDatabase = try result.get()
                     guard let tagProperty = resultDatabase.properties["Tag"],
@@ -113,7 +150,8 @@ extension NotionSwiftClient: NotionClientProtocol {
         }
     }
     
-    public func createDatabaseAndGetDatabaseID(
+    public static func createDatabaseAndGetDatabaseID(
+        token: String,
         parentPageID: String,
         title: String
     ) async throws -> String {
@@ -135,7 +173,7 @@ extension NotionSwiftClient: NotionClientProtocol {
         )
 
         return try await withCheckedThrowingContinuation { continuation in
-            client.databaseCreate(request: request) { result in
+            client(token: token).databaseCreate(request: request) { result in
                 switch result {
                 case .success(let db):
                     continuation.resume(returning: db.id.rawValue)
@@ -147,9 +185,9 @@ extension NotionSwiftClient: NotionClientProtocol {
         }
     }
     
-    public func getCompatibleDatabaseList() async throws -> [NotionDatabase] {
+    public static func getCompatibleDatabaseList(token: String) async throws -> [NotionDatabase] {
         return try await withCheckedThrowingContinuation { continuation in
-            client.search(request: .init(filter: .database)) { result in
+            client(token: token).search(request: .init(filter: .database)) { result in
                 let resultDatabases = result.map { objects in
                     objects.results.compactMap({ object -> Database? in
                         if case .database(let db) = object {
@@ -181,9 +219,9 @@ extension NotionSwiftClient: NotionClientProtocol {
         }
     }
     
-    public func getPageList() async throws -> [NotionPage] {
+    public static func getPageList(token: String) async throws -> [NotionPage] {
         return try await withCheckedThrowingContinuation { continuation in
-            client.search(request: .init(filter: .page)) { result in
+            client(token: token).search(request: .init(filter: .page)) { result in
                 let resultPages = result.map { objects in
                     objects.results.compactMap({ object -> Page? in
                         if case .page(let page) = object {
