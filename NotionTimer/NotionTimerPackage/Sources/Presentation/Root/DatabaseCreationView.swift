@@ -117,6 +117,8 @@ struct DatabaseCreationView: View {
 #Preview {
     NavigationStack {
         DatabaseCreationView()
-            .environment(NotionService())
+            .environment(NotionService(
+                keychainClient: .testValue
+            ))
     }
 }

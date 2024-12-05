@@ -107,6 +107,8 @@ extension DatabaseSelectionView {
 #Preview {
     NavigationStack {
         DatabaseSelectionView()
-            .environment(NotionService())
+            .environment(NotionService(
+                keychainClient: .testValue
+            ))
     }
 }

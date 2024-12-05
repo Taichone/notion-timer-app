@@ -9,7 +9,7 @@ import SwiftUI
 import Notion
 
 public struct RootView: View {
-    @State private var notionService = NotionService()
+    @State private var notionService = NotionService(keychainClient: .liveValue)
     
     public init() {}
     

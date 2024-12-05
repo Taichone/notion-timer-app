@@ -39,16 +39,21 @@ protocol NotionClientProtocol: Sendable {
 
 // TODO: NotionAuthService を作り認証周りを抜き出すことを検討
 @MainActor @Observable public final class NotionService {
+    private let keychainClient: KeychainClient
+    
     private var accessToken: String? {
-        KeychainManager.retrieveToken(type: .notionAccessToken)
+        keychainClient.retrieveToken(.notionAccessToken)
     }
     private var databaseID: String? {
-        KeychainManager.retrieveToken(type: .notionDatabaseID)
+        keychainClient.retrieveToken(.notionDatabaseID)
     }
+    
     private var notionClient: NotionClientProtocol?
     public var authStatus: NotionAuthStatus = .loading
     
-    public init() {}
+    public init(keychainClient: KeychainClient) {
+        self.keychainClient = keychainClient
+    }
     
     public func fetchAccessToken(temporaryToken: String) async throws {
         authStatus = .loading
@@ -56,7 +61,7 @@ protocol NotionClientProtocol: Sendable {
         do {
             let accessToken = try await NotionAuthClient.getAccessToken(temporaryToken: temporaryToken)
             
-            guard KeychainManager.saveToken(token: accessToken, type: .notionAccessToken) else {
+            guard keychainClient.saveToken(accessToken, .notionAccessToken) else {
                 throw NotionServiceError.failedToSaveToKeychain
             }
             
@@ -86,8 +91,8 @@ protocol NotionClientProtocol: Sendable {
     }
     
     public func releaseAccessToken() {
-        guard KeychainManager.deleteToken(type: .notionAccessToken),
-              KeychainManager.deleteToken(type: .notionDatabaseID) else {
+        guard keychainClient.deleteToken(.notionAccessToken),
+              keychainClient.deleteToken(.notionDatabaseID) else {
             fatalError("Keychain からトークンを削除できない")
         }
         
@@ -95,7 +100,7 @@ protocol NotionClientProtocol: Sendable {
     }
     
     public func releaseSelectedDatabase() {
-        guard KeychainManager.deleteToken(type: .notionDatabaseID) else {
+        guard keychainClient.deleteToken(.notionDatabaseID) else {
             fatalError("Keychain からトークンを削除できない")
         }
         
@@ -146,7 +151,7 @@ extension NotionService {
     }
     
     public func registerDatabase(id: String) throws {
-        guard KeychainManager.saveToken(token: id, type: .notionDatabaseID) else {
+        guard keychainClient.saveToken(id, .notionDatabaseID) else {
             throw NotionServiceError.failedToSaveToKeychain
         }
         authStatus = .complete
