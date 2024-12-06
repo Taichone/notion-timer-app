@@ -15,7 +15,7 @@ public final class TimerService: ObservableObject {
     let isManualBreakStartEnabled: Bool
     let focusTimeSec: Int
     let breakTimeSec: Int
-    let screenTimeAPI: ScreenTimeAPIProtocol // TODO: ScreenTimeService を作成し分離
+    let screenTimeClient: ScreenTimeClient // TODO: ScreenTimeService を作成し分離
     let restrictedApps: Set<ApplicationToken>?
     
     // Timer status
@@ -30,13 +30,13 @@ public final class TimerService: ObservableObject {
         isManualBreakStartEnabled: Bool,
         focusTimeSec: Int,
         breakTimeSec: Int,
-        screenTimeAPI: ScreenTimeAPIProtocol = ScreenTimeAPIClient.shared,
+        screenTimeClient: ScreenTimeClient,
         restrictedApps: Set<ApplicationToken>? = nil
     ) {
         self.isManualBreakStartEnabled = isManualBreakStartEnabled
         self.focusTimeSec = focusTimeSec
         self.breakTimeSec = breakTimeSec
-        self.screenTimeAPI = screenTimeAPI
+        self.screenTimeClient = screenTimeClient
         self.restrictedApps = restrictedApps
         
         // 集中時間から開始
@@ -56,7 +56,7 @@ extension TimerService {
     }
     
     public func terminate() {
-        screenTimeAPI.stopAppRestriction()
+        screenTimeClient.stopAppRestriction()
         stopTimer()
         changeToFocusMode()
     }
@@ -66,7 +66,7 @@ extension TimerService {
     }
     
     public func onAppear() {
-        screenTimeAPI.startAppRestriction(apps: restrictedApps)
+        screenTimeClient.startAppRestriction(restrictedApps)
     }
 }
 

@@ -8,34 +8,46 @@
 import FamilyControls
 import ManagedSettings
 
-public final class ScreenTimeAPIClient {
-    private let store = ManagedSettingsStore()
-    
-    @MainActor public static let shared = ScreenTimeAPIClient()
-    private init() {}
-    
+extension FamilyActivitySelection: @retroactive @unchecked Sendable {}
+extension ManagedSettingsStore: @retroactive @unchecked Sendable {}
+
+protocol DependencyClient: Sendable {
+    static var liveValue: Self { get }
+    static var testValue: Self { get }
 }
 
-extension ScreenTimeAPIClient: ScreenTimeAPIProtocol {
-    public func authorize() async {
-        do {
-            try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
-        } catch {
-            print("Failed to authorize: \(error)") // TODO: Handle error
-        }
+public struct ScreenTimeClient: DependencyClient {
+    public static let appSelection = FamilyActivitySelection()
+    
+    public var authorize: @Sendable () async throws -> Void
+    public var startAppRestriction: @Sendable (Set<ApplicationToken>?) -> Void
+    public var stopAppRestriction: @Sendable () -> Void
+    
+    public static let liveValue = Self(
+        authorize: { try await authorize() },
+        startAppRestriction: { startAppRestriction(apps: $0) },
+        stopAppRestriction: { stopAppRestriction() }
+    )
+    
+    public static let testValue = Self(
+        authorize: {},
+        startAppRestriction: { _ in },
+        stopAppRestriction: {}
+    )
+}
+
+extension ScreenTimeClient {
+    private static let store = ManagedSettingsStore()
+    
+    static func authorize() async throws {
+        try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
     }
     
-    public func startAppRestriction(apps: Set<ApplicationToken>?) {
+    static func startAppRestriction(apps: Set<ApplicationToken>?) {
         store.shield.applications = apps
     }
 
-    public func stopAppRestriction() {
+    static func stopAppRestriction() {
         store.shield.applications = nil
     }
-}
-
-public protocol ScreenTimeAPIProtocol {
-    func authorize() async
-    func startAppRestriction(apps: Set<ApplicationToken>?)
-    func stopAppRestriction()
 }

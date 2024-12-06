@@ -12,7 +12,7 @@ enum TimerSettingSheetType: String, Identifiable {
     case focusTimePicker
     case breakTimePicker
     
-    var id: String { self.rawValue }
+    var id: String { rawValue }
     var title: String {
         switch self {
         case .focusTimePicker:
@@ -40,8 +40,8 @@ struct TimerSettingView: View {
     
     // Screen Time
     @State private var isFamilyActivityPickerPresented = false
-    @State private var restrictedApps = ScreenTime.appSelection()
-    private let screenTimeAPI = ScreenTimeAPIClient.shared
+    @State private var restrictedApps = ScreenTimeClient.appSelection
+    private let screenTimeClient = ScreenTimeClient.liveValue
     
     init() {}
     
@@ -70,18 +70,18 @@ struct TimerSettingView: View {
             }
             
             Section {
-                Toggle(isOn: self.$isBreakEndSoundEnabled) {
+                Toggle(isOn: $isBreakEndSoundEnabled) {
                     Text(String(moduleLocalized: "enable-sound-at-break-end"))
                 }
-                Toggle(isOn: self.$isManualBreakStartEnabled) {
+                Toggle(isOn: $isManualBreakStartEnabled) {
                     Text(String(moduleLocalized: "start-break-time-manually"))
                 }
-                ColorPicker(String(moduleLocalized: "focus-time-color"), selection: self.$focusColor)
-                ColorPicker(String(moduleLocalized: "break-time-color"), selection: self.$breakColor)
+                ColorPicker(String(moduleLocalized: "focus-time-color"), selection: $focusColor)
+                ColorPicker(String(moduleLocalized: "break-time-color"), selection: $breakColor)
             }
             
             Button {
-                self.isFamilyActivityPickerPresented = true
+                isFamilyActivityPickerPresented = true
             } label: {
                 Text(String(moduleLocalized: "select-apps-to-restrict"))
             }
@@ -92,13 +92,13 @@ struct TimerSettingView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     router.items.append(.timer(dependency: .init(
-                        isBreakEndSoundEnabled: self.isBreakEndSoundEnabled,
-                        isManualBreakStartEnabled: self.isManualBreakStartEnabled,
-                        focusTimeSec: self.focusTimeSec,
-                        breakTimeSec: self.breakTimeSec,
-                        focusColor: self.focusColor,
-                        breakColor: self.breakColor,
-                        restrictedApps: self.restrictedApps.applicationTokens
+                        isBreakEndSoundEnabled: isBreakEndSoundEnabled,
+                        isManualBreakStartEnabled: isManualBreakStartEnabled,
+                        focusTimeSec: focusTimeSec,
+                        breakTimeSec: breakTimeSec,
+                        focusColor: focusColor,
+                        breakColor: breakColor,
+                        restrictedApps: restrictedApps.applicationTokens
                     )))
                 } label: {
                     Text(String(moduleLocalized: "ok"))
@@ -106,11 +106,11 @@ struct TimerSettingView: View {
             }
         }
         .familyActivityPicker(
-            isPresented: self.$isFamilyActivityPickerPresented,
-            selection: self.$restrictedApps
+            isPresented: $isFamilyActivityPickerPresented,
+            selection: $restrictedApps
         )
         .task {
-            self.screenTimeAPI.stopAppRestriction()
+            screenTimeClient.stopAppRestriction()
         }
         .sheet(item: $sheetType) { type in
             switch type {
